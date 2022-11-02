@@ -39,7 +39,7 @@ sequenceDiagram
     note over B: Browser executes JS codes requesting original notes JSON data from server
     B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
     S-->>B: JSON notes data
-    note over B: Browser executes JS codes that parse the JSON into a JS array object, <br /> Then fetch form elements from the page and render them!
+    note over B: Browser executes JS codes that parse the JSON into a JS array object, <br /> Then fetch form elements and render them to the page
 }
 ```
 
