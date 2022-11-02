@@ -26,19 +26,20 @@ Using Mermaid syntax
 
 ```
 {
-    sequenceDiagram
-        participant B as Browser
-        participant S as Server
-        B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
-        S-->>B: spa (HTML-code)
-        B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
-        S-->>B: main.css
-        B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
-        S-->>B: spa.js
-        note over B: Browser executes JS codes requesting notes data from server
-        B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
-        S-->>B: JSON notes data
-        note over B: Executes JS codes that parse JSON note data into a JS array object, <br /> Then map over the array elements, <br /> and display the notes with redrawNote()
+    
+sequenceDiagram
+    participant B as Browser
+    participant S as Server
+    B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+    S-->>B: spa (HTML-code)
+    B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    S-->>B: main.css
+    B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    S-->>B: spa.js
+    note over B: Browser executes JS codes requesting original notes JSON data from server
+    B->>S: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    S-->>B: JSON notes data
+    note over B: Browser executes JS codes that parse the JSON into a JS array object, <br /> Then fetch form elements from the page and render them!
 }
 ```
 
