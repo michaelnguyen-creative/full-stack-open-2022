@@ -1,0 +1,11 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    background-color: #FBE7C6;
+    padding: 20px;
+    gap: 5px;
+}
+
+.input {
+    margin-bottom: 15px;
+}
