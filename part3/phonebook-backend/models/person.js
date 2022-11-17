@@ -1,7 +1,9 @@
+import dotenv from "dotenv"
 import mongoose from "mongoose";
 
-const url = "mongodb+srv://michaelnguyen-creative:210266@cluster0.9tpxnaf.mongodb.net/phonebookApp?retryWrites=true&w=majority"
-console.log("connecting to", url);
+dotenv.config({ path: '../.env'})
+
+const url = process.env.MONGODB_URI
 
 mongoose.connect(url)
     .then(message => console.log("connected to MongoDB"))
