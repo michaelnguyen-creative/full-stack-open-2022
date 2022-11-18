@@ -1,7 +1,9 @@
 import dotenv from "dotenv"
 import mongoose from "mongoose";
 
-dotenv.config({ path: '../.env'})
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config({ path: './.env'})
+}
 
 const url = process.env.MONGODB_URI
 
@@ -10,7 +12,10 @@ mongoose.connect(url)
     .catch(error => console.log(error.message))
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minLength: 3,
+},
   number: String,
 });
 

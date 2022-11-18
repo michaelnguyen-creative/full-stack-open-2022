@@ -4,7 +4,10 @@ import morgan from "morgan";
 import cors from "cors";
 import { Person } from "./models/person.js";
 
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
+
 const app = express();
 
 morgan.token("persons", (req) => JSON.stringify(req.body));
@@ -43,7 +46,7 @@ app.get("/api/persons/:id", (req, res, next) => {
       if (result !== null) {
         res.json(result);
       } else {
-        res.status(400).send({ error: "malformatted id" });
+        res.status(404).send({ error: "id not found" });
       }
     })
     .catch((err) => next(err));
@@ -57,7 +60,7 @@ app.delete("/api/persons/:id", (req, res, next) => {
     });
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const body = req.body;
 
   if (body === undefined) {
@@ -69,7 +72,11 @@ app.post("/api/persons", (req, res) => {
     number: body.number,
   });
 
-  person.save().then((savedPerson) => res.json(savedPerson));
+  person.save()
+    .then(savedPerson => {
+      res.json(savedPerson)
+    })
+    .catch(err => next(err))
 });
 
 app.put("/api/persons", (req, res, next) => {
@@ -79,7 +86,7 @@ app.put("/api/persons", (req, res, next) => {
       if (updatedPerson !== null) {
         res.json(updatedPerson);
       } else {
-        res.status(400).send({ error: "bad request, malformatted name" });
+        res.status(400).send({ error: "bad request" });
       }
     })
     .catch((err) => next(err));
@@ -97,7 +104,9 @@ const errorHandler = (err, req, res, next) => {
   console.log(err.message);
 
   if (err.name === "CastError") {
-    res.status(400).send({ error: "malformatted id" });
+    return res.status(400).send({ error: "malformatted id" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).json({error: err.message})
   }
   next(err);
 };
