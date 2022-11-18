@@ -42,14 +42,15 @@ const App = () => {
           setNewName("");
           setNewPhone("");
         })
-        .catch(error => {
+        .catch(err => {
           setStatus(`${newContact.name} has already been deleted`)
           setTimeout(() => setStatus(""), 3000)
         })
     };
 
     const createContact = () => {
-      contactService.create(newContact).then((returnedContact) => {
+      contactService.create(newContact)
+        .then((returnedContact) => {
         setPersons(persons.concat(returnedContact));
         setNewName("");
         setNewPhone("");
@@ -57,6 +58,10 @@ const App = () => {
         setStatus(`Added ${returnedContact.name}`)
         setTimeout(() => setStatus(""), 3000)
       })
+        .catch(err => {
+          setStatus(`${err}`)
+          setTimeout(() => setStatus(""), 3000)
+        })
     }
 
     return checkExistedContact(newContact) !== undefined
