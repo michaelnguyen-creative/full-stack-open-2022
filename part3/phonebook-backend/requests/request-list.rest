@@ -1,0 +1,34 @@
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Michael Nguyen",
+    "number": "0099008819"
+}
+
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "d",
+    "number": "43423"
+}
+
+###
+PUT http://localhost:3001/api/persons/6374df15e2ad07375bb66b1b
+content-type: application/json
+
+{
+    "name": "Marie Curie",
+    "number": "32-243522"
+}
+
+###
+GET http://localhost:3001/api/info
+
+###
+GET http://localhost:3001/api/persons
+
+###
+DELETE http://localhost:3001/api/persons/434q

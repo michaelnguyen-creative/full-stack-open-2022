@@ -20,7 +20,7 @@ app.use(
 
 app.use(cors());
 
-app.use(express.static("build"));
+// app.use(express.static("build"));
 
 app.get("/", (req, res) => {
   res.send("<h1>Phonebook Backend</h1>");
@@ -42,13 +42,7 @@ app.get("/api/info", (req, res) => {
 
 app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id)
-    .then((result) => {
-      if (result !== null) {
-        res.json(result);
-      } else {
-        res.status(404).send({ error: "id not found" });
-      }
-    })
+    .then((result) => res.json(result))
     .catch((err) => next(err));
 });
 
@@ -72,23 +66,23 @@ app.post("/api/persons", (req, res, next) => {
     number: body.number,
   });
 
-  person.save()
-    .then(savedPerson => {
-      res.json(savedPerson)
+  person
+    .save()
+    .then((savedPerson) => {
+      res.json(savedPerson);
     })
-    .catch(err => next(err))
+    .catch((err) => next(err));
 });
 
-app.put("/api/persons", (req, res, next) => {
-  const query = { name: req.body.name };
-  Person.findOneAndUpdate(query, { number: req.body.number })
-    .then((updatedPerson) => {
-      if (updatedPerson !== null) {
-        res.json(updatedPerson);
-      } else {
-        res.status(400).send({ error: "bad request" });
-      }
-    })
+app.put("/api/persons/:id", (req, res, next) => {
+  const { name, number } = req.body;
+
+  Person.findByIdAndUpdate(
+    req.params.id,
+    { name, number },
+    { new: true, runValidators: true, context: "query" }
+  )
+    .then((updatedPerson) => res.json(updatedPerson))
     .catch((err) => next(err));
 });
 
@@ -106,7 +100,7 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === "CastError") {
     return res.status(400).send({ error: "malformatted id" });
   } else if (err.name === "ValidationError") {
-    return res.status(400).json({error: err.message})
+    return res.status(400).json({ error: err.message });
   }
   next(err);
 };
