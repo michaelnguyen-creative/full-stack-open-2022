@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseUrl = "/api/persons"
+const baseUrl = "http://localhost:3001/api/persons"
 
 const getAll = () => {
     // you must return the value to collect it
@@ -8,11 +8,12 @@ const getAll = () => {
 
 const create = (newObject) => {
     // add return here
-    return axios.post(baseUrl, newObject).then(response => response.data)
+    return axios.post(baseUrl, newObject).then(axiosRes => axiosRes.data)
+    // .catch(err => err.response.data.error)
 }
 
 const remove = (id) => {
-    return axios.delete(`${baseUrl}/${id}`).then(() => console.log(`deleted contact ${id}`))
+    return axios.delete(`${baseUrl}/${id}`).then(axiosRes => console.log(axiosRes))
 }
 
 const update = (id, newObject) => {

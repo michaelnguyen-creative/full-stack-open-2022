@@ -59,7 +59,8 @@ const App = () => {
         setTimeout(() => setStatus(""), 3000)
       })
         .catch(err => {
-          setStatus(`${err}`)
+          console.log(err);
+          setStatus(`${err.response.data.error}`)
           setTimeout(() => setStatus(""), 3000)
         })
     }
@@ -70,19 +71,15 @@ const App = () => {
         )
         ? updateContact()
         : (setNewName(""), setNewPhone(""))
-      : newName !== "" && newPhone !== ""
-      ? createContact()
-      : alert("Please enter both name and phone number");
+      : createContact()
   };
 
   const deleteContact = (e) => {
     if (window.confirm("Are you sure to delete this contact?")) {
-      const remainingContact = persons.filter(
-        (person) => person.id !== Number(e.target.id)
-      );
-      // console.log(remainingContact)
-      setPersons(remainingContact);
-      contactService.remove(e.target.id);
+      contactService.remove(e.target.id)
+      contactService.getAll().then(returnedContact => {
+        setPersons(returnedContact);
+      });
     }
   };
 
