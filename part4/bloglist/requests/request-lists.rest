@@ -1,0 +1,12 @@
+GET http://localhost:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Murphy's law",
+    "author": "Wiki",
+    "url": "https://en.wikipedia.org/wiki/Murphy%27s_law",
+    "likes": 100
+}
