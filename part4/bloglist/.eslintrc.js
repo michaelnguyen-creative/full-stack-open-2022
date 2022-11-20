@@ -26,5 +26,8 @@ module.exports = {
       2,
     ],
     'no-console': 0,
+    'no-undef': 0,
+    'no-trailing-spaces': 'error',
+    'no-param-reassign': 0,
   },
 }
