@@ -29,5 +29,6 @@ module.exports = {
     'no-undef': 0,
     'no-trailing-spaces': 'error',
     'no-param-reassign': 0,
+    'no-underscore-dangle': 0,
   },
 }
