@@ -6,11 +6,16 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-blogsRouter.post('/', (req, res) => {
-  const blog = new Blog(req.body)
+blogsRouter.post('/', async (req, res) => {
+  const { body } = req
 
-  blog.save()
-    .then((result) => res.status(201).json(result))
+  if (body.title === undefined || body.url === undefined) {
+    res.status(400).send({ error: 'Missing title and/or URL' })
+  } else {
+    const blog = new Blog(req.body)
+    const result = await blog.save()
+    res.status(201).json(result)
+  }
 })
 
 module.exports = blogsRouter
