@@ -2,99 +2,81 @@ const supertest = require('supertest')
 const mongoose = require('mongoose')
 const app = require('../app')
 const Blog = require('../models/blog')
+const helper = require('./test_helper')
 
 const api = supertest(app)
 
-const initialBlogs = [
-  {
-    title: 'Setup Global Env',
-    author: 'Jest',
-    url: 'https://jestjs.io/docs/api',
-    likes: 10,
-  },
-  {
-    title: 'Superagent, HTTP request library',
-    author: 'Vision Media',
-    url: 'https://github.com/visionmedia/superagent',
-    likes: 8,
-  },
-]
-
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await Blog.insertMany(helper.initialBlogs)
+})
 
-  initialBlogs.map((b) => {
-    const blogArrObj = new Blog(b)
-    return blogArrObj.save()
+describe('test get api', () => {
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('blogs _id prop are replaced by id', async () => {
+    const blogs = await api.get('/api/blogs')
+    expect(blogs.body.map((b) => b.id)).toBeDefined()
   })
 })
 
-// Write some tests
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect('Content-Type', /application\/json/)
-})
+describe('test post api', () => {
+  test('add a new blog returns the correct content and total length increases by one', async () => {
+    const newBlog = {
+      title: "Murphy's law",
+      author: 'Wiki',
+      url: 'https://en.wikipedia.org/wiki/Murphy%27s_law',
+      likes: 100,
+    }
 
-test('blogs _id prop are replaced by id', async () => {
-  const blogs = await api.get('/api/blogs')
-  expect(blogs.body.map((b) => b.id)).toBeDefined()
-})
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
 
-test('add a new blog returns the correct content and total length increases by one', async () => {
-  const newBlog = {
-    title: "Murphy's law",
-    author: 'Wiki',
-    url: 'https://en.wikipedia.org/wiki/Murphy%27s_law',
-    likes: 100,
-  }
+    const allBlogs = await helper.getAllBlogs()
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
+    expect(allBlogs).toContainEqual(expect.objectContaining(newBlog))
+    expect(allBlogs).toHaveLength(helper.initialBlogs.length + 1)
+  })
 
-  const res = await api.get('/api/blogs')
+  test('if likes prop is missing, it will default to 0', async () => {
+    const newBlog = {
+      title: "Murphy's law",
+      author: 'Wiki',
+      url: 'https://en.wikipedia.org/wiki/Murphy%27s_law',
+    }
 
-  expect(res.body).toContainEqual(expect.objectContaining(newBlog))
-  expect(res.body).toHaveLength(initialBlogs.length + 1)
-})
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
 
-test('if likes prop is missing, it will default to 0', async () => {
-  const newBlog = {
-    title: "Murphy's law",
-    author: 'Wiki',
-    url: 'https://en.wikipedia.org/wiki/Murphy%27s_law',
-  }
+    const allBlogs = await helper.getAllBlogs()
+    const returnedBlog = allBlogs.find((b) => b.url === newBlog.url)
+    // Keep it simple, stupid (KISS principle)
+    expect(returnedBlog.likes).toEqual(0)
+  })
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-  const res = await api.get('/api/blogs')
-  const returnedBlog = res.body.find((b) => b.url === newBlog.url)
-  // Keep it simple, stupid (KISS principle)
-  expect(returnedBlog.likes).toEqual(0)
-})
+  test('create a new blog without title & url will return a 400 Bad Request status code', async () => {
+    const newBlog = {
+      author: 'Wiki',
+      likes: 22,
+    }
 
-test('create a new blog without title & url will return a 400 Bad Request status code', async () => {
-  const newBlog = {
-    author: 'Wiki',
-    likes: 22,
-  }
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
 })
 
 describe('deleting a blog by id', () => {
   test('valid id returns 204 No Content', async () => {
-    const getFirstValidId = async () => {
-      const response = await api.get('/api/blogs')
-      return response.body[0].id
-    }
-    const validId = await getFirstValidId()
-    // console.log('valid id:', validId)
+    const validId = await helper.getFirstValidId()
+    console.log('valid id:', validId)
     await api
       .delete(`/api/blogs/${validId}`)
       .expect(204)
@@ -105,6 +87,18 @@ describe('deleting a blog by id', () => {
     await api
       .delete(`/api/blogs/${invalidId}`)
       .expect(400)
+  })
+})
+
+describe('test put api', () => {
+  test('updating a valid id returns 200 OK', async () => {
+    const validId = await helper.getFirstValidId()
+    const likesToUpdate = { likes: 40 }
+
+    await api
+      .put(`/api/blogs/${validId}`)
+      .send(likesToUpdate)
+      .expect(200)
   })
 })
 
