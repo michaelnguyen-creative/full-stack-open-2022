@@ -87,6 +87,27 @@ test('create a new blog without title & url will return a 400 Bad Request status
     .expect(400)
 })
 
+describe('deleting a blog by id', () => {
+  test('valid id returns 204 No Content', async () => {
+    const getFirstValidId = async () => {
+      const response = await api.get('/api/blogs')
+      return response.body[0].id
+    }
+    const validId = await getFirstValidId()
+    // console.log('valid id:', validId)
+    await api
+      .delete(`/api/blogs/${validId}`)
+      .expect(204)
+  })
+
+  test('invalid id returns 400 Bad Request', async () => {
+    const invalidId = 'dfad9dfad0dfadfad'
+    await api
+      .delete(`/api/blogs/${invalidId}`)
+      .expect(400)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
