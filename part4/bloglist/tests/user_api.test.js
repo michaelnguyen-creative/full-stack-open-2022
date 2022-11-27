@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 const app = require('../app')
 const User = require('../models/user')
+const { getAllUsers } = require('./test_helper')
 // const helper = require('./user_helper')
 
 const api = supertest(app)
@@ -39,6 +40,52 @@ test('get all users returns a 200 OK & users are returned as JSON', async () => 
     .get('/api/users')
     .expect(200)
     .expect('Content-Type', /application\/json/)
+})
+
+describe('user creation validators', () => {
+  test('invalid users will not be created, status code 400 & proper error message returned', async () => {
+    const invalidUsers = [
+      {
+        username: 'test-admin',
+        name: 'admin',
+        password: 't3',
+      },
+      {
+        username: 'test-admin',
+        name: 'admin',
+        password: 't3st@adm1n',
+      },
+    ]
+
+    const resOne = await api
+      .post('/api/users')
+      .send(invalidUsers[0])
+      .expect(400)
+    // console.log('respond', res.body)
+    expect(resOne.body.error).toBe('password must be at least 3 characters long')
+
+    const resTwo = await api
+      .post('/api/users')
+      .send(invalidUsers[1])
+      .expect(400)
+    expect(resTwo.body.error).toMatch(/User validation failed: username: Error, expected `username` to be unique/)
+
+    const allUsers = await getAllUsers()
+    expect(allUsers).not.toContainEqual(invalidUsers)
+  })
+
+  test('valid users return 201 Created', async () => {
+    const validUser = {
+      username: 'bernido212',
+      name: 'Bernido',
+      password: '89@dhjgnk&',
+    }
+
+    await api
+      .post('/api/users')
+      .send(validUser)
+      .expect(201)
+  })
 })
 
 afterAll(() => {
