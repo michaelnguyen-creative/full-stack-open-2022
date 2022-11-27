@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/users
+Content-Type: application/json
+# Authorization: bearer <login_token>
+
+{
+  "username": "jackie-chan",
+  "name": "Jackie",
+  "password": "j@ck3"
+}

@@ -25,13 +25,20 @@ test('successfully create a new user with status code 201', async () => {
   const newUser = {
     username: 'michael-ng',
     name: 'Michael Nguyen',
-    password: '332132-23jd',
+    password: 'm1ch@3l',
   }
 
   await api
     .post('/api/users')
     .send(newUser)
     .expect(201)
+})
+
+test('get all users returns a 200 OK & users are returned as JSON', async () => {
+  await api
+    .get('/api/users')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 })
 
 afterAll(() => {

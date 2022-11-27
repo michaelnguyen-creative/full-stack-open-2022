@@ -6,7 +6,7 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const { unknownEndpoint, errorHandler } = require('./utils/middleware')
 const blogsRouter = require('./controllers/blogs')
-const usersRouter = require('./models/user')
+const usersRouter = require('./controllers/users')
 
 const app = express()
 
