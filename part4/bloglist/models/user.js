@@ -10,18 +10,18 @@ const userSchema = mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  // blogs: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'Blog',
-  //   },
-  // ],
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog',
+    },
+  ],
 })
 
 // Transform _id to id & delete sensitive info
 userSchema.set('toJSON', {
   transform: (doc, obj) => {
-    obj.id = obj._id.toString()
+    obj.userId = obj._id.toString()
     delete obj._id
     delete obj.__v
     delete obj.passwordHash

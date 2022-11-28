@@ -30,5 +30,6 @@ module.exports = {
     'no-trailing-spaces': 'error',
     'no-param-reassign': 0,
     'no-underscore-dangle': 0,
+    'object-curly-newline': 0,
   },
 }

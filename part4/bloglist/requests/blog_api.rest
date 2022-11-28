@@ -5,8 +5,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Murphy's law",
-    "author": "Wiki",
-    "url": "https://en.wikipedia.org/wiki/Murphy%27s_law",
-    "likes": 100
+    "title": "'First class tests'",
+    "author": "Robert C. Marti",
+    "url": "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll'",
+    "likes": 10,
+    "userId": "6384a24d9bb7bc6074fc4d1e"
 }

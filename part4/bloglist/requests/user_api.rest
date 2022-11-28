@@ -3,7 +3,10 @@ Content-Type: application/json
 # Authorization: bearer <login_token>
 
 {
-  "username": "jackie-chan",
-  "name": "Jackie",
-  "password": "j@ck3"
+  "username": "robert-c",
+  "name": "Robert C. Martin",
+  "password": "3m3r0n"
 }
+
+###
+GET http://localhost:3003/api/users
