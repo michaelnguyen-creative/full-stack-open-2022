@@ -11,3 +11,15 @@ Content-Type: application/json
     "likes": 10,
     "userId": "6384a24d9bb7bc6074fc4d1e"
 }
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvYmVydC1jIiwiaWQiOiI2Mzg0YTI0ZDliYjdiYzYwNzRmYzRkMWUiLCJpYXQiOjE2Njk2OTc0OTMsImV4cCI6MTY2OTcwMTA5M30.3I5b9n6Z3gs4BSMLh7e0b8NvYU1XnQUi64hovSIt5hI
+
+{
+  "title": "Type wars",
+  "author": "Robert C. Martin",
+  "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+  "likes": 20
+}

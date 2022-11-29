@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -7,31 +8,47 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-blogsRouter.post('/', async (req, res) => {
-  const { title, author, url, likes, userId } = req.body
+const getTokenFrom = (req) => {
+  const authz = req.get('authorization')
+  // console.log('authz', authz)
+  if (authz && authz.toLowerCase().startsWith('bearer')) {
+    return authz.substring(7)
+  }
+  return null
+}
 
-  const user = await User.findById(userId)
+blogsRouter.post('/', async (req, res) => {
+  const { title, author, url, likes } = req.body
+  if (title === undefined || url === undefined) {
+    return res.status(400).send({ error: 'Missing title and/or URL' })
+  }
+
+  const token = getTokenFrom(req)
+  // console.log('token', token)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  // console.log('decoded', decodedToken)
+  if (!decodedToken.id) {
+    return res.status(401).send({ error: 'token missing' })
+  }
+
+  const user = await User.findById(decodedToken.id)
   // console.log('userId', userId)
   // console.log('document', user)
-  if (title === undefined || url === undefined) {
-    res.status(400).send({ error: 'Missing title and/or URL' })
-  } else {
-    const blog = new Blog({
-      title,
-      author,
-      url,
-      likes,
-      // DO this, refer to Mongo document by _id
-      user: user._id,
-    })
-    const savedBlog = await blog.save()
+  const blog = new Blog({
+    title,
+    author,
+    url,
+    likes,
+    // DO this, refer to Mongo document by _id
+    user: user._id,
+  })
+  const savedBlog = await blog.save()
 
-    user.blogs = user.blogs.concat(savedBlog._id)
-    console.log('user blogs', user.blogs)
-    await user.save()
+  user.blogs = user.blogs.concat(savedBlog._id)
+  // console.log('user blogs', user.blogs)
+  await user.save()
 
-    res.status(201).json(savedBlog)
-  }
+  return res.status(201).json(savedBlog)
 })
 
 // Delete by ID functionality
