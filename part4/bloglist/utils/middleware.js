@@ -1,5 +1,19 @@
-const unknownEndpoint = (req, res) => {
+const unknownEndpoint = (req, res, next) => {
   res.status(404).send({ error: 'unknown endpoint' })
+
+  return next()
+}
+
+const tokenExtractor = (req, res, next) => {
+  const authz = req.get('authorization')
+  // console.log('authz', authz)
+  if (authz && authz.toLowerCase().startsWith('bearer')) {
+    req.token = authz.substring(7)
+  } else {
+    req.token = null
+  }
+
+  return next()
 }
 
 const errorHandler = (err, req, res, next) => {
@@ -8,7 +22,7 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name === 'ValidationError') {
     res.status(400).json({ error: err.message })
   } else if (err.name === 'JsonWebTokenError') {
-    return res.status(401).send({
+    res.status(401).send({
       error: 'invalid token',
       detail: err.message,
     })
@@ -20,4 +34,5 @@ const errorHandler = (err, req, res, next) => {
 module.exports = {
   unknownEndpoint,
   errorHandler,
+  tokenExtractor,
 }

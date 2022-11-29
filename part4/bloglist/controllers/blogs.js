@@ -8,24 +8,13 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-const getTokenFrom = (req) => {
-  const authz = req.get('authorization')
-  // console.log('authz', authz)
-  if (authz && authz.toLowerCase().startsWith('bearer')) {
-    return authz.substring(7)
-  }
-  return null
-}
-
 blogsRouter.post('/', async (req, res) => {
   const { title, author, url, likes } = req.body
   if (title === undefined || url === undefined) {
     return res.status(400).send({ error: 'Missing title and/or URL' })
   }
 
-  const token = getTokenFrom(req)
-  // console.log('token', token)
-  const decodedToken = jwt.verify(token, process.env.SECRET)
+  const decodedToken = jwt.verify(req.token, process.env.SECRET)
   // console.log('decoded', decodedToken)
   if (!decodedToken.id) {
     return res.status(401).send({ error: 'token missing' })
