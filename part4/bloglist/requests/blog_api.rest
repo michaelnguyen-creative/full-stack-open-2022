@@ -23,3 +23,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvY
   "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
   "likes": 20
 }
+
+###
+DELETE http://localhost:3003/api/blogs/6384c174c5f0bb6ecd7d3e9e
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvYmVydC1jIiwiaWQiOiI2Mzg0YTI0ZDliYjdiYzYwNzRmYzRkMWUiLCJpYXQiOjE2Njk3MDQyNjAsImV4cCI6MTY2OTcwNzg2MH0.SVHyf-tCdOp5eys8wPUcWxPK8HjpkRtcWH9TSCcKwcU

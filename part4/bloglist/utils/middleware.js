@@ -19,13 +19,20 @@ const tokenExtractor = (req, res, next) => {
 
 const errorHandler = (err, req, res, next) => {
   if (err.name === 'CastError') {
-    res.status(400).send({ error: 'Bad request' })
+    res.status(400).send({
+      error: 'malformatted id',
+      detail: err.message,
+    })
   } else if (err.name === 'ValidationError') {
     res.status(400).json({ error: err.message })
   } else if (err.name === 'JsonWebTokenError') {
     res.status(401).send({
       error: 'invalid token',
       detail: err.message,
+    })
+  } else if (err.name === 'TypeError') {
+    res.status(400).json({
+      error: err.message,
     })
   }
 
