@@ -1,53 +1,46 @@
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const middleware = require('../utils/middleware')
 
 blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   res.json(blogs)
 })
 
-blogsRouter.post('/', async (req, res) => {
+blogsRouter.post('/', middleware.userExtractor, async (req, res) => {
   const { title, author, url, likes } = req.body
   if (title === undefined || url === undefined) {
     return res.status(400).send({ error: 'Missing title and/or URL' })
   }
 
-  const decodedToken = jwt.verify(req.token, process.env.SECRET)
-  // console.log('decoded', decodedToken)
-  if (!decodedToken.id) {
+  if (req.token === null) {
     return res.status(401).send({ error: 'token missing' })
   }
 
-  const user = await User.findById(decodedToken.id)
-  // console.log('userId', userId)
-  // console.log('document', user)
+  const user = await User.findById(req.user._id)
   const blog = new Blog({
     title,
     author,
     url,
     likes,
     // DO this, refer to Mongo document by _id
-    user: user._id,
+    user: req.user._id,
   })
   const savedBlog = await blog.save()
 
   user.blogs = user.blogs.concat(savedBlog._id)
-  // console.log('user blogs', user.blogs)
   await user.save()
 
   return res.status(201).json(savedBlog)
 })
 
 // Delete by ID functionality
-blogsRouter.delete('/:id', async (req, res) => {
-  const blog = await Blog.findById(req.params.id)
-  const decodedToken = jwt.verify(req.token, process.env.SECRET)
-  // console.log('token', req.token)
-  // console.log('decoded token', decodedToken)
-  // console.log('blog userId', blog.user.toString())
-  if (decodedToken.id !== blog.user.toString() || req.token === null) {
+blogsRouter.delete('/:id', middleware.userExtractor, async (req, res) => {
+  // const blog = await Blog.findById(req.params.id)
+  // const decodedToken = jwt.verify(req.token, process.env.SECRET)
+  if (req.token === null || req.user === null) {
     res.status(401).send({ error: 'invalid user/token' })
   }
 
