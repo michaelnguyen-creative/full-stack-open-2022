@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import UserBlogs from './components/UserBlogs'
 import blogService from './services/blogs'
@@ -9,6 +11,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -40,6 +45,7 @@ const App = () => {
       setUser(loggedUser)
       setUsername('')
       setPassword('')
+      blogService.setToken(loggedUser.token)
     } catch (exception) {}
   }
 
@@ -47,7 +53,30 @@ const App = () => {
     console.log('logging out')
     window.localStorage.removeItem('loggedUserData')
     setUser(null)
+    setUsername('')
+    setPassword('')
+    setTitle('')
+    setAuthor('')
+    setUrl('')
     console.log('logged out')
+  }
+
+  const addNewBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const newBlog = {
+        title,
+        author,
+        url,
+      }
+      const createdBlog = await blogService.create(newBlog)
+      // blogService.
+      console.log('created blog', createdBlog)
+      setBlogs(blogs.concat(createdBlog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch (exception) {}
   }
 
   return (
@@ -61,7 +90,21 @@ const App = () => {
           setPassword={setPassword}
         />
       ) : (
-        <UserBlogs user={user} handleLogout={handleLogout} blogs={blogs} />
+        <div>
+          <UserBlogs user={user} handleLogout={handleLogout} />
+          <BlogForm
+            addNewBlog={addNewBlog}
+            title={title}
+            setTitle={setTitle}
+            author={author}
+            setAuthor={setAuthor}
+            url={url}
+            setUrl={setUrl}
+          />
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
+        </div>
       )}
     </div>
   )

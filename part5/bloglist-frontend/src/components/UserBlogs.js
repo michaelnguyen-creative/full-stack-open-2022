@@ -1,6 +1,4 @@
-import Blog from './Blog'
-
-const UserBlogs = ({ user, handleLogout, blogs }) => (
+const UserBlogs = ({ user, handleLogout }) => (
   <div>
     <h2>Blogs</h2>
     <div>
@@ -9,9 +7,6 @@ const UserBlogs = ({ user, handleLogout, blogs }) => (
     </div>
     {/* Blogs associated with logged user / all blogs */}
     <div>
-      {blogs.map((blog) => (
-      <Blog key={blog.id} blog={blog} />
-    ))}
     </div>
   </div>
 )
