@@ -15,7 +15,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [message, setMessage] = useState('Notif')
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     // Set up subscription to database
