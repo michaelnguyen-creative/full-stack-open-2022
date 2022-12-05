@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notif from './components/Notif'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import UserBlogs from './components/UserBlogs'
@@ -14,8 +15,10 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [message, setMessage] = useState('Notif')
 
   useEffect(() => {
+    // Set up subscription to database
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
@@ -46,7 +49,11 @@ const App = () => {
       setUsername('')
       setPassword('')
       blogService.setToken(loggedUser.token)
-    } catch (exception) {}
+    } catch (exception) {
+      console.log('exception', exception.response.data.error)
+      setMessage(`error: ${exception.response.data.error}`)
+      setTimeout(() => setMessage(''), 5000)
+    }
   }
 
   const handleLogout = () => {
@@ -76,21 +83,32 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
-    } catch (exception) {}
+
+      setMessage(`successfully created ${createdBlog.title} by ${createdBlog.author}`)
+      setTimeout(() => setMessage(''), 5000)
+    } catch (exception) {
+      console.log('excpt', exception)
+      setMessage(`error: ${exception.response.data.error}`)
+      setTimeout(() => setMessage(''), 5000)
+    }
   }
 
   return (
     <div>
       {user === null ? (
-        <LoginForm
+        <>
+          <Notif message={message} />
+          <LoginForm
           handleLogin={handleLogin}
           username={username}
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
         />
+        </>
       ) : (
-        <div>
+        <>
+          <Notif message={message} />
           <UserBlogs user={user} handleLogout={handleLogout} />
           <BlogForm
             addNewBlog={addNewBlog}
@@ -104,7 +122,7 @@ const App = () => {
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
-        </div>
+        </>
       )}
     </div>
   )

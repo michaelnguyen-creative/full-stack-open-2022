@@ -11,7 +11,7 @@ blogsRouter.get('/', async (req, res) => {
 
 blogsRouter.post('/', middleware.userExtractor, async (req, res) => {
   const { title, author, url, likes } = req.body
-  if (title === undefined || url === undefined) {
+  if (title === '' || url === '') {
     return res.status(400).send({ error: 'Missing title and/or URL' })
   }
 

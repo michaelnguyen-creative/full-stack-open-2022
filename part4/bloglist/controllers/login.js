@@ -6,6 +6,9 @@ const User = require('../models/user')
 loginRouter.post('/', async (req, res) => {
   const { username, password } = req.body
   const returnedUser = await User.findOne({ username })
+  if (!returnedUser) {
+    res.status(400).send({ error: 'invalid username/password' })
+  }
   // Check provided password against password hash stored in db
   const passwordCorrect = bcrypt.compare(password, returnedUser.passwordHash)
 
@@ -23,8 +26,8 @@ loginRouter.post('/', async (req, res) => {
       username: returnedUser.username,
       name: returnedUser.name,
     })
-  } else if (!(returnedUser || passwordCorrect)) {
-    res.status(401).json({ error: 'invalid username/password' })
+  } else {
+    res.status(401).json({ error: 'invalid password' })
   }
 })
 

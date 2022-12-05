@@ -12,7 +12,7 @@ const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }
     <div>
       password
       <input
-        type="text"
+        type="password"
         value={password}
         onChange={({ target }) => setPassword(target.value)}
       />
