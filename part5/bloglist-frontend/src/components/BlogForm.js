@@ -1,4 +1,23 @@
-const BlogForm = ({ addNewBlog, title, setTitle, author, setAuthor, url, setUrl }) => (
+import { useState } from "react"
+
+const BlogForm = ({ createBlog }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const addNewBlog = (e) => {
+    e.preventDefault()
+    createBlog({
+      title,
+      author,
+      url,
+    })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
+  return (
   <form onSubmit={addNewBlog}>
     <h2>Create new blog</h2>
     <div>
@@ -27,6 +46,6 @@ const BlogForm = ({ addNewBlog, title, setTitle, author, setAuthor, url, setUrl 
     </div>
     <button type="submit">create</button>
   </form>
-)
+)}
 
 export default BlogForm
