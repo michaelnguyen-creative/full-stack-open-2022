@@ -16,6 +16,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [message, setMessage] = useState('')
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     // Set up subscription to database
@@ -84,7 +85,9 @@ const App = () => {
       setAuthor('')
       setUrl('')
 
-      setMessage(`successfully created ${createdBlog.title} by ${createdBlog.author}`)
+      setMessage(
+        `successfully created ${createdBlog.title} by ${createdBlog.author}`
+      )
       setTimeout(() => setMessage(''), 5000)
     } catch (exception) {
       console.log('excpt', exception)
@@ -93,18 +96,42 @@ const App = () => {
     }
   }
 
+  const Togglable = () => {
+    // visible & hide
+    const showWhenVisible = { display: visible ? '' : 'none' }
+    const hideWhenVisible = { display: visible ? 'none' : '' }
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm
+            handleLogin={handleLogin}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+          />
+          <button onClick={() => setVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       {user === null ? (
         <>
+          {Togglable()}
           <Notif message={message} />
           <LoginForm
-          handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
+            handleLogin={handleLogin}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+          />
         </>
       ) : (
         <>
