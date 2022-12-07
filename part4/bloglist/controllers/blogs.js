@@ -2,14 +2,13 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const middleware = require('../utils/middleware')
 
 blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   res.json(blogs)
 })
 
-blogsRouter.post('/', middleware.userExtractor, async (req, res) => {
+blogsRouter.post('/', async (req, res) => {
   const { title, author, url, likes } = req.body
   if (title === '' || url === '') {
     return res.status(400).send({ error: 'Missing title and/or URL' })
@@ -37,7 +36,7 @@ blogsRouter.post('/', middleware.userExtractor, async (req, res) => {
 })
 
 // Delete by ID functionality
-blogsRouter.delete('/:id', middleware.userExtractor, async (req, res) => {
+blogsRouter.delete('/:id', async (req, res) => {
   // const blog = await Blog.findById(req.params.id)
   // const decodedToken = jwt.verify(req.token, process.env.SECRET)
   if (req.token === null || req.user === null) {
