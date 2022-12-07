@@ -12,8 +12,6 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState('')
 
@@ -25,30 +23,22 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUserData')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      const userLocal = JSON.parse(loggedUserJSON)
+      blogService.setToken(userLocal.token)
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (userObj) => {
     // Send post requests to backend
     // Prepare data to be sent to the backend
     try {
-      const userLoginData = {
-        username,
-        password,
-      }
-      console.log(`logging in with ${username} ${password}`)
+      console.log(`logging in with ${userObj.username} ${userObj.password}`)
       // We need an Axios service component for this
-      const loggedUser = await loginService.login(userLoginData)
+      const loggedUser = await loginService.login(userObj)
       console.log('logged user', loggedUser)
 
       window.localStorage.setItem('loggedUserData', JSON.stringify(loggedUser))
       setUser(loggedUser)
-      setUsername('')
-      setPassword('')
-      blogService.setToken(loggedUser.token)
     } catch (exception) {
       console.log('exception', exception.response.data.error)
       setMessage(`error: ${exception.response.data.error}`)
@@ -60,8 +50,6 @@ const App = () => {
     console.log('logging out')
     window.localStorage.removeItem('loggedUserData')
     setUser(null)
-    setUsername('')
-    setPassword('')
     console.log('logged out')
   }
 
@@ -106,11 +94,7 @@ const App = () => {
         <>
           <Notif message={message} />
           <LoginForm
-            handleLogin={handleLogin}
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
+            loginUser={handleLogin}
           />
         </>
       ) : (

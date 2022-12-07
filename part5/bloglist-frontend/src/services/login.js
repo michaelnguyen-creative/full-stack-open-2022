@@ -1,7 +1,7 @@
 import axios from 'axios'
 const baseUrl = '/api/login'
 
-const login = async (userLoginData) => {
+const login = async (userObj) => {
   // async w/ await => always returns settled promise(s)
   // settled means either fulfilled or rejected (pending is not settled)
     // three states of a promise: 
@@ -9,7 +9,7 @@ const login = async (userLoginData) => {
       // pending
   const axiosRes = await axios.post(
     baseUrl,
-    userLoginData,
+    userObj,
   )
   return axiosRes.data
 }
