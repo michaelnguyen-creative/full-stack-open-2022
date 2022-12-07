@@ -82,6 +82,10 @@ const App = () => {
     }
   }
 
+  const incrementLike = async (objToUpdate) => {
+    blogService.update(objToUpdate)
+  }
+
   return (
     <div>
       {user === null ? (
@@ -106,7 +110,7 @@ const App = () => {
           </Togglable>
 
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateLike={incrementLike} />
           ))}
         </>
       )}
