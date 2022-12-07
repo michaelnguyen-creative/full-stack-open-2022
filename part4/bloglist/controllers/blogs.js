@@ -1,4 +1,3 @@
-// const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -10,11 +9,10 @@ blogsRouter.get('/', async (req, res) => {
 
 blogsRouter.post('/', async (req, res) => {
   const { title, author, url, likes } = req.body
-  if (title === '' || url === '') {
-    return res.status(400).send({ error: 'Missing title and/or URL' })
-  }
 
-  if (req.token === null) {
+  if (title === '' || url === '') {
+    res.status(400).send({ error: 'Missing title and/or URL' })
+  } else if (req.token === null) {
     return res.status(401).send({ error: 'token missing' })
   }
 
@@ -37,14 +35,12 @@ blogsRouter.post('/', async (req, res) => {
 
 // Delete by ID functionality
 blogsRouter.delete('/:id', async (req, res) => {
-  // const blog = await Blog.findById(req.params.id)
-  // const decodedToken = jwt.verify(req.token, process.env.SECRET)
   if (req.token === null || req.user === null) {
-    res.status(401).send({ error: 'invalid user/token' })
+    return res.status(401).send({ error: 'invalid user/token' })
   }
 
-  await Blog.findByIdAndRemove(req.params.id)
-  res.status(204).end()
+  const removedBlog = await Blog.findByIdAndRemove(req.params.id)
+  return res.status(204).json(removedBlog).end()
 })
 
 // Update amount of likes by ID
