@@ -17,7 +17,9 @@ const App = () => {
 
   useEffect(() => {
     // Set up subscription to database
-    blogService.getAll().then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
+    blogService
+      .getAll()
+      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
   }, [])
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const App = () => {
     if (loggedUserJSON) {
       const userLocal = JSON.parse(loggedUserJSON)
       blogService.setToken(userLocal.token)
+      setUser(userLocal)
     }
   }, [])
 
@@ -38,6 +41,7 @@ const App = () => {
       console.log('logged user', loggedUser)
 
       window.localStorage.setItem('loggedUserData', JSON.stringify(loggedUser))
+      blogService.setToken(loggedUser.token)
       setUser(loggedUser)
     } catch (exception) {
       console.log('exception', exception.response.data.error)
@@ -78,9 +82,13 @@ const App = () => {
   const deleteBlogById = async (blogId) => {
     try {
       console.log('blog id', blogId)
-    await blogService.remove(blogId, user.token)
-    setBlogs(blogs.filter(b => b.id !== blogId))
-    // message needed
+      await blogService.remove(blogId)
+      setBlogs(blogs.filter((b) => b.id !== blogId))
+      // message needed
+      setMessage(
+        `deleted blog ${blogId} successfully`
+      )
+      setTimeout(() => setMessage(''), 5000)
     } catch (exception) {
       console.log('excpt', exception)
       setMessage(`error: ${exception.response.data.error}`)
@@ -93,22 +101,23 @@ const App = () => {
       {user === null ? (
         <>
           <Notif message={message} />
-          <LoginForm
-            loginUser={handleLogin}
-          />
+          <LoginForm loginUser={handleLogin} />
         </>
       ) : (
         <>
           <Notif message={message} />
           <UserBlogs user={user} handleLogout={handleLogout} />
           <Togglable buttonLabel="new blog">
-            <BlogForm
-              createBlog={addNewBlog}
-            />
+            <BlogForm createBlog={addNewBlog} />
           </Togglable>
 
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} updateLike={incrementLike} deleteBlog={deleteBlogById} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateLike={incrementLike}
+              deleteBlog={deleteBlogById}
+            />
           ))}
         </>
       )}
