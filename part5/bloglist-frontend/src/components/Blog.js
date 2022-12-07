@@ -27,7 +27,7 @@ const Blog = ({ blog }) => {
             <button onClick={() => setShowDetail(false)}>hide</button>
           </div>
           <div>{url}</div>
-          <div>{`likes: ${likes}`}</div>
+          <div>{`likes: ${likes}`} <button>like</button></div>
           <div>{user !== undefined && user.name}</div>
         </div>
       )}
