@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, updateLike, deleteBlog }) => {
+const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
   const [showDetail, setShowDetail] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const { url, title, author, user, id } = blog
@@ -21,6 +21,11 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
     })
     setLikes(likes + 1)
   }
+  const handleRemove = () => {
+    if (window.confirm(`Remove blog ${title} by ${author}`)) {
+      deleteBlog(id)
+    }
+  }
 
   return (
     <div>
@@ -38,8 +43,7 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
           <div>{url}</div>
           <div>{`likes: ${likes}`} <button onClick={handleLike}>like</button></div>
           <div>{user !== undefined && user.name}</div>
-          
-          <div><button onClick={() => deleteBlog(id)}>remove</button></div>
+          <div style={{display: loggedUser === user.name ? '' : 'none'}}><button onClick={handleRemove}>remove</button></div>
         </div>
       )}
     </div>

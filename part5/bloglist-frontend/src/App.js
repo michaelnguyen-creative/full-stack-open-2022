@@ -115,6 +115,7 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
+              loggedUser={user.name}
               updateLike={incrementLike}
               deleteBlog={deleteBlogById}
             />
