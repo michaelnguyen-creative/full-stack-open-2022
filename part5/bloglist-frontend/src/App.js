@@ -19,7 +19,7 @@ const App = () => {
 
   useEffect(() => {
     // Set up subscription to database
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    blogService.getAll().then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
   }, [])
 
   useEffect(() => {
@@ -82,8 +82,22 @@ const App = () => {
     }
   }
 
+  // Error handler needed
   const incrementLike = async (objToUpdate) => {
-    blogService.update(objToUpdate)
+    await blogService.update(objToUpdate)
+  }
+  // Error handler needed
+  const deleteBlogById = async (blogId) => {
+    try {
+      console.log('blog id', blogId)
+    await blogService.remove(blogId, user.token)
+    setBlogs(blogs.filter(b => b.id !== blogId))
+    // message needed
+    } catch (exception) {
+      console.log('excpt', exception)
+      setMessage(`error: ${exception.response.data.error}`)
+      setTimeout(() => setMessage(''), 5000)
+    }
   }
 
   return (
@@ -110,7 +124,7 @@ const App = () => {
           </Togglable>
 
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} updateLike={incrementLike} />
+            <Blog key={blog.id} blog={blog} updateLike={incrementLike} deleteBlog={deleteBlogById} />
           ))}
         </>
       )}

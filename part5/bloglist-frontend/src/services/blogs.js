@@ -28,5 +28,14 @@ const update = async (objToUpdate) => {
   return axiosRes
 }
 
-const blogService = { getAll, create, update, setToken }
+const remove = async (blogId, userToken) => {
+  const config = {
+    headers: { Authorization: userToken }
+  }
+  console.log('config', config)
+  const axiosRes = await axios.delete(`${baseUrl}/${blogId}`, config)
+  console.log('delete status', axiosRes)
+}
+
+const blogService = { getAll, create, update, remove, setToken }
 export default blogService 
