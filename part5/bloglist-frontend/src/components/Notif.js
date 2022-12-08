@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const Notif = ({ message }) => {
   const noStyle = {}
   const successStyle = {
@@ -17,5 +19,9 @@ const Notif = ({ message }) => {
     <p>{message}</p>
   </div>
 )}
+
+Notif.propTypes = {
+  message: PropTypes.string.isRequired,
+}
 
 export default Notif

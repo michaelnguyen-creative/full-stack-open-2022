@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const UserBlogs = ({ user, handleLogout }) => (
   <div>
     <h2>Blogs</h2>
@@ -10,5 +12,10 @@ const UserBlogs = ({ user, handleLogout }) => (
     </div>
   </div>
 )
+
+UserBlogs.propTypes = {
+  user: PropTypes.object.isRequired,
+  handleLogout: PropTypes.func.isRequired,
+}
 
 export default UserBlogs
