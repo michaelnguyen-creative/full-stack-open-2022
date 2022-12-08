@@ -38,4 +38,4 @@ const remove = async (blogId) => {
 }
 
 const blogService = { getAll, create, update, remove, setToken }
-export default blogService 
+export default blogService

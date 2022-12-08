@@ -4,9 +4,9 @@ const baseUrl = '/api/login'
 const login = async (userObj) => {
   // async w/ await => always returns settled promise(s)
   // settled means either fulfilled or rejected (pending is not settled)
-    // three states of a promise: 
-      // fulfileed & rejected aka. settled
-      // pending
+  // three states of a promise:
+  // fulfileed & rejected aka. settled
+  // pending
   const axiosRes = await axios.post(
     baseUrl,
     userObj,

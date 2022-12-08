@@ -15,10 +15,10 @@ const Notif = ({ message }) => {
     justifyContent: 'center'
   }
   return (
-  <div style={(!message) ? noStyle : /^error/.test(message) ? failedStyle : successStyle}>
-    <p>{message}</p>
-  </div>
-)}
+    <div style={(!message) ? noStyle : /^error/.test(message) ? failedStyle : successStyle}>
+      <p>{message}</p>
+    </div>
+  )}
 
 Notif.propTypes = {
   message: PropTypes.string.isRequired,

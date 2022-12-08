@@ -5,7 +5,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
   const [showDetail, setShowDetail] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const { url, title, author, user, id } = blog
-  
+
   const showAllDetail = {
     display: showDetail ? 'flex' : 'none',
     flexDirection: 'column',
@@ -32,19 +32,19 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
     <div>
       {!showDetail ? (
         <div>
-          {title} {author} 
+          {title} {author}
           <button onClick={() => setShowDetail(true)}>view</button>
         </div>
       ) : (
         <div style={showDetail ? showAllDetail : hideAllDetail}>
           <div>
-            {title} {author} 
+            {title} {author}
             <button onClick={() => setShowDetail(false)}>hide</button>
           </div>
           <div>{url}</div>
           <div>{`likes: ${likes}`} <button onClick={handleLike}>like</button></div>
           <div>{user !== undefined && user.name}</div>
-          <div style={{display: loggedUser === user.name ? '' : 'none'}}><button onClick={handleRemove}>remove</button></div>
+          <div style={{ display: loggedUser === user.name ? '' : 'none' }}><button onClick={handleRemove}>remove</button></div>
         </div>
       )}
     </div>
@@ -52,9 +52,9 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired, 
-  loggedUser: PropTypes.string.isRequired, 
-  updateLike: PropTypes.func.isRequired, 
+  blog: PropTypes.object.isRequired,
+  loggedUser: PropTypes.string.isRequired,
+  updateLike: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func.isRequired,
 }
 

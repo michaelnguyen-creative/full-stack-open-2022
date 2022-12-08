@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({ loginUser }) => {
@@ -18,27 +18,27 @@ const LoginForm = ({ loginUser }) => {
   }
 
   return (
-  <form onSubmit={handleLogin}>
-    <h2>Log in to app</h2>
-    <div>
+    <form onSubmit={handleLogin}>
+      <h2>Log in to app</h2>
+      <div>
       username
-      <input
-        type="text"
-        value={username}
-        onChange={({ target }) => setUsername(target.value)}
-      />
-    </div>
-    <div>
+        <input
+          type="text"
+          value={username}
+          onChange={({ target }) => setUsername(target.value)}
+        />
+      </div>
+      <div>
       password
-      <input
-        type="password"
-        value={password}
-        onChange={({ target }) => setPassword(target.value)}
-      />
-    </div>
-    <button type="submit">login</button>
-  </form>
-)}
+        <input
+          type="password"
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+        />
+      </div>
+      <button type="submit">login</button>
+    </form>
+  )}
 
 LoginForm.propTypes = {
   loginUser: PropTypes.func.isRequired
