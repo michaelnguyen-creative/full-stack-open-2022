@@ -33,7 +33,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
       {!showDetail ? (
         <div>
           {title} {author}
-          <button onClick={() => setShowDetail(true)}>view</button>
+          <button className='view' onClick={() => setShowDetail(true)}>view</button>
         </div>
       ) : (
         <div style={showDetail ? showAllDetail : hideAllDetail}>
