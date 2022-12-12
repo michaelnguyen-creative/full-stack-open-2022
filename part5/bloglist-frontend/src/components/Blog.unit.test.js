@@ -20,7 +20,7 @@ test('initially renders only title & author, not url & likes', () => {
   expect(element).not.toHaveTextContent(`${blog.url} ${blog.likes}`)
 })
 
-test.only('click view button renders blog url & author', async () => {
+test.only('click view button renders blog url & number of likes', async () => {
   const blog = {
     title: 'test',
     author: 'test',
@@ -37,12 +37,11 @@ test.only('click view button renders blog url & author', async () => {
   // screen.debug()
   const viewButton = container.querySelector('.view')
   await user.click(viewButton)
-  screen.debug()
 
-  // const url = screen.getByText('test.com')
-  // const likes = screen.getByText('likes: 10')
-  // expect(url).toBeDefined()
-  // expect(likes).toBeDefined()
+  const element = screen.getByRole('blog-remove')
+  screen.debug(element)
+  expect(element).toHaveTextContent(`${blog.url}`)
+  expect(element).toHaveTextContent(`${blog.likes}`)
 })
 
 // Have not passed, come back later

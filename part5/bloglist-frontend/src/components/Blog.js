@@ -33,18 +33,29 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
       {!showDetail ? (
         <div role="blog-view">
           {title} {author}
-          <button className='view' onClick={() => setShowDetail(true)}>view</button>
+          <button className="view" onClick={() => setShowDetail(true)}>
+            view
+          </button>
         </div>
       ) : (
         <div style={showDetail ? showAllDetail : hideAllDetail}>
-          <div>
+          <div role="blog-hide">
             {title} {author}
             <button onClick={() => setShowDetail(false)}>hide</button>
           </div>
-          <div>{url}</div>
-          <div>{`likes: ${likes}`} <button className='like' onClick={handleLike}>like</button></div>
-          <div>{user !== undefined && user.name}</div>
-          <div style={{ display: loggedUser === user.name ? '' : 'none' }}><button onClick={handleRemove}>remove</button></div>
+          <div role="blog-remove">
+            <div>{url}</div>
+            <div>
+              {`likes: ${likes}`}{' '}
+              <button className="like" onClick={handleLike}>
+                like
+              </button>
+            </div>
+            <div>{user !== undefined && user.name}</div>
+            <div style={{ display: loggedUser === user.name ? '' : 'none' }}>
+              <button className='remove' onClick={handleRemove}>remove</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
