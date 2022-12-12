@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/extend-expect'
 import Blog from './Blog'
 
-test('initially renders only title & author', () => {
+test('initially renders only title & author, not url & likes', () => {
   const blog = {
     title: 'test',
     author: 'test',
@@ -14,11 +14,13 @@ test('initially renders only title & author', () => {
 
   render(<Blog blog={blog} />)
   // screen.debug()
-  const element = screen.getByText('test test')
-  expect(element).toBeDefined()
+  const element = screen.getByRole('blog-view')
+  // screen.debug(element)
+  expect(element).toHaveTextContent(`${blog.title} ${blog.author}`)
+  expect(element).not.toHaveTextContent(`${blog.url} ${blog.likes}`)
 })
 
-test('click view button renders blog url & author', async () => {
+test.only('click view button renders blog url & author', async () => {
   const blog = {
     title: 'test',
     author: 'test',
@@ -33,14 +35,14 @@ test('click view button renders blog url & author', async () => {
 
   const container = render(<Blog blog={blog} />).container
   // screen.debug()
-  const button = container.querySelector('.view')
-  await user.click(button)
-  // screen.debug()
+  const viewButton = container.querySelector('.view')
+  await user.click(viewButton)
+  screen.debug()
 
-  const url = screen.getByText('test.com')
-  const likes = screen.getByText('likes: 10')
-  expect(url).toBeDefined()
-  expect(likes).toBeDefined()
+  // const url = screen.getByText('test.com')
+  // const likes = screen.getByText('likes: 10')
+  // expect(url).toBeDefined()
+  // expect(likes).toBeDefined()
 })
 
 // Have not passed, come back later
