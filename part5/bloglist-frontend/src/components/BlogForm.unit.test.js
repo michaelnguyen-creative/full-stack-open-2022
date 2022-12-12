@@ -8,12 +8,9 @@ test.only('new blog form calls the event handler with the right details', async 
   const blog = {
     title: 'test',
     author: 'test',
-    url: 'test.com',
-    likes: 10,
+    url: 'test.com'
   }
-
   const createBlogMock = jest.fn()
-  createBlogMock.mockReturnValue(blog)
 
   const user = userEvent.setup()
 
@@ -24,11 +21,17 @@ test.only('new blog form calls the event handler with the right details', async 
   const urlInput = screen.getByLabelText('url')
   const createButton = screen.getByText('create')
 
-  await user.type(titleInput, 'test')
-  await user.type(authorInput, 'tester')
-  await user.type(urlInput, 'test.com')
+  await user.type(titleInput, blog.title)
+  await user.type(authorInput, blog.author)
+  await user.type(urlInput, blog.url)
+
+  createBlogMock.mockReturnValue({
+    title: titleInput.value,
+    author: authorInput.value,
+    url: urlInput.value
+  })
+
   await user.click(createButton)
-  screen.debug()
 
   expect(createBlogMock).toHaveBeenCalled()
   expect(createBlogMock()).toEqual(blog)
