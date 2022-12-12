@@ -22,6 +22,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
     })
     setLikes(likes + 1)
   }
+
   const handleRemove = () => {
     if (window.confirm(`Remove blog ${title} by ${author}`)) {
       deleteBlog(id)

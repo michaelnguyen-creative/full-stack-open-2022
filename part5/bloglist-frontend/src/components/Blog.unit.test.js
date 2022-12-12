@@ -20,7 +20,7 @@ test('initially renders only title & author, not url & likes', () => {
   expect(element).not.toHaveTextContent(`${blog.url} ${blog.likes}`)
 })
 
-test.only('click view button renders blog url & number of likes', async () => {
+test('click view button renders blog url & number of likes', async () => {
   const blog = {
     title: 'test',
     author: 'test',
@@ -32,19 +32,17 @@ test.only('click view button renders blog url & number of likes', async () => {
   }
 
   const user = userEvent.setup()
-
   const container = render(<Blog blog={blog} />).container
   // screen.debug()
   const viewButton = container.querySelector('.view')
   await user.click(viewButton)
 
   const element = screen.getByRole('blog-remove')
-  screen.debug(element)
+  // screen.debug(element)
   expect(element).toHaveTextContent(`${blog.url}`)
   expect(element).toHaveTextContent(`${blog.likes}`)
 })
 
-// Have not passed, come back later
 test('mock function is called twice when button is clicked twice', async () => {
   const blog = {
     title: 'test',
@@ -60,18 +58,13 @@ test('mock function is called twice when button is clicked twice', async () => {
   // const updateLikeMock = jest.fn()
   const user = userEvent.setup()
 
-  const container = render(<Blog blog={blog} updateLike={updateLikeMock()} />).container
+  const container = render(<Blog blog={blog} updateLike={() => updateLikeMock()} />).container
   // screen.debug()
   const viewButton = container.querySelector('.view')
   await user.click(viewButton)
-
-  screen.debug()
-  // const a = render(<Blog blog={blog} handleLike={handleLikeMock} />).container
-
-  // const likeButton = container.querySelector('.likeButton')
-  const likeButton = screen.getByText('like')
+  const likeButton = container.querySelector('.like')
   await user.dblClick(likeButton)
-  screen.debug()
+  // screen.debug()
 
   expect(updateLikeMock).toHaveBeenCalledTimes(2)
 })
