@@ -55,12 +55,39 @@ describe('Blog app', function() {
         cy.createBlog('title three', 'three', 'url-three')
       })
 
-      it.only('presses like button will increment likes', function() {
+      it('presses like button will increment likes', function() {
         cy.contains('title one').find('.view').click()
         cy.get('.like').click()
 
         cy.contains('likes:').should('include.text', 'likes: 1')
       })
+    })
+  })
+
+  describe('deleting a blog', () => {
+    beforeEach(function() {
+      cy.request('POST', 'http://localhost:3003/api/users', {
+        username: 'test-2',
+        name: 'Tester 2',
+        password: 'test-2'
+      })
+      cy.login('test', 'test')
+      cy.createBlog('title one', 'one', 'url-one')
+    })
+
+    it('only user who created the blog could delete it', function() {
+      cy.contains('title one').find('.view').click()
+      cy.get('.remove').click()
+
+      cy.get('.blog-list').should('not.match', /title one|one|url-one/i)
+    })
+
+    it.only('other user is unable to delete the blog', function() {
+      cy.get('.logout').click()
+      cy.login('test-2', 'test-2')
+
+      cy.contains('title one').find('.view').click()
+      cy.get('.blog-details').should('not.have.class', '.remove')
     })
   })
 })

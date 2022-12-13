@@ -5,7 +5,7 @@ const UserBlogs = ({ user, handleLogout }) => (
     <h2>Blogs</h2>
     <div>
       {`${user.name} logged in`}
-      <input type="submit" value="logout" onClick={handleLogout} />
+      <button className='logout' onClick={handleLogout}>logout</button>
     </div>
     {/* Blogs associated with logged user / all blogs */}
     <div>
