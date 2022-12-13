@@ -15,7 +15,7 @@ const Notif = ({ message }) => {
     justifyContent: 'center'
   }
   return (
-    <div style={(!message) ? noStyle : /^error/.test(message) ? failedStyle : successStyle}>
+    <div className="notif" style={(!message) ? noStyle : /^error/.test(message) ? failedStyle : successStyle}>
       <p>{message}</p>
     </div>
   )}
