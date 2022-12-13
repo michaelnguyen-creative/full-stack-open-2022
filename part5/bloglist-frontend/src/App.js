@@ -85,9 +85,7 @@ const App = () => {
       await blogService.remove(blogId)
       setBlogs(blogs.filter((b) => b.id !== blogId))
       // message needed
-      setMessage(
-        `deleted blog ${blogId} successfully`
-      )
+      setMessage(`deleted blog ${blogId} successfully`)
       setTimeout(() => setMessage(''), 5000)
     } catch (exception) {
       console.log('excpt', exception)
@@ -110,16 +108,17 @@ const App = () => {
           <Togglable buttonLabel="new blog">
             <BlogForm createBlog={addNewBlog} />
           </Togglable>
-
-          {blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              loggedUser={user.name}
-              updateLike={incrementLike}
-              deleteBlog={deleteBlogById}
-            />
-          ))}
+          <div className="blog-list">
+            {blogs.map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                loggedUser={user.name}
+                updateLike={incrementLike}
+                deleteBlog={deleteBlogById}
+              />
+            ))}
+          </div>
         </>
       )}
     </div>
