@@ -21,16 +21,18 @@ const LoginForm = ({ loginUser }) => {
     <form onSubmit={handleLogin}>
       <h2>Log in to app</h2>
       <div>
-      username
+        <label htmlFor="username-input">username</label>
         <input
+          id="username-input"
           type="text"
           value={username}
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
       <div>
-      password
+        <label htmlFor="password-input">password</label>
         <input
+          id="password-input"
           type="password"
           value={password}
           onChange={({ target }) => setPassword(target.value)}
