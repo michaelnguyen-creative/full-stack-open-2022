@@ -34,16 +34,10 @@ describe('Blog app', function() {
 
   describe('when logged in', function() {
     beforeEach(function() {
-      cy.request('POST', 'http://localhost:3003/api/login', {
-        username: 'test',
-        password: 'test'
-      }).then((serverRes) => {
-        window.localStorage.setItem('loggedUserData', JSON.stringify(serverRes.body))
-        cy.visit('http://localhost:3000')
-      })
+      cy.login('test', 'test')
     })
 
-    it.only('logged user can create a blog', function() {
+    it('logged user can create a blog', function() {
       cy.contains('new blog').click()
       cy.get('#title-input').type('test title')
       cy.get('#author-input').type('test author')
@@ -52,6 +46,21 @@ describe('Blog app', function() {
 
       cy.get('.notif').contains('successfully created')
       cy.get('.blog-list').contains('test title test author')
+    })
+
+    describe('three notes have been created', () => {
+      beforeEach(function() {
+        cy.createBlog('title one', 'one', 'url-one')
+        cy.createBlog('title two', 'two', 'url-two')
+        cy.createBlog('title three', 'three', 'url-three')
+      })
+
+      it.only('presses like button will increment likes', function() {
+        cy.contains('title one').find('.view').click()
+        cy.get('.like').click()
+
+        cy.contains('likes:').should('include.text', 'likes: 1')
+      })
     })
   })
 })
