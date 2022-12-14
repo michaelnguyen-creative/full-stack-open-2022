@@ -61,6 +61,13 @@ describe('Blog app', function() {
 
         cy.contains('likes:').should('include.text', 'likes: 1')
       })
+
+      it.only('blogs are in ascending order by likes', () => {
+        // An easier approach
+        // Make a getAll blog request to the backend
+        // Compare each value to the likes displayed
+        cy.get('.view')
+      })
     })
   })
 
@@ -82,7 +89,7 @@ describe('Blog app', function() {
       cy.get('.blog-list').should('not.match', /title one|one|url-one/i)
     })
 
-    it.only('other user is unable to delete the blog', function() {
+    it('other user is unable to delete the blog', function() {
       cy.get('.logout').click()
       cy.login('test-2', 'test-2')
 

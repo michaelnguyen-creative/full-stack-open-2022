@@ -77,7 +77,13 @@ const App = () => {
   // Error handler needed
   const incrementLike = async (objToUpdate) => {
     await blogService.update(objToUpdate)
+    // Order blogs by likes, update on every change
+    // Code borrowed from React effect hook
+    blogService
+      .getAll()
+      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
   }
+
   // Error handler needed
   const deleteBlogById = async (blogId) => {
     try {
