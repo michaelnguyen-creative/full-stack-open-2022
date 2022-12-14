@@ -62,12 +62,20 @@ describe('Blog app', function() {
         cy.contains('likes:').should('include.text', 'likes: 1')
       })
 
-      it.only('blogs are in ascending order by likes', () => {
-        // An easier approach
-        // Make a getAll blog request to the backend
-        // Compare each value to the likes displayed
-        cy.get('.view')
+      describe('three notes were initially ordered as when they were created', () => {
+        beforeEach(function() {
+          cy.get('.blog').eq(0).as('b1').find('.view').click()
+          cy.get('.blog').eq(1).as('b2').find('.view').click()
+          cy.get('.blog').eq(2).as('b3').find('.view').click()
+        })
+        it.only('third blog clicked three times, becomes to first', () => {
+          cy.get('@b3').contains('likes: ').find('button').click().click().click()
+
+          cy.get('.blog').eq(0).should('contain', 'three')
+          cy.get('.blog').eq(1).should('contain', 'one')
+        })
       })
+
     })
   })
 

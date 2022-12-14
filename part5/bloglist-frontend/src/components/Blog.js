@@ -30,7 +30,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
   }
 
   return (
-    <div>
+    <div className='blog'>
       {!showDetail ? (
         <div role="blog-view">
           {title} {author}
