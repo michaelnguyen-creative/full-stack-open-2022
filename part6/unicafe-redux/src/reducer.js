@@ -10,11 +10,11 @@ const counterReducer = (state = initialState, action) => {
     case 'GOOD':
       return {...state, good: initialState.good + 1}
     case 'OK':
-      return state
+      return {...state, ok: initialState.ok + 1}
     case 'BAD':
-      return state
+      return {...state, bad: initialState.bad + 1}
     case 'ZERO':
-      return state
+      return 0
     default: return state
   }
   
