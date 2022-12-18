@@ -4,8 +4,14 @@ const App = () => {
   const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
 
+  // Action: INCREMENT_VOTE
   const vote = (id) => {
-    console.log('vote', id)
+    dispatch({
+      type: 'INCREMENT_VOTE',
+      data: {
+        id
+      }
+    })
   }
 
   return (
