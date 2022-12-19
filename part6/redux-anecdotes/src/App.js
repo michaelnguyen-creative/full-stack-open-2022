@@ -6,16 +6,12 @@ const App = () => {
 
   // Action: INCREMENT_VOTE
   const vote = (id) => {
-    return {
+    dispatch({
       type: 'INCREMENT_VOTE',
       data: {
         id
       }
-    }
-  }
-
-  const handleVote = (id) => {
-    dispatch(vote(id))
+    })
   }
 
   const handleSubmit = (e) => {
@@ -40,7 +36,7 @@ const App = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={handleVote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote.id)}>vote</button>
           </div>
         </div>
       )}
