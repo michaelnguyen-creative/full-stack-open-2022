@@ -13,7 +13,7 @@ const Anecdote = ({ anecdote, handleVote }) => {
   )
 }
 
-const Anecdotes = () => {
+const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state)
   const dispatch = useDispatch()
 
@@ -21,7 +21,6 @@ const Anecdotes = () => {
   
   return (
     <>
-      <h2>Anecdotes</h2>
       {anecdotesByVotes.map((anecdote) => (
         <Anecdote
           key={anecdote.id}
@@ -33,4 +32,4 @@ const Anecdotes = () => {
   )
 }
 
-export default Anecdotes
+export default AnecdoteList
