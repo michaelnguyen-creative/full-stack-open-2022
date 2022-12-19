@@ -20,7 +20,7 @@ const Anecdotes = () => {
   const anecdotesByVotes = anecdotes.sort((a, b) => b.votes - a.votes)
   
   return (
-    <div className="anecdotes">
+    <>
       <h2>Anecdotes</h2>
       {anecdotesByVotes.map((anecdote) => (
         <Anecdote
@@ -29,7 +29,7 @@ const Anecdotes = () => {
           handleVote={() => dispatch(incrementVote(anecdote.id))}
         />
       ))}
-    </div>
+    </>
   )
 }
 
