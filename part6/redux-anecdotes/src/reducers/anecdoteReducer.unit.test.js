@@ -27,7 +27,7 @@ describe('anecdoteReducer', () => {
     })
   })
 
-  test.only('adds new anecdote returns new state with correct details', () => {
+  test('adds new anecdote returns new state with correct details', () => {
     const state = [{
       content: 'test',
       id: 0,
