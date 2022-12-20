@@ -1,23 +1,22 @@
 import deepFreeze from 'deep-freeze'
-import anecReducer from './anecdoteReducer'
+import anecdoteReducer from './anecdoteReducer'
 
 describe('anecdoteReducer', () => {
-  test('returns new state with action INCREMENT_VOTE', () => {
+  test('returns new state with action anecdotes/incrementVote', () => {
     const state = [{
       content: 'test',
       id: 0,
       votes: 0
     }]
     const action = {
-      type: 'INCREMENT_VOTE',
-      data: {
-        id: 0
-      }
+      type: 'anecdotes/incrementVote',
+      payload: 0
     }
 
     // Make state obj immutable
     deepFreeze(state)
-    const newState = anecReducer(state, action)
+    const newState = anecdoteReducer(state, action)
+    console.log('state', newState)
 
     expect(newState).toHaveLength(1)
     expect(newState).toContainEqual({
@@ -27,15 +26,15 @@ describe('anecdoteReducer', () => {
     })
   })
 
-  test('adds new anecdote returns new state with correct details', () => {
+  test('returns new state with correct details with action anecdotes/addNew', () => {
     const state = [{
       content: 'test',
       id: 0,
       votes: 0
     }]
     const action = {
-      type: 'ADD_NEW',
-      data: {
+      type: 'anecdotes/addNew',
+      payload: {
         content: 'new anecdote',
         id: 1,
         votes: 0
@@ -43,7 +42,7 @@ describe('anecdoteReducer', () => {
     }
 
     deepFreeze(state)
-    const newState = anecReducer(state, action)
+    const newState = anecdoteReducer(state, action)
 
     expect(newState).toHaveLength(2)
     expect(newState[1].content).toBe('new anecdote')
