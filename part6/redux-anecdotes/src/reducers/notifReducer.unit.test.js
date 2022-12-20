@@ -16,7 +16,7 @@ describe('notifReducer', () => {
     expect(newState.map(s => s.message)).toContain('Successfully added new anecdote')
   })
 
-  test.only('returns empty string as new state with action notif/removeMessage', () => {
+  test('returns empty string as new state with action notif/removeMessage', () => {
     const state = []
     const action = {
       type: 'notif/removeMessage',

@@ -26,7 +26,7 @@ describe('anecdoteReducer', () => {
     })
   })
 
-  test('returns new state with correct details with action anecdotes/addNew', () => {
+  test.only('returns new state with correct details with action anecdotes/addNew', () => {
     const state = [{
       content: 'test',
       id: 0,
@@ -45,6 +45,6 @@ describe('anecdoteReducer', () => {
     const newState = anecdoteReducer(state, action)
 
     expect(newState).toHaveLength(2)
-    expect(newState[1].content).toBe('new anecdote')
+    expect(newState[1].content.content).toBe('new anecdote')
   })
 })

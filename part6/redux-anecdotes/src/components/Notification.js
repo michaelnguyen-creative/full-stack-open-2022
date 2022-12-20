@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 
 const Notification = () => {
   const message = useSelector(({ message }) => message.slice(-1)[0])
-  console.log('mes', message)
+
   const style = {
     border: 'solid',
     padding: 10,
