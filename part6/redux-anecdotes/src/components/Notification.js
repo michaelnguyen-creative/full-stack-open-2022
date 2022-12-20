@@ -1,22 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import { removeMessage } from '../reducers/notifReducer'
+import { useSelector } from 'react-redux'
 
 const Notification = () => {
-  const message = useSelector(({ message }) => message)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    setTimeout(() => dispatch(removeMessage), 5000)
-  })
-
+  const message = useSelector(({ message }) => message.slice(-1)[0])
+  console.log('mes', message)
   const style = {
     border: 'solid',
     padding: 10,
     borderWidth: 1
   }
   return (
-    <div style={message ? style : { dispaly: 'none' }}>
+    <div style={message !== '' ? style : { dispaly: 'none' }}>
       {message}
     </div>
   )
