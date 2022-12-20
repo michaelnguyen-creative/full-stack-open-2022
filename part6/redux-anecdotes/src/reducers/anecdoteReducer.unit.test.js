@@ -1,5 +1,5 @@
 import deepFreeze from 'deep-freeze'
-import reducer from './anecdoteReducer'
+import anecReducer from './anecdoteReducer'
 
 describe('anecdoteReducer', () => {
   test('returns new state with action INCREMENT_VOTE', () => {
@@ -17,7 +17,7 @@ describe('anecdoteReducer', () => {
 
     // Make state obj immutable
     deepFreeze(state)
-    const newState = reducer(state, action)
+    const newState = anecReducer(state, action)
 
     expect(newState).toHaveLength(1)
     expect(newState).toContainEqual({
@@ -43,7 +43,7 @@ describe('anecdoteReducer', () => {
     }
 
     deepFreeze(state)
-    const newState = reducer(state, action)
+    const newState = anecReducer(state, action)
 
     expect(newState).toHaveLength(2)
     expect(newState[1].content).toBe('new anecdote')
