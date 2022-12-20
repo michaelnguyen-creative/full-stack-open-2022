@@ -10,9 +10,12 @@ const notifSlice = createSlice({
   reducers: {
     addMessage(state, action) {
       state.push(action.payload)
+    },
+    removeMessage(state, action) {
+      state.push('')
     }
   }
 })
 
-export const { addMessage } = notifSlice.actions
+export const { addMessage, removeMessage } = notifSlice.actions
 export default notifSlice.reducer
