@@ -4,20 +4,16 @@ import AnecdoteList from "./components/AnecdoteList"
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from "./components/Notification"
 import Filter from './components/Filter'
-import anecdotesService from './services/anecdotes'
-import { setAnecdotes } from './reducers/anecdoteReducer'
+// import anecdotesService from './services/anecdotes'
+// import { setAnecdotes } from './reducers/anecdoteReducer'
+import { initializeAnecdotes } from './reducers/anecdoteReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   // Fetching data from server should be implemented here
   useEffect(() => {
-    // as a React effect hook
-    anecdotesService.getAll().then(anecdotes => {
-      console.log('anecdotes', anecdotes)
-      dispatch(setAnecdotes(anecdotes))
-    })
-
-  })
+    dispatch(initializeAnecdotes())
+  }, [dispatch])
 
   return (
     <div>
