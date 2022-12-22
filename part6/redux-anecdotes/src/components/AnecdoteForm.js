@@ -15,7 +15,7 @@ const AnecdoteForm = () => {
       dispatch(addNew(returnedAnecdote))
     })
 
-    dispatch(addMessage(`created '${content.slice(0, 20)}'`))
+    dispatch(addMessage(`created '${content}'`))
     setTimeout(() => dispatch(removeMessage()), 5000)
   }
 

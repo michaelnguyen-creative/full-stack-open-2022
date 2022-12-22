@@ -1,16 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = ['']
-
 const notifSlice = createSlice({
   name: 'notif',
-  initialState,
+  initialState: '',
   reducers: {
     addMessage(state, action) {
-      state.push(action.payload)
+      return action.payload
     },
     removeMessage(state, action) {
-      state.push('')
+      return ''
     }
   }
 })

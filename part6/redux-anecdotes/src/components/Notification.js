@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
-  const message = useSelector(({ message }) => message.slice(-1)[0])
+  const message = useSelector(({ message }) => message)
 
   const style = {
     border: 'solid',
