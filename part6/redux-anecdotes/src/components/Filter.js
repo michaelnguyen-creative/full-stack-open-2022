@@ -1,12 +1,10 @@
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { setFilter } from '../reducers/filterReducer'
 
-const Filter = () => {
-  const dispatch = useDispatch()
-
+const Filter = (props) => {
   const handleChange = (e) => {
     const keyword = e.target.value
-    dispatch(setFilter(keyword))
+    props.setFilter(keyword)
   }
 
   const style = {
@@ -18,4 +16,4 @@ const Filter = () => {
   )
 }
 
-export default Filter
+export default connect(null, { setFilter })(Filter)
