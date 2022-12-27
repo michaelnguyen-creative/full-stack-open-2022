@@ -85,9 +85,9 @@ const Footer = () => (
 
 
 const CreateNew = ({ addNew }) => {
-  const content = useField('content')
-  const author = useField('author')
-  const info = useField('info')
+  const { reset: resetContent, ...content } = useField('content')
+  const { reset: resetAuthor, ...author } = useField('author')
+  const { reset: resetInfo, ...info } = useField('info')
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -99,6 +99,12 @@ const CreateNew = ({ addNew }) => {
       votes: 0,
     })
     navigate('/')
+  }
+
+  const resetFields = () => {
+    resetContent()
+    resetAuthor()
+    resetInfo()
   }
 
   return (
@@ -119,6 +125,7 @@ const CreateNew = ({ addNew }) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={resetFields}>reset</button>
     </div>
   )
 }
@@ -179,7 +186,6 @@ const App = () => {
           element={
             <CreateNew 
               addNew={addNew} 
-              setNotification={setNotification} 
             />
           }
         />
