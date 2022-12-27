@@ -9,20 +9,12 @@
       "id": 2
     },
     {
-      "content": "d",
+      "content": "test",
       "id": 3
     },
     {
-      "content": "test",
+      "content": "yay 7b done!",
       "id": 4
-    },
-    {
-      "content": "test",
-      "id": 5
-    },
-    {
-      "content": "test",
-      "id": 6
     }
   ],
   "persons": [
@@ -42,14 +34,9 @@
       "id": 3
     },
     {
-      "name": "michael",
-      "number": "343-3232323",
-      "id": 4
-    },
-    {
       "name": "test",
       "number": "test",
-      "id": 5
+      "id": 4
     }
   ]
 }
