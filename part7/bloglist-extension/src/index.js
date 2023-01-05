@@ -14,6 +14,9 @@ const reducer = createSlice({
     incrementLike(state, action) {
       const objToUpdate = state.find((obj) => obj.id === action.payload)
       objToUpdate.likes += 1
+    },
+    delete(state, action) {
+      return state.filter((blogs) => blogs.id !== action.payload)
     }
   }
 })
