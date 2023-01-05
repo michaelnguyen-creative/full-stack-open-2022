@@ -10,10 +10,15 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+import { useSelector, useDispatch } from 'react-redux'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState('')
+  const blogsRedux = useSelector((state) => state)
+  const dispatch = useDispatch()
+  console.log('blogs redux', blogsRedux)
 
   useEffect(() => {
     // Set up subscription to database
@@ -60,8 +65,11 @@ const App = () => {
   const addNewBlog = async (blogObj) => {
     try {
       const createdBlog = await blogService.create(blogObj)
-      // blogService.
+
       console.log('created blog', createdBlog)
+
+      dispatch({ type: 'blogs/addNew', payload: createdBlog })
+
       setBlogs(blogs.concat(createdBlog))
       setMessage(
         `successfully created ${createdBlog.title} by ${createdBlog.author}`
