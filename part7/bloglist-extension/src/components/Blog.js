@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 
 const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
   const [showDetail, setShowDetail] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const { url, title, author, user, id } = blog
+
+  const dispatch = useDispatch()
 
   const showAllDetail = {
     display: showDetail ? 'flex' : 'none',
@@ -21,6 +24,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
       likes: likes + 1,
     })
     setLikes(likes + 1)
+    dispatch({ type: 'blogs/incrementLike', payload: id })
   }
 
   const handleRemove = () => {

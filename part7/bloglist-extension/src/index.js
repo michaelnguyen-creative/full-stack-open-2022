@@ -10,6 +10,10 @@ const reducer = createSlice({
   reducers: {
     addNew(state, action) {
       state.push(action.payload)
+    },
+    incrementLike(state, action) {
+      const objToUpdate = state.find((obj) => obj.id === action.payload)
+      objToUpdate.likes += 1
     }
   }
 })
