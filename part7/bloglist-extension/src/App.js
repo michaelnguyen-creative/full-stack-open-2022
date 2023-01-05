@@ -11,21 +11,17 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 import { useSelector, useDispatch } from 'react-redux'
+import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState('')
-  const blogsRedux = useSelector((state) => state)
+  const blogs = useSelector((state) => state)
   const dispatch = useDispatch()
-  console.log('blogs redux', blogsRedux)
 
   useEffect(() => {
-    // Set up subscription to database
-    blogService
-      .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUserData')
@@ -70,7 +66,6 @@ const App = () => {
 
       dispatch({ type: 'blogs/addNew', payload: createdBlog })
 
-      setBlogs(blogs.concat(createdBlog))
       setMessage(
         `successfully created ${createdBlog.title} by ${createdBlog.author}`
       )
@@ -87,9 +82,11 @@ const App = () => {
     await blogService.update(objToUpdate)
     // Order blogs by likes, update on every change
     // Code borrowed from React effect hook
-    blogService
-      .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
+
+    // TODO:
+    // blogService
+    //   .getAll()
+    //   .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
   }
 
   // Error handler needed
@@ -97,7 +94,8 @@ const App = () => {
     try {
       console.log('blog id', blogId)
       await blogService.remove(blogId)
-      setBlogs(blogs.filter((b) => b.id !== blogId))
+      // TODO:
+      // setBlogs(blogs.filter((b) => b.id !== blogId))
       // message needed
       setMessage(`deleted blog ${blogId} successfully`)
       setTimeout(() => setMessage(''), 5000)
