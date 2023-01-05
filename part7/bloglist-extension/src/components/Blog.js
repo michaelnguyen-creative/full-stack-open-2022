@@ -24,7 +24,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
       likes: likes + 1,
     })
     setLikes(likes + 1)
-    dispatch({ type: 'blogs/incrementLike', payload: id })
+    // dispatch({ type: 'blogs/incrementLike', payload: id })
   }
 
   const handleRemove = () => {

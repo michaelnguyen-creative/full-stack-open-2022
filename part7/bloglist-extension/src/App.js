@@ -11,11 +11,10 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs, createBlog } from './reducers/blogReducer'
+import { initializeBlogs, createBlog, updateLike } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  // const [message, setMessage] = useState('')
   const blogs = useSelector((state) => state.blogs)
   const message = useSelector(({ message }) => message)
   const dispatch = useDispatch()
@@ -75,15 +74,9 @@ const App = () => {
   }
 
   // Error handler needed
-  const incrementLike = async (objToUpdate) => {
-    await blogService.update(objToUpdate)
-    // Order blogs by likes, update on every change
-    // Code borrowed from React effect hook
-
-    // TODO:
-    // blogService
-    //   .getAll()
-    //   .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
+  const incrementLike = async (blogObj) => {
+    dispatch(updateLike(blogObj))
+    dispatch(initializeBlogs())
   }
 
   // Error handler needed

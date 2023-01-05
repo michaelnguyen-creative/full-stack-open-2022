@@ -11,12 +11,9 @@ const blogReducer = createSlice({
     appendBlog(state, action) {
       state.push(action.payload)
     },
-    addNew(state, action) {
-      state.push(action.payload)
-    },
     incrementLike(state, action) {
-      const objToUpdate = state.find((obj) => obj.id === action.payload)
-      objToUpdate.likes += 1
+      const blogToUpdate = state.find((obj) => obj.id === action.payload.id)
+      return state.map((blog) => blog.id !== action.payload.id ? blog : { ...blogToUpdate, likes: blogToUpdate.likes + 1 })
     },
     removeBlog(state, action) {
       return state.filter((blogs) => blogs.id !== action.payload)
@@ -37,6 +34,13 @@ export const createBlog = (blogObj) => {
   return async (dispatch) => {
     const createdBlog = await blogService.create(blogObj)
     dispatch(appendBlog(createdBlog))
+  }
+}
+
+export const updateLike = (blogObj) => {
+  return async (dispatch) => {
+    await blogService.update(blogObj)
+    dispatch(incrementLike(blogObj))
   }
 }
 
