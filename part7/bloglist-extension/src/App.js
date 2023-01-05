@@ -11,7 +11,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs } from './reducers/blogReducer'
+import { initializeBlogs, createBlog } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -65,24 +65,12 @@ const App = () => {
 
   const addNewBlog = async (blogObj) => {
     try {
-      const createdBlog = await blogService.create(blogObj)
-
-      console.log('created blog', createdBlog)
-
-      dispatch({ type: 'blogs/addNew', payload: createdBlog })
-
-      dispatch({ type: 'notif/addMessage', payload: `successfully created ${createdBlog.title} by ${createdBlog.author}` })
+      dispatch(createBlog(blogObj))
+      dispatch({ type: 'notif/addMessage', payload: `successfully created ${blogObj.title} by ${blogObj.author}` })
       setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
-      // setMessage(
-      //   `successfully created ${createdBlog.title} by ${createdBlog.author}`
-      // )
-      // setTimeout(() => setMessage(''), 5000)
     } catch (exception) {
-      console.log('excpt', exception)
       dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
       setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
-      // setMessage(`error: ${exception.response.data.error}`)
-      // setTimeout(() => setMessage(''), 5000)
     }
   }
 

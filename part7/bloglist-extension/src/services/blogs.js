@@ -5,26 +5,23 @@ let token = null
 
 const setToken = (newToken) => {
   token = `bearer ${newToken}`
-  console.log('set token', token)
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const axiosRes = await axios.get(baseUrl)
+  return axiosRes.data
 }
 
-const create = async (newBlog) => {
+const create = async (blogObj) => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log('config', config)
-  const axiosRes = await axios.post(baseUrl, newBlog, config)
+  const axiosRes = await axios.post(baseUrl, blogObj, config)
   return axiosRes.data
 }
 
 const update = async (objToUpdate) => {
   const axiosRes = await axios.put(`${baseUrl}/${objToUpdate.id}`, objToUpdate)
-  console.log('updated blog', axiosRes)
   return axiosRes
 }
 
@@ -32,9 +29,7 @@ const remove = async (blogId) => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log('config', config)
-  const axiosRes = await axios.delete(`${baseUrl}/${blogId}`, config)
-  console.log('delete status', axiosRes)
+  await axios.delete(`${baseUrl}/${blogId}`, config)
 }
 
 const blogService = { getAll, create, update, remove, setToken }
