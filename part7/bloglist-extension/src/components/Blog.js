@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 
-const Blog = ({ blog, /* loggedUser, */ updateLike, deleteBlog }) => {
+const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
   const [showDetail, setShowDetail] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const { url, title, author, user, id } = blog
@@ -30,7 +30,7 @@ const Blog = ({ blog, /* loggedUser, */ updateLike, deleteBlog }) => {
   const handleRemove = () => {
     if (window.confirm(`Remove blog ${title} by ${author}`)) {
       deleteBlog(id)
-      dispatch({ type: 'blogs/delete', payload: id })
+      dispatch({ type: 'blogs/removeBlog', payload: id })
     }
   }
 
@@ -58,7 +58,7 @@ const Blog = ({ blog, /* loggedUser, */ updateLike, deleteBlog }) => {
               </button>
             </div>
             <div>{user !== undefined && user.name}</div>
-            <div /* style={{ display: loggedUser === user.name ? '' : 'none' }} */ >
+            <div style={{ display: loggedUser === user.name ? '' : 'none' }}>
               <button className='remove' onClick={handleRemove}>remove</button>
             </div>
           </div>
