@@ -15,8 +15,9 @@ import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState('')
-  const blogs = useSelector((state) => state)
+  // const [message, setMessage] = useState('')
+  const blogs = useSelector((state) => state.blogs)
+  const message = useSelector(({ message }) => message)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -44,10 +45,14 @@ const App = () => {
       window.localStorage.setItem('loggedUserData', JSON.stringify(loggedUser))
       blogService.setToken(loggedUser.token)
       setUser(loggedUser)
+      dispatch({ type: 'notif/addMessage', payload: `user ${loggedUser.name} logged in` })
+      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
     } catch (exception) {
       console.log('exception', exception.response.data.error)
-      setMessage(`error: ${exception.response.data.error}`)
-      setTimeout(() => setMessage(''), 5000)
+      dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
+      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+      // setMessage(`error: ${exception.response.data.error}`)
+      // setTimeout(() => setMessage(''), 5000)
     }
   }
 
@@ -66,14 +71,18 @@ const App = () => {
 
       dispatch({ type: 'blogs/addNew', payload: createdBlog })
 
-      setMessage(
-        `successfully created ${createdBlog.title} by ${createdBlog.author}`
-      )
-      setTimeout(() => setMessage(''), 5000)
+      dispatch({ type: 'notif/addMessage', payload: `successfully created ${createdBlog.title} by ${createdBlog.author}` })
+      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+      // setMessage(
+      //   `successfully created ${createdBlog.title} by ${createdBlog.author}`
+      // )
+      // setTimeout(() => setMessage(''), 5000)
     } catch (exception) {
       console.log('excpt', exception)
-      setMessage(`error: ${exception.response.data.error}`)
-      setTimeout(() => setMessage(''), 5000)
+      dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
+      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+      // setMessage(`error: ${exception.response.data.error}`)
+      // setTimeout(() => setMessage(''), 5000)
     }
   }
 
@@ -97,12 +106,16 @@ const App = () => {
       // TODO:
       // setBlogs(blogs.filter((b) => b.id !== blogId))
       // message needed
-      setMessage(`deleted blog ${blogId} successfully`)
-      setTimeout(() => setMessage(''), 5000)
+      dispatch({ type: 'notif/addMessage', payload: `deleted blog ${blogId} successfully` })
+      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+      // setMessage(`deleted blog ${blogId} successfully`)
+      // setTimeout(() => setMessage(''), 5000)
     } catch (exception) {
       console.log('excpt', exception)
-      setMessage(`error: ${exception.response.data.error}`)
-      setTimeout(() => setMessage(''), 5000)
+      dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
+      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+    //   setMessage(`error: ${exception.response.data.error}`)
+    //   setTimeout(() => setMessage(''), 5000)
     }
   }
 
