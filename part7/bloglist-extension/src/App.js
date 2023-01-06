@@ -9,11 +9,11 @@ import UserBlogs from './components/UserBlogs'
 import Togglable from './components/Togglable'
 
 import { initializeBlogs, createBlog, updateLike, deleteBlog } from './reducers/blogReducer'
-import { logIn } from './reducers/userReducer'
+import { logIn, logOut } from './reducers/userReducer'
 import { displayMessageForSomeTime } from './reducers/notifReducer'
 
 const App = () => {
-  const blogs = useSelector((state) => state.blogs)
+  const blogs = useSelector(({ blogs }) => blogs)
   const message = useSelector(({ message }) => message)
   const user = useSelector(({ user }) => user)
   const dispatch = useDispatch()
@@ -27,9 +27,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    console.log('logging out')
-    window.localStorage.removeItem('loggedUserData')
-    console.log('logged out')
+    dispatch(logOut())
   }
 
   const addNewBlog = async (blogObj) => {

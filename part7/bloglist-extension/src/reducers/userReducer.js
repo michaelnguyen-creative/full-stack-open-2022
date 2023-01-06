@@ -27,7 +27,10 @@ export const logIn = (userObj) => {
 }
 
 export const logOut = () => {
-  return
+  return async (dispatch) => {
+    dispatch(removeUser())
+    window.localStorage.removeItem('loggedUser')
+  }
 }
 
 export default userReducer.reducer
