@@ -7,7 +7,6 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
   const [showDetail, setShowDetail] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
-
   const showAllDetail = {
     display: showDetail ? 'flex' : 'none',
     flexDirection: 'column',
@@ -32,7 +31,7 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
   }
 
   return (
-    <div className='blog'>
+    <div className="blog">
       {!showDetail ? (
         <div role="blog-view">
           {blog.title} {blog.author}
@@ -41,7 +40,10 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
           </button>
         </div>
       ) : (
-        <div className='blog-details' style={showDetail ? showAllDetail : hideAllDetail}>
+        <div
+          className="blog-details"
+          style={showDetail ? showAllDetail : hideAllDetail}
+        >
           <div role="blog-hide">
             {blog.title} {blog.author}
             <button onClick={() => setShowDetail(false)}>hide</button>
@@ -55,8 +57,12 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
               </button>
             </div>
             <div>{blog.user.name}</div>
-            <div style={{ display: blog.user.name === user.name ? '' : 'none' }}>
-              <button className='remove' onClick={handleRemove}>remove</button>
+            <div
+              style={{ display: blog.user.name === user.name ? '' : 'none' }}
+            >
+              <button className="remove" onClick={handleRemove}>
+                remove
+              </button>
             </div>
           </div>
         </div>

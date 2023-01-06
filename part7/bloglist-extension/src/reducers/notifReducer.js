@@ -9,8 +9,8 @@ const notifReducer = createSlice({
     },
     removeMessage() {
       return ''
-    }
-  }
+    },
+  },
 })
 
 export const { addMessage, removeMessage } = notifReducer.actions

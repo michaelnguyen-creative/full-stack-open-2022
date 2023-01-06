@@ -1,14 +1,17 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
 import Blog from './components/Blog'
 import Notif from './components/Notif'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import UserBlogs from './components/UserBlogs'
 import Togglable from './components/Togglable'
-
-import { initializeBlogs, createBlog, updateLike, deleteBlog } from './reducers/blogReducer'
+import {
+  initializeBlogs,
+  createBlog,
+  updateLike,
+  deleteBlog,
+} from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
 
 const App = () => {
@@ -49,7 +52,7 @@ const App = () => {
       {user === null ? (
         <>
           <Notif message={message} />
-          <LoginForm loginUser={handleLogin} />
+          <LoginForm login={handleLogin} />
         </>
       ) : (
         <>
@@ -63,7 +66,6 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                loggedUser={user.name}
                 updateLike={incrementLike}
                 deleteBlog={deleteBlogById}
               />

@@ -14,15 +14,20 @@ const blogReducer = createSlice({
     },
     incrementLike(state, action) {
       const blogToUpdate = state.find((obj) => obj.id === action.payload.id)
-      return state.map((blog) => blog.id !== action.payload.id ? blog : { ...blogToUpdate, likes: blogToUpdate.likes + 1 })
+      return state.map((blog) =>
+        blog.id !== action.payload.id
+          ? blog
+          : { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
+      )
     },
     removeBlog(state, action) {
       return state.filter((blogs) => blogs.id !== action.payload)
     },
-  }
+  },
 })
 
-export const { setBlogs, appendBlog, addNew, incrementLike, removeBlog, } = blogReducer.actions
+export const { setBlogs, appendBlog, addNew, incrementLike, removeBlog } =
+  blogReducer.actions
 
 export const initializeBlogs = () => {
   return async (dispatch) => {
@@ -37,11 +42,18 @@ export const createBlog = (blogObj) => {
     try {
       createdBlog = await blogService.create(blogObj)
     } catch (error) {
-      dispatch(displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000))
+      dispatch(
+        displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000)
+      )
       return
     }
     dispatch(appendBlog(createdBlog))
-    dispatch(displayMessageForSomeTime(`successfully created ${blogObj.title} by ${blogObj.author}`, 5000))
+    dispatch(
+      displayMessageForSomeTime(
+        `successfully created ${blogObj.title} by ${blogObj.author}`,
+        5000
+      )
+    )
   }
 }
 
@@ -50,7 +62,9 @@ export const updateLike = (blogObj) => {
     try {
       await blogService.update(blogObj)
     } catch (error) {
-      dispatch(displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000))
+      dispatch(
+        displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000)
+      )
       return
     }
     dispatch(incrementLike(blogObj))
@@ -62,11 +76,18 @@ export const deleteBlog = (id) => {
     try {
       await blogService.remove(id)
     } catch (error) {
-      dispatch(displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000))
+      dispatch(
+        displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000)
+      )
       return
     }
     dispatch(removeBlog(id))
-    dispatch(displayMessageForSomeTime(`blog ${id} has been deleted successfully`, 5000))
+    dispatch(
+      displayMessageForSomeTime(
+        `blog ${id} has been deleted successfully`,
+        5000
+      )
+    )
   }
 }
 

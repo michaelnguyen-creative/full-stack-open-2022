@@ -12,8 +12,8 @@ const userReducer = createSlice({
     },
     removeUser() {
       return null
-    }
-  }
+    },
+  },
 })
 
 export const { addUser, removeUser } = userReducer.actions
@@ -24,13 +24,20 @@ export const logIn = (userObj) => {
     try {
       loggedUser = await loginService.login(userObj)
     } catch (error) {
-      dispatch(displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000))
+      dispatch(
+        displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000)
+      )
       return
     }
     dispatch(addUser(loggedUser))
     window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
     blogService.setToken(loggedUser.token)
-    dispatch(displayMessageForSomeTime(`user ${loggedUser.name} have just logged in`, 5000))
+    dispatch(
+      displayMessageForSomeTime(
+        `user ${loggedUser.name} have just logged in`,
+        5000
+      )
+    )
   }
 }
 

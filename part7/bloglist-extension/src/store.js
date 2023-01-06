@@ -7,8 +7,8 @@ const store = configureStore({
   reducer: {
     blogs: blogReducer,
     message: notifReducer,
-    user: userReducer
-  }
+    user: userReducer,
+  },
 })
 
 export default store
