@@ -18,6 +18,8 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // Clear localStorage data if there is any
+    window.localStorage.clear()
     dispatch(initializeBlogs())
   }, [dispatch])
 

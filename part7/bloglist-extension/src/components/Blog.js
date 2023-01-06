@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
+const Blog = ({ blog, updateLike, deleteBlog }) => {
+  const user = useSelector(({ user }) => user)
   const [showDetail, setShowDetail] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
-  const { url, title, author, user, id } = blog
 
 
   const showAllDetail = {
@@ -18,15 +19,15 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
 
   const handleLike = () => {
     updateLike({
-      id,
+      id: blog.id,
       likes: likes + 1,
     })
     setLikes(likes + 1)
   }
 
   const handleRemove = () => {
-    if (window.confirm(`Remove blog ${title} by ${author}`)) {
-      deleteBlog(id)
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      deleteBlog(blog.id)
     }
   }
 
@@ -34,7 +35,7 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
     <div className='blog'>
       {!showDetail ? (
         <div role="blog-view">
-          {title} {author}
+          {blog.title} {blog.author}
           <button className="view" onClick={() => setShowDetail(true)}>
             view
           </button>
@@ -42,19 +43,19 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
       ) : (
         <div className='blog-details' style={showDetail ? showAllDetail : hideAllDetail}>
           <div role="blog-hide">
-            {title} {author}
+            {blog.title} {blog.author}
             <button onClick={() => setShowDetail(false)}>hide</button>
           </div>
           <div role="blog-remove">
-            <div>{url}</div>
+            <div>{blog.url}</div>
             <div>
               {`likes: ${likes}`}{' '}
               <button className="like" onClick={handleLike}>
                 like
               </button>
             </div>
-            <div>{user !== undefined && user.name}</div>
-            <div style={{ display: loggedUser === user.name ? '' : 'none' }}>
+            <div>{blog.user.name}</div>
+            <div style={{ display: blog.user.name === user.name ? '' : 'none' }}>
               <button className='remove' onClick={handleRemove}>remove</button>
             </div>
           </div>
@@ -66,7 +67,6 @@ const Blog = ({ blog, loggedUser, updateLike, deleteBlog }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  loggedUser: PropTypes.string.isRequired,
   updateLike: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func.isRequired,
 }
