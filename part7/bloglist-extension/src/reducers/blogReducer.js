@@ -44,4 +44,11 @@ export const updateLike = (blogObj) => {
   }
 }
 
+export const deleteBlog = (id) => {
+  return async (dispatch) => {
+    await blogService.remove(id)
+    dispatch(removeBlog(id))
+  }
+}
+
 export default blogReducer.reducer

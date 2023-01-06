@@ -11,7 +11,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { initializeBlogs, createBlog, updateLike } from './reducers/blogReducer'
+import { initializeBlogs, createBlog, updateLike, deleteBlog } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -82,8 +82,8 @@ const App = () => {
   // Error handler needed
   const deleteBlogById = async (blogId) => {
     try {
-      console.log('blog id', blogId)
-      await blogService.remove(blogId)
+      dispatch(deleteBlog(blogId))
+      // await blogService.remove(blogId)
       // TODO:
       // setBlogs(blogs.filter((b) => b.id !== blogId))
       // message needed
