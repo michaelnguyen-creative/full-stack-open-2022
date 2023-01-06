@@ -30,14 +30,8 @@ const App = () => {
     dispatch(logOut())
   }
 
-  const addNewBlog = async (blogObj) => {
-    try {
-      dispatch(createBlog(blogObj))
-      dispatch(displayMessageForSomeTime(`successfully created ${blogObj.title} by ${blogObj.author}`, 5000))
-    } catch (exception) {
-      dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
-      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
-    }
+  const addNewBlog = (blogObj) => {
+    dispatch(createBlog(blogObj))
   }
 
   const incrementLike = async (blogObj) => {
