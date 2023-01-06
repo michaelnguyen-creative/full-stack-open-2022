@@ -10,7 +10,6 @@ import Togglable from './components/Togglable'
 
 import { initializeBlogs, createBlog, updateLike, deleteBlog } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
-import { displayMessageForSomeTime } from './reducers/notifReducer'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
@@ -40,14 +39,7 @@ const App = () => {
   }
 
   const deleteBlogById = async (blogId) => {
-    try {
-      dispatch(deleteBlog(blogId))
-      dispatch(displayMessageForSomeTime(`deleted blog ${blogId} successfully`, 5000))
-    } catch (exception) {
-      console.log('excpt', exception)
-      dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
-      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
-    }
+    dispatch(deleteBlog(blogId))
   }
 
   return (

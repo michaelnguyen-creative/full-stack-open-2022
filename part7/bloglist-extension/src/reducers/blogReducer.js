@@ -47,15 +47,26 @@ export const createBlog = (blogObj) => {
 
 export const updateLike = (blogObj) => {
   return async (dispatch) => {
-    await blogService.update(blogObj)
+    try {
+      await blogService.update(blogObj)
+    } catch (error) {
+      dispatch(displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000))
+      return
+    }
     dispatch(incrementLike(blogObj))
   }
 }
 
 export const deleteBlog = (id) => {
   return async (dispatch) => {
-    await blogService.remove(id)
+    try {
+      await blogService.remove(id)
+    } catch (error) {
+      dispatch(displayMessageForSomeTime(`error: ${error.response.data.error}`, 5000))
+      return
+    }
     dispatch(removeBlog(id))
+    dispatch(displayMessageForSomeTime(`blog ${id} has been deleted successfully`, 5000))
   }
 }
 
