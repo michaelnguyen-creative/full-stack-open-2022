@@ -10,6 +10,7 @@ import Togglable from './components/Togglable'
 
 import { initializeBlogs, createBlog, updateLike, deleteBlog } from './reducers/blogReducer'
 import { logIn } from './reducers/userReducer'
+import { displayMessageForSomeTime } from './reducers/notifReducer'
 
 const App = () => {
   const blogs = useSelector((state) => state.blogs)
@@ -21,16 +22,8 @@ const App = () => {
     dispatch(initializeBlogs())
   }, [dispatch])
 
-  const handleLogin = async (userObj) => {
-    try {
-      dispatch(logIn(userObj))
-      dispatch({ type: 'notif/addMessage', payload: `user ${userObj.name} logged in` })
-      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
-    } catch (exception) {
-      console.log('exception', exception.response.data.error)
-      dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
-      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
-    }
+  const handleLogin = (userObj) => {
+    dispatch(logIn(userObj))
   }
 
   const handleLogout = () => {
@@ -42,8 +35,7 @@ const App = () => {
   const addNewBlog = async (blogObj) => {
     try {
       dispatch(createBlog(blogObj))
-      dispatch({ type: 'notif/addMessage', payload: `successfully created ${blogObj.title} by ${blogObj.author}` })
-      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+      dispatch(displayMessageForSomeTime(`successfully created ${blogObj.title} by ${blogObj.author}`, 5000))
     } catch (exception) {
       dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })
       setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
@@ -58,8 +50,7 @@ const App = () => {
   const deleteBlogById = async (blogId) => {
     try {
       dispatch(deleteBlog(blogId))
-      dispatch({ type: 'notif/addMessage', payload: `deleted blog ${blogId} successfully` })
-      setTimeout(() => dispatch({ type: 'notif/removeMessage' }), 5000)
+      dispatch(displayMessageForSomeTime(`deleted blog ${blogId} successfully`, 5000))
     } catch (exception) {
       console.log('excpt', exception)
       dispatch({ type: 'notif/addMessage', payload: `error: ${exception.response.data.error}` })

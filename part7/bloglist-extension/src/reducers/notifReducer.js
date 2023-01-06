@@ -13,5 +13,13 @@ const notifReducer = createSlice({
   }
 })
 
-export const { addMessage, removeMessage } = notifReducer
+export const { addMessage, removeMessage } = notifReducer.actions
+
+export const displayMessageForSomeTime = (message, durationInMs) => {
+  return async (dispatch) => {
+    dispatch(addMessage(message))
+    setTimeout(() => dispatch(removeMessage()), durationInMs)
+  }
+}
+
 export default notifReducer.reducer
