@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Notif from './components/Notif'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
-import UserBlogs from './components/UserBlogs'
+import LogUser from './components/LogUser'
 import Togglable from './components/Togglable'
 import {
   initializeBlogs,
@@ -13,17 +13,23 @@ import {
   deleteBlog,
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
-import { BrowserRouter, Link } from 'react-router-dom'
-import { Routes, Route } from 'react-router'
+import {
+  Link,
+  NavLink,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom'
 import UsersView from './components/UsersView'
 import SingleUserView from './components/SingleUserView'
-import BlogView from './components/Blog'
+import SingleBlogView from './components/SingleBlogView'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
   const message = useSelector(({ message }) => message)
   const user = useSelector(({ user }) => user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Clear localStorage data if there is any
@@ -50,72 +56,76 @@ const App = () => {
 
   const deleteBlogById = async (blogId) => {
     dispatch(deleteBlog(blogId))
+    navigate('/blogs')
   }
 
   return (
     <div>
-      <BrowserRouter>
-        <Notif message={message} />
+      <Notif message={message} />
+      <nav>
         <div>
-          <Link to="users">Users</Link>
-          <Link to="/">Home</Link>
+          <NavLink to="users">Users</NavLink>
+          <NavLink to="blogs">Blogs</NavLink>
+          <LogUser handleLogout={handleLogout} />
         </div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div style={{ display: user === null ? '' : 'none' }}>
-                  <LoginForm login={handleLogin} />
-                </div>
-                <div style={{ display: user === null ? 'none' : '' }}>
-                  <UserBlogs user={user} handleLogout={handleLogout} />
-                  <Togglable buttonLabel="new blog">
-                    <BlogForm createBlog={addNewBlog} />
-                  </Togglable>
-                  <ul className="blog-list">
-                    {blogs.map((blog) => (
-                      <li key={blog.id}>
-                        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </>
-            }
-          />
-          <Route
-            path="/users"
-            element={
-              <>
-                <UserBlogs handleLogout={handleLogout} />
-                <UsersView />
-              </>
-            }
-          />
-          <Route
-            path="/users/:userId"
-            element={
-              <>
-                <UserBlogs handleLogout={handleLogout} />
-                <SingleUserView />
-              </>
-            }
-          />
-          <Route
-            path="/blogs/:blogId"
-            element={
-              <>
-                <UserBlogs handleLogout={handleLogout} />
-                <BlogView
-                  updateLike={incrementLike}
-                  deleteBlog={deleteBlogById}
-                />
-              </>
-            }
-          ></Route>
-        </Routes>
-      </BrowserRouter>
+      </nav>
+      <h1>Blog app</h1>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div style={{ display: user === null ? '' : 'none' }}>
+              <LoginForm login={handleLogin} />
+            </div>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <>
+              <div style={{ display: user === null ? 'none' : '' }}>
+                <Togglable buttonLabel="new blog">
+                  <BlogForm createBlog={addNewBlog} />
+                </Togglable>
+                <ul className="blog-list">
+                  {blogs.map((blog) => (
+                    <li key={blog.id}>
+                      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="/blogs/:blogId"
+          element={
+            <>
+              <SingleBlogView
+                updateLike={incrementLike}
+                deleteBlog={deleteBlogById}
+              />
+            </>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <>
+              <UsersView />
+            </>
+          }
+        />
+        <Route
+          path="/users/:userId"
+          element={
+            <>
+              <SingleUserView />
+            </>
+          }
+        />
+      </Routes>
     </div>
   )
 }

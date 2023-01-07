@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const BlogView = ({ updateLike, deleteBlog }) => {
+const SingleBlogView = ({ updateLike, deleteBlog }) => {
   const user = useSelector(({ user }) => user)
   const blogs = useSelector(({ blogs }) => blogs)
   const match = useMatch('/blogs/:blogId')
@@ -44,9 +44,9 @@ const BlogView = ({ updateLike, deleteBlog }) => {
   )
 }
 
-BlogView.propTypes = {
+SingleBlogView.propTypes = {
   updateLike: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func.isRequired,
 }
 
-export default BlogView
+export default SingleBlogView
