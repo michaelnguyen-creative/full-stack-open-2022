@@ -32,7 +32,7 @@ const UsersView = () => {
             {users.map((user) => (
               <tr key={user[1]}>
                 <td>
-                  <Link to={user[1]}>{user[0]}</Link>
+                  <Link to={`/users/${user[1]}`}>{user[0]}</Link>
                 </td>
                 <td>{user[2]}</td>
               </tr>

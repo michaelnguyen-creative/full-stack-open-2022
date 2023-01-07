@@ -92,21 +92,21 @@ const App = () => {
                 <UsersView />
               </>
             }
-          >
-            <Route
-              path=":userId"
-              element={
-                <>
-                  <UserBlogs handleLogout={handleLogout} />
-                  <SingleUserView />
-                </>
-              }
-            />
-          </Route>
+          />
+          <Route
+            path="/users/:userId"
+            element={
+              <>
+                <UserBlogs handleLogout={handleLogout} />
+                <SingleUserView />
+              </>
+            }
+          />
           <Route
             path="/blogs/:blogId"
             element={
               <>
+                <UserBlogs handleLogout={handleLogout} />
                 <BlogView
                   updateLike={incrementLike}
                   deleteBlog={deleteBlogById}
