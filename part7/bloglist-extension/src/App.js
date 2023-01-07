@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Blog from './components/Blog'
+// import Blog from './components/Blog'
 import Notif from './components/Notif'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -17,6 +17,7 @@ import { BrowserRouter, Link } from 'react-router-dom'
 import { Routes, Route } from 'react-router'
 import UsersView from './components/UsersView'
 import SingleUserView from './components/SingleUserView'
+import BlogView from './components/Blog'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
@@ -57,6 +58,7 @@ const App = () => {
         <Notif message={message} />
         <div>
           <Link to="users">Users</Link>
+          <Link to="/">Home</Link>
         </div>
         <Routes>
           <Route
@@ -71,16 +73,13 @@ const App = () => {
                   <Togglable buttonLabel="new blog">
                     <BlogForm createBlog={addNewBlog} />
                   </Togglable>
-                  <div className="blog-list">
+                  <ul className="blog-list">
                     {blogs.map((blog) => (
-                      <Blog
-                        key={blog.id}
-                        blog={blog}
-                        updateLike={incrementLike}
-                        deleteBlog={deleteBlogById}
-                      />
+                      <li key={blog.id}>
+                        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </>
             }
@@ -93,16 +92,28 @@ const App = () => {
                 <UsersView />
               </>
             }
-          />
+          >
+            <Route
+              path=":userId"
+              element={
+                <>
+                  <UserBlogs handleLogout={handleLogout} />
+                  <SingleUserView />
+                </>
+              }
+            />
+          </Route>
           <Route
-            path="/users/:userId"
+            path="/blogs/:blogId"
             element={
               <>
-                <UserBlogs handleLogout={handleLogout} />
-                <SingleUserView />
+                <BlogView
+                  updateLike={incrementLike}
+                  deleteBlog={deleteBlogById}
+                />
               </>
             }
-          />
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

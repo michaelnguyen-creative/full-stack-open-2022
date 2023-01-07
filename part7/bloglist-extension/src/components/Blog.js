@@ -1,20 +1,14 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, updateLike, deleteBlog }) => {
+const BlogView = ({ updateLike, deleteBlog }) => {
   const user = useSelector(({ user }) => user)
-  const [showDetail, setShowDetail] = useState(false)
+  const blogs = useSelector(({ blogs }) => blogs)
+  const match = useMatch('/blogs/:blogId')
+  const blog = match ? blogs.find((b) => b.id === match.params.blogId) : null
   const [likes, setLikes] = useState(blog.likes)
-
-  const showAllDetail = {
-    display: showDetail ? 'flex' : 'none',
-    flexDirection: 'column',
-    border: '1px solid black',
-    padding: '10px',
-    margin: ' 5px 0 5px 0',
-  }
-  const hideAllDetail = { display: showDetail ? 'none' : '' }
 
   const handleLike = () => {
     updateLike({
@@ -31,50 +25,28 @@ const Blog = ({ blog, updateLike, deleteBlog }) => {
   }
 
   return (
-    <div className="blog">
-      {!showDetail ? (
-        <div role="blog-view">
-          {blog.title} {blog.author}
-          <button className="view" onClick={() => setShowDetail(true)}>
-            view
-          </button>
-        </div>
-      ) : (
-        <div
-          className="blog-details"
-          style={showDetail ? showAllDetail : hideAllDetail}
-        >
-          <div role="blog-hide">
-            {blog.title} {blog.author}
-            <button onClick={() => setShowDetail(false)}>hide</button>
-          </div>
-          <div role="blog-remove">
-            <div>{blog.url}</div>
-            <div>
-              {`likes: ${likes}`}{' '}
-              <button className="like" onClick={handleLike}>
-                like
-              </button>
-            </div>
-            <div>{blog.user.name}</div>
-            <div
-              style={{ display: blog.user.name === user.name ? '' : 'none' }}
-            >
-              <button className="remove" onClick={handleRemove}>
-                remove
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+    <div role="blog-remove">
+      <h2>{blog.title}</h2>
+      <div>{blog.url}</div>
+      <div>
+        {`likes: ${likes}`}{' '}
+        <button className="like" onClick={handleLike}>
+          like
+        </button>
+      </div>
+      <div>{`added by ${blog.user.name}`}</div>
+      <div style={{ display: blog.user.name === user.name ? '' : 'none' }}>
+        <button className="remove" onClick={handleRemove}>
+          remove
+        </button>
+      </div>
     </div>
   )
 }
 
-Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
+BlogView.propTypes = {
   updateLike: PropTypes.func.isRequired,
   deleteBlog: PropTypes.func.isRequired,
 }
 
-export default Blog
+export default BlogView
