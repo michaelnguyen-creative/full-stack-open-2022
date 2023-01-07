@@ -13,6 +13,8 @@ import {
   deleteBlog,
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
+import { BrowserRouter } from 'react-router-dom'
+import { Routes, Route } from 'react-router'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
@@ -47,32 +49,76 @@ const App = () => {
     dispatch(deleteBlog(blogId))
   }
 
+  const renderUsers = (blogs) => {
+    const usersWithBlogCounts = blogs.reduce((acc, { user }) => {
+      const currCount = acc[user.name] ? acc[user.name] : 0
+      return { ...acc, [user.name]: currCount + 1 }
+    }, {})
+    const users = Object.entries(usersWithBlogCounts)
+
+    return (
+      <>
+        <div>
+          <h1>Users</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>name</th>
+                <th>blogs created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user[0]}>
+                  <td>{user[0]}</td>
+                  <td>{user[1]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )
+  }
+
   return (
     <div>
-      {user === null ? (
-        <>
-          <Notif message={message} />
-          <LoginForm login={handleLogin} />
-        </>
-      ) : (
-        <>
-          <Notif message={message} />
-          <UserBlogs user={user} handleLogout={handleLogout} />
-          <Togglable buttonLabel="new blog">
-            <BlogForm createBlog={addNewBlog} />
-          </Togglable>
-          <div className="blog-list">
-            {blogs.map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                updateLike={incrementLike}
-                deleteBlog={deleteBlogById}
+      <BrowserRouter>
+        {user === null ? (
+          <>
+            <Notif message={message} />
+            <LoginForm login={handleLogin} />
+          </>
+        ) : (
+          <>
+            <Notif message={message} />
+            <Routes>
+              <Route
+                path="/users"
+                element={
+                  <>
+                    <UserBlogs user={user} handleLogout={handleLogout} />
+                    {renderUsers(blogs)}
+                  </>
+                }
               />
-            ))}
-          </div>
-        </>
-      )}
+            </Routes>
+            <Togglable buttonLabel="new blog">
+              <BlogForm createBlog={addNewBlog} />
+            </Togglable>
+            <div className="blog-list">
+              {blogs.map((blog) => (
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  updateLike={incrementLike}
+                  deleteBlog={deleteBlogById}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </BrowserRouter>
     </div>
   )
 }
