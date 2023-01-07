@@ -13,14 +13,16 @@ import {
   deleteBlog,
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Link } from 'react-router-dom'
 import { Routes, Route } from 'react-router'
+import SingleUserView from './components/SingleUserView'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
   const message = useSelector(({ message }) => message)
   const user = useSelector(({ user }) => user)
   const dispatch = useDispatch()
+
 
   useEffect(() => {
     // Clear localStorage data if there is any
@@ -51,10 +53,15 @@ const App = () => {
 
   const renderUsers = (blogs) => {
     const usersWithBlogCounts = blogs.reduce((acc, { user }) => {
-      const currCount = acc[user.name] ? acc[user.name] : 0
-      return { ...acc, [user.name]: currCount + 1 }
+      const currCount = acc[[user.name, user.userId]] ?? 0
+      return { ...acc, [[user.name, user.userId]]: currCount + 1 }
     }, {})
-    const users = Object.entries(usersWithBlogCounts)
+
+    const usersArrayFromObj = Object.entries(usersWithBlogCounts)
+    const users = usersArrayFromObj.map((user) => [
+      ...user[0].split(','),
+      user[1],
+    ])
 
     return (
       <>
@@ -69,9 +76,11 @@ const App = () => {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user[0]}>
-                  <td>{user[0]}</td>
-                  <td>{user[1]}</td>
+                <tr key={user[1]}>
+                  <td>
+                    <Link to={user[1]}>{user[0]}</Link>
+                  </td>
+                  <td>{user[2]}</td>
                 </tr>
               ))}
             </tbody>
@@ -84,40 +93,51 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        {user === null ? (
-          <>
-            <Notif message={message} />
-            <LoginForm login={handleLogin} />
-          </>
-        ) : (
-          <>
-            <Notif message={message} />
-            <Routes>
-              <Route
-                path="/users"
-                element={
-                  <>
-                    <UserBlogs user={user} handleLogout={handleLogout} />
-                    {renderUsers(blogs)}
-                  </>
-                }
-              />
-            </Routes>
-            <Togglable buttonLabel="new blog">
-              <BlogForm createBlog={addNewBlog} />
-            </Togglable>
-            <div className="blog-list">
-              {blogs.map((blog) => (
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  updateLike={incrementLike}
-                  deleteBlog={deleteBlogById}
-                />
-              ))}
-            </div>
-          </>
-        )}
+        <Notif message={message} />
+        <div>
+          <Link to="users">Users</Link>
+        </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div style={{ display: user === null ? '' : 'none' }}>
+                  <LoginForm login={handleLogin} />
+                </div>
+                <div style={{ display: user === null ? 'none' : '' }}>
+                  <UserBlogs user={user} handleLogout={handleLogout} />
+                  <Togglable buttonLabel="new blog">
+                    <BlogForm createBlog={addNewBlog} />
+                  </Togglable>
+                  <div className="blog-list">
+                    {blogs.map((blog) => (
+                      <Blog
+                        key={blog.id}
+                        blog={blog}
+                        updateLike={incrementLike}
+                        deleteBlog={deleteBlogById}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <>
+                <UserBlogs user={user} handleLogout={handleLogout} />
+                {renderUsers(blogs)}
+              </>
+            }
+          />
+          <Route
+            path="/users/:userId"
+            element={<SingleUserView />}
+          />
+        </Routes>
       </BrowserRouter>
     </div>
   )
