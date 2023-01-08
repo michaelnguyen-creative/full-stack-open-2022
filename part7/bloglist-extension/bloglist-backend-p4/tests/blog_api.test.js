@@ -27,9 +27,7 @@ beforeEach(async () => {
 
 describe('getting all blogs api', () => {
   test('blogs are returned as json', async () => {
-    await api
-      .get('/api/blogs')
-      .expect('Content-Type', /application\/json/)
+    await api.get('/api/blogs').expect('Content-Type', /application\/json/)
   })
 
   test('blogs _id prop are replaced by id', async () => {
@@ -97,10 +95,7 @@ describe('adding a new blog api', () => {
       likes: 22,
     }
 
-    await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(400)
+    await api.post('/api/blogs').send(newBlog).expect(400)
   })
 
   test('adding a new blog fails with status code 401 if token is not provided', async () => {
@@ -123,16 +118,12 @@ describe('deleting a blog by id', () => {
   test('valid id returns 204 No Content', async () => {
     const validId = await helper.getFirstValidId()
     console.log('valid id:', validId)
-    await api
-      .delete(`/api/blogs/${validId}`)
-      .expect(204)
+    await api.delete(`/api/blogs/${validId}`).expect(204)
   })
 
   test('invalid id returns 400 Bad Request', async () => {
     const invalidId = 'dfad9dfad0dfadfad'
-    await api
-      .delete(`/api/blogs/${invalidId}`)
-      .expect(400)
+    await api.delete(`/api/blogs/${invalidId}`).expect(400)
   })
 })
 
@@ -141,10 +132,20 @@ describe('updating a blog api', () => {
     const validId = await helper.getFirstValidId()
     const likesToUpdate = { likes: 40 }
 
-    await api
-      .put(`/api/blogs/${validId}`)
-      .send(likesToUpdate)
-      .expect(200)
+    await api.put(`/api/blogs/${validId}`).send(likesToUpdate).expect(200)
+  })
+})
+
+describe('add a new comment', () => {
+  test.only('returns 204 created & correct new comment', async () => {
+    const validBlogId = await helper.getFirstValidId()
+    const comment = 'test comment'
+
+    const res = await api
+      .post(`/api/blogs/${validBlogId}/comments`)
+      .send({ data: comment })
+      .expect(201)
+    expect(res.body.comments).toContain(comment)
   })
 })
 
