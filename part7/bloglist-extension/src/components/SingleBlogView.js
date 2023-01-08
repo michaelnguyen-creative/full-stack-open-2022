@@ -39,6 +39,12 @@ const SingleBlogView = ({ updateLike, deleteBlog }) => {
           remove
         </button>
       </div>
+      <div>
+        <h3>comments</h3>
+        <ul>
+          <li>{blog.comments[0]}</li>
+        </ul>
+      </div>
     </div>
   )
 }
