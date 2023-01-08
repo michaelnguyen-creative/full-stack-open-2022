@@ -13,13 +13,7 @@ import {
   deleteBlog,
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
-import {
-  Link,
-  NavLink,
-  Routes,
-  Route,
-  useNavigate,
-} from 'react-router-dom'
+import { Link, NavLink, Routes, Route, useNavigate } from 'react-router-dom'
 import UsersView from './components/UsersView'
 import SingleUserView from './components/SingleUserView'
 import SingleBlogView from './components/SingleBlogView'
@@ -43,6 +37,7 @@ const App = () => {
 
   const handleLogout = () => {
     dispatch(logOut())
+    navigate('/')
   }
 
   const addNewBlog = (blogObj) => {
@@ -74,15 +69,10 @@ const App = () => {
         <Route
           path="/"
           element={
-            <div style={{ display: user === null ? '' : 'none' }}>
-              <LoginForm login={handleLogin} />
-            </div>
-          }
-        />
-        <Route
-          path="/blogs"
-          element={
             <>
+              <div style={{ display: user === null ? '' : 'none' }}>
+                <LoginForm login={handleLogin} />
+              </div>
               <div style={{ display: user === null ? 'none' : '' }}>
                 <Togglable buttonLabel="new blog">
                   <BlogForm createBlog={addNewBlog} />
@@ -99,32 +89,33 @@ const App = () => {
           }
         />
         <Route
+          path="/blogs"
+          element={
+            <div>
+              <Togglable buttonLabel="new blog">
+                <BlogForm createBlog={addNewBlog} />
+              </Togglable>
+              <ul className="blog-list">
+                {blogs.map((blog) => (
+                  <li key={blog.id}>
+                    <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          }
+        />
+        <Route
           path="/blogs/:blogId"
           element={
-            <>
-              <SingleBlogView
-                updateLike={incrementLike}
-                deleteBlog={deleteBlogById}
-              />
-            </>
+            <SingleBlogView
+              updateLike={incrementLike}
+              deleteBlog={deleteBlogById}
+            />
           }
         />
-        <Route
-          path="/users"
-          element={
-            <>
-              <UsersView />
-            </>
-          }
-        />
-        <Route
-          path="/users/:userId"
-          element={
-            <>
-              <SingleUserView />
-            </>
-          }
-        />
+        <Route path="/users" element={<UsersView />} />
+        <Route path="/users/:userId" element={<SingleUserView />} />
       </Routes>
     </div>
   )

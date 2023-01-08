@@ -3,9 +3,13 @@ import { useSelector } from 'react-redux'
 
 const LogUser = ({ handleLogout }) => {
   const user = useSelector(({ user }) => user)
+  if (!user) {
+    return null
+  }
+
   return (
     <>
-      {`${user && user.name} logged in`}
+      {`${user.name} logged in`}
       <button className="logout" onClick={handleLogout}>
         logout
       </button>
