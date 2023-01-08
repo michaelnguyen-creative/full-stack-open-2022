@@ -50,4 +50,9 @@ blogsRouter.put('/:id', async (req, res) => {
   res.status(200).end()
 })
 
+// Add comments to blog by blogId
+blogsRouter.post('/:id/comments', async (req, res) => {
+  const blogId = req.params.id
+})
+
 module.exports = blogsRouter
