@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-// import Blog from './components/Blog'
 import Notif from './components/Notif'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -66,8 +65,9 @@ const App = () => {
       </nav>
       <h1>Blog app</h1>
       <Routes>
+        <Route path="/" element={<p>Home Page</p>} />
         <Route
-          path="/"
+          path="/login"
           element={
             <>
               <div style={{ display: user === null ? '' : 'none' }}>

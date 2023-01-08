@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const LogUser = ({ handleLogout }) => {
   const user = useSelector(({ user }) => user)
   if (!user) {
-    return null
+    return <Link to="/login">login</Link>
   }
 
   return (
