@@ -91,4 +91,11 @@ export const deleteBlog = (id) => {
   }
 }
 
+export const createComment = (comment, blogId) => {
+  return async (dispatch) => {
+    await blogService.createComment(comment, blogId)
+    dispatch(initializeBlogs())
+  }
+}
+
 export default blogReducer.reducer

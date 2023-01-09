@@ -10,6 +10,7 @@ import {
   createBlog,
   updateLike,
   deleteBlog,
+  createComment
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
 import { Link, NavLink, Routes, Route, useNavigate } from 'react-router-dom'
@@ -43,14 +44,18 @@ const App = () => {
     dispatch(createBlog(blogObj))
   }
 
-  const incrementLike = async (blogObj) => {
+  const incrementLike = (blogObj) => {
     dispatch(updateLike(blogObj))
     dispatch(initializeBlogs())
   }
 
-  const deleteBlogById = async (blogId) => {
+  const deleteBlogById = (blogId) => {
     dispatch(deleteBlog(blogId))
     navigate('/blogs')
+  }
+
+  const addComment = (comment, blogId) => {
+    dispatch(createComment(comment, blogId))
   }
 
   return (
@@ -111,6 +116,7 @@ const App = () => {
             <SingleBlogView
               updateLike={incrementLike}
               deleteBlog={deleteBlogById}
+              addComment={addComment}
             />
           }
         />
