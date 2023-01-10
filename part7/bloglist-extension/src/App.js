@@ -16,8 +16,8 @@ import {
   createComment,
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
-import { Link, NavLink, Routes, Route, useNavigate } from 'react-router-dom'
-import { Container } from '@mui/material'
+import { Link, Routes, Route, useNavigate } from 'react-router-dom'
+import { Container, AppBar, Toolbar, Button, List, ListItem, Typography } from '@mui/material'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
@@ -62,13 +62,13 @@ const App = () => {
   return (
     <Container>
       <Notif message={message} />
-      <nav>
-        <div>
-          <NavLink to="users">Users</NavLink>
-          <NavLink to="blogs">Blogs</NavLink>
-          <LogUser handleLogout={handleLogout} />
-        </div>
-      </nav>
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/users">Users</Button>
+          <Button color="inherit" component={Link} to="/blogs">Blogs</Button>
+          <LogUser handleLogout={handleLogout} style={{ right: '80' }} />
+        </Toolbar>
+      </AppBar>
       <h1>Blog app</h1>
       <Routes>
         <Route path="/" element={<p>Home Page</p>} />
@@ -83,13 +83,13 @@ const App = () => {
                 <Togglable buttonLabel="new blog">
                   <BlogForm createBlog={addNewBlog} />
                 </Togglable>
-                <ul className="blog-list">
+                <List className="blog-list">
                   {blogs.map((blog) => (
-                    <li key={blog.id}>
-                      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-                    </li>
+                    <ListItem key={blog.id}>
+                      <Typography component={Link} to={`/blogs/${blog.id}`}>{blog.title}</Typography>
+                    </ListItem>
                   ))}
-                </ul>
+                </List>
               </div>
             </>
           }

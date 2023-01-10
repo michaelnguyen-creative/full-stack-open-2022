@@ -1,6 +1,16 @@
 import { useSelector } from 'react-redux'
 import { useMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Link,
+  Button,
+  TextField,
+} from '@mui/material'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 
 const SingleBlogView = ({ addComment, updateLike, deleteBlog }) => {
   const user = useSelector(({ user }) => user)
@@ -36,32 +46,52 @@ const SingleBlogView = ({ addComment, updateLike, deleteBlog }) => {
         <p>Blog unavailable</p>
       ) : (
         <div role="blog-remove">
-          <h2>{blog.title}</h2>
-          <div>{blog.url}</div>
-          <div>
-            {`likes: ${blog.likes}`}{' '}
-            <button className="like" onClick={handleLike}>
-              like
-            </button>
-          </div>
-          <div>{`added by ${blog.user.name}`}</div>
-          <div style={{ display: isUserLoggedIn ? '' : 'none' }}>
-            <button className="remove" onClick={handleRemove}>
-              remove
-            </button>
-          </div>
-          <div>
-            <h3>comments</h3>
-            <form onSubmit={handleComment}>
-              <input type="text" name="comment" />
-              <button type="submit">add comment</button>
-            </form>
-            <ul>
-              {blog.comments.map((c) => (
-                <li key={c}>{c}</li>
-              ))}
-            </ul>
-          </div>
+          <Grid container spacing={2} direction="column">
+            <Grid item xs={6} md={8}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h4">{blog.title}</Typography>
+                  <Link href={blog.url}>{blog.url}</Link>
+                </CardContent>
+                <CardContent>
+                  <div style={{ display: 'inline-block' }}>
+                    <Typography>{`Likes: ${blog.likes}`}</Typography>
+                    <Button
+                      className="like"
+                      onClick={handleLike}
+                      startIcon={<ThumbUpIcon />}
+                    >
+                      like
+                    </Button>
+                  </div>
+                  <Typography>{`Added by ${blog.user.name}`}</Typography>
+                  <div style={{ display: isUserLoggedIn ? '' : 'none' }}>
+                    <Button className="remove" onClick={handleRemove}>
+                      remove
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item>
+              <Typography variant="h6" sx={{ margin: 2 }}>comments</Typography>
+              <form onSubmit={handleComment}>
+                <Grid item sx={{ margin: 2 }}>
+                  <TextField type="text" name="comment" />
+                </Grid>
+                <Grid item sx={{ margin: 2 }}>
+                  <Button type="submit" variant="contained">
+                    add comment
+                  </Button>
+                </Grid>
+              </form>
+              <ul>
+                {blog.comments.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </Grid>
+          </Grid>
         </div>
       )}
     </>
