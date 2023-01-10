@@ -17,6 +17,7 @@ import {
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
 import { Link, NavLink, Routes, Route, useNavigate } from 'react-router-dom'
+import { Container } from '@mui/material'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
@@ -59,7 +60,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <Notif message={message} />
       <nav>
         <div>
@@ -123,7 +124,7 @@ const App = () => {
         <Route path="/users" element={<UsersView />} />
         <Route path="/users/:userId" element={<SingleUserView />} />
       </Routes>
-    </div>
+    </Container>
   )
 }
 

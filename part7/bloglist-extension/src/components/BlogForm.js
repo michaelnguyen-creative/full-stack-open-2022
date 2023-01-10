@@ -1,5 +1,6 @@
 import { useField } from '../hooks/index'
 import PropTypes from 'prop-types'
+import { Grid, TextField, Button } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const { reset: titleReset, ...title } = useField('text')
@@ -21,21 +22,20 @@ const BlogForm = ({ createBlog }) => {
   return (
     <form onSubmit={addNewBlog}>
       <h3>Create new blog</h3>
-      <div>
-        <label htmlFor="title-input">title</label>
-        <input id="title-input" {...title} />
-      </div>
-      <div>
-        <label htmlFor="author-input">author</label>
-        <input id="author-input" {...author} />
-      </div>
-      <div>
-        <label htmlFor="url-input">url</label>
-        <input id="url-input" {...url} />
-      </div>
-      <button className="create" type="submit">
-        create
-      </button>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <TextField id="title-input" label="title" {...title} />
+        </Grid>
+        <Grid item>
+          <TextField id="author-input" label="author" {...author} />
+        </Grid>
+        <Grid item>
+          <TextField id="url-input" label="url" {...url} />
+        </Grid>
+        <Grid item>
+          <Button variant="contained">create</Button>
+        </Grid>
+      </Grid>
     </form>
   )
 }
