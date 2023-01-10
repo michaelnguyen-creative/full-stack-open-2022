@@ -5,18 +5,18 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import LogUser from './components/LogUser'
 import Togglable from './components/Togglable'
+import UsersView from './components/UsersView'
+import SingleUserView from './components/SingleUserView'
+import SingleBlogView from './components/SingleBlogView'
 import {
   initializeBlogs,
   createBlog,
   updateLike,
   deleteBlog,
-  createComment
+  createComment,
 } from './reducers/blogReducer'
 import { logIn, logOut } from './reducers/userReducer'
 import { Link, NavLink, Routes, Route, useNavigate } from 'react-router-dom'
-import UsersView from './components/UsersView'
-import SingleUserView from './components/SingleUserView'
-import SingleBlogView from './components/SingleBlogView'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)

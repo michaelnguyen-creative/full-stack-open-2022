@@ -31,29 +31,40 @@ const SingleBlogView = ({ addComment, updateLike, deleteBlog }) => {
   }
 
   return (
-    <div role="blog-remove">
-      <h2>{blog.title}</h2>
-      <div>{blog.url}</div>
-      <div>
-        {`likes: ${blog.likes}`}{' '}
-        <button className="like" onClick={handleLike}>
-          like
-        </button>
-      </div>
-      <div>{`added by ${blog.user.name}`}</div>
-      <div style={{ display: isUserLoggedIn ? '' : 'none' }}>
-        <button className="remove" onClick={handleRemove}>
-          remove
-        </button>
-      </div>
-      <div>
-        <h3>comments</h3>
-        <form onSubmit={handleComment}><input type="text" name="comment" /><button type="submit">add comment</button></form>
-        <ul>
-          {blog.comments.map((c) => <li key={c}>{c}</li>)}
-        </ul>
-      </div>
-    </div>
+    <>
+      {!blog ? (
+        <p>Blog unavailable</p>
+      ) : (
+        <div role="blog-remove">
+          <h2>{blog.title}</h2>
+          <div>{blog.url}</div>
+          <div>
+            {`likes: ${blog.likes}`}{' '}
+            <button className="like" onClick={handleLike}>
+              like
+            </button>
+          </div>
+          <div>{`added by ${blog.user.name}`}</div>
+          <div style={{ display: isUserLoggedIn ? '' : 'none' }}>
+            <button className="remove" onClick={handleRemove}>
+              remove
+            </button>
+          </div>
+          <div>
+            <h3>comments</h3>
+            <form onSubmit={handleComment}>
+              <input type="text" name="comment" />
+              <button type="submit">add comment</button>
+            </form>
+            <ul>
+              {blog.comments.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
