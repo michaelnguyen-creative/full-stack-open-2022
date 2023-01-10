@@ -1,5 +1,6 @@
 import { useField } from '../hooks/index'
 import PropTypes from 'prop-types'
+import { Grid, TextField, Button } from '@mui/material'
 
 const LoginForm = ({ login }) => {
   const { reset: resetUsername, ...username } = useField('text')
@@ -18,26 +19,23 @@ const LoginForm = ({ login }) => {
   return (
     <form onSubmit={handleLogin}>
       <h3>Log in to app</h3>
-      <div>
-        <label htmlFor="username-input">username</label>
-        <input
-          id="username-input"
-          {...username}
-        />
-      </div>
-      <div>
-        <label htmlFor="password-input">password</label>
-        <input
-          id="password-input"
-          {...password}
-        />
-      </div>
-      <button type="submit">login</button>
+      <Grid container spacing={2} direction="column">
+        <Grid item>
+          <TextField label="username" id="username-input" {...username} />
+        </Grid>
+        <Grid item>
+          <TextField label="password" id="password-input" {...password} />
+        </Grid>
+        <Grid item>
+          <Button type="submit" variant="contained">login</Button>
+        </Grid>
+      </Grid>
     </form>
-  )}
+  )
+}
 
 LoginForm.propTypes = {
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
 }
 
 export default LoginForm

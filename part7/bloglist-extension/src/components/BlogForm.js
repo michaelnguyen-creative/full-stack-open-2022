@@ -33,7 +33,7 @@ const BlogForm = ({ createBlog }) => {
           <TextField id="url-input" label="url" {...url} />
         </Grid>
         <Grid item>
-          <Button variant="contained">create</Button>
+          <Button variant="contained" type="submit">create</Button>
         </Grid>
       </Grid>
     </form>
