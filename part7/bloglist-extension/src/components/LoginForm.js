@@ -1,20 +1,18 @@
-import { useState } from 'react'
+import { useField } from '../hooks/index'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({ login }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { reset: resetUsername, ...username } = useField('text')
+  const { reset: resetPassword, ...password } = useField('password')
 
   const handleLogin = (e) => {
     e.preventDefault()
-
     login({
-      username,
-      password,
+      username: username.value,
+      password: password.value,
     })
-
-    setUsername('')
-    setPassword('')
+    resetUsername()
+    resetPassword()
   }
 
   return (
@@ -24,18 +22,14 @@ const LoginForm = ({ login }) => {
         <label htmlFor="username-input">username</label>
         <input
           id="username-input"
-          type="text"
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
+          {...username}
         />
       </div>
       <div>
         <label htmlFor="password-input">password</label>
         <input
           id="password-input"
-          type="password"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
+          {...password}
         />
       </div>
       <button type="submit">login</button>
