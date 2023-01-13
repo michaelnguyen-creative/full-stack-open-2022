@@ -109,6 +109,7 @@ const typeDefs = gql`
       published: Int!
       genres: [String!]!
     ): Book
+    editAuthor(name: String!, born: Int!): Author
   }
 `
 
@@ -141,16 +142,23 @@ const resolvers = {
     addBook: (root, args) => {
       const bookObj = {
         ...args,
-        id: uuidv1()
+        id: uuidv1(),
       }
       books = books.concat(bookObj)
       authors = authors.concat({
         name: args.author,
-        id: uuidv1()
+        id: uuidv1(),
       })
       return bookObj
-    }
-  }
+    },
+    editAuthor: (root, args) => {
+      authors = authors.map((author) =>
+        author.name === args.name ? { ... author, born: args.born } : author
+      )
+
+      return authors.find((a) => a.name === args.name)
+    },
+  },
 }
 
 const server = new ApolloServer({
