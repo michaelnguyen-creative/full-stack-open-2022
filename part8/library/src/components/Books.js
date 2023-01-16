@@ -13,7 +13,6 @@ export const GET_BOOKS = gql`
 const Books = (props) => {
   const books = useQuery(GET_BOOKS)
 
-  if (!books) return 'Loading...'
   if (!props.show) {
     return null
   }
