@@ -13,7 +13,7 @@ const GET_AUTHORS_DETAILS = gql`
 `
 
 const SET_BIRTHYEAR = gql`
-  mutation setBirthYear($name: String!, $born: String!) {
+  mutation setBirthYear($name: String!, $born: Int!) {
     editAuthor(name: $name, born: $born) {
       name
       born
@@ -23,18 +23,19 @@ const SET_BIRTHYEAR = gql`
 `
 
 const Authors = (props) => {
-  const { data } = useQuery(GET_AUTHORS_DETAILS, {
+  const { loading, data } = useQuery(GET_AUTHORS_DETAILS, {
     variables: {
       pollInterval: 500,
     },
   })
-
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
 
   const [editAuthor] = useMutation(SET_BIRTHYEAR, {
     refetchQueries: [{ query: GET_AUTHORS_DETAILS }],
   })
+
+  if (loading) return 'Loading...'
 
   if (!props.show) {
     return null
@@ -45,7 +46,7 @@ const Authors = (props) => {
     editAuthor({
       variables: {
         name,
-        born
+        born: Number(born)
       },
     })
     setName('')
@@ -81,7 +82,7 @@ const Authors = (props) => {
       </table>
       <h3>Set birthyear</h3>
       <form onSubmit={handleSubmit}>
-        <Select options={generateOptions()} onChange={(e) => setName(e.value)} />
+        <Select options={generateOptions()} onChange={(e) => {setName(e.value)}} />
         <div>
           born
           <input value={born} onChange={(e) => setBorn(e.target.value)} />
