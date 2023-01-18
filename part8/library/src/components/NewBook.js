@@ -6,7 +6,7 @@ const CREATE_NEW_BOOK = gql`
   mutation createBook(
     $title: String!
     $author: String!
-    $published: String!
+    $published: Int!
     $genres: [String!]!
   ) {
     addBook(title: $title
@@ -44,10 +44,10 @@ const NewBook = (props) => {
 
     console.log('add book...')
 
-    createNewBook({
+    await createNewBook({
       variables: {
         title,
-        published,
+        published: Number(published),
         author,
         genres,
       },
