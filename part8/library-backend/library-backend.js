@@ -18,7 +18,6 @@ const typeDefs = gql`
     name: String!
     id: ID!
     born: Int
-    bookCount: Int!
   }
 
   type Book {
@@ -52,23 +51,37 @@ const resolvers = {
     authorCount: async () => Author.estimatedDocumentCount(),
     bookCount: async () => Book.estimatedDocumentCount(),
     allBooks: async (root, args) => {
-      // TODO
       if (Object.keys(args).length === 0) {
-        return Book.find({})
-      } else if (args.author && args.genre) {
-        return Book.find({ author: args.author, genres: { $in: [args.genre] } })
-      } else {
-        return Book.find({ $or: [{ author: args.author }, { genres: { $in: [args.genre] } }] })
+        return Book.find({}).populate('author')
       }
+      const foundAuthor = await Author.findOne({ name: args.author })
+      if (args.author && args.genre) {
+        return Book.find({
+          author: foundAuthor._id,
+          genres: { $in: [args.genre] },
+        })
+      }
+      return Book.find({
+        $or: [{ author: foundAuthor._id }, { genres: { $in: [args.genre] } }],
+      })
     },
-    allAuthors: () => authors
-  },
-  Author: {
-    bookCount: (root) => books.filter((b) => b.author === root.name).length
-  },
-  Book: {
-    // TODO
-    author: (root) => console.log('root', root)
+    allAuthors: async () => {
+      const authors = await Author.find({})
+      let authorsWithBookCount = []
+      authors.forEach(async ({ _id, name, born }) => {
+        const bookCount = await Book.countDocuments({ author: _id })
+        // console.log('bc', bookCount)
+        authorsWithBookCount.push({
+          _id,
+          name,
+          born,
+          bookCount
+        })
+        // console.log('a', authorsWithBookCount)
+      })
+      // console.log(authorsWithBookCount)
+      return authorsWithBookCount
+    },
   },
   Mutation: {
     addBook: (root, args) => {
@@ -85,7 +98,7 @@ const resolvers = {
     },
     editAuthor: (root, args) => {
       authors = authors.map((author) =>
-        author.name === args.name ? { ... author, born: args.born } : author
+        author.name === args.name ? { ...author, born: args.born } : author
       )
 
       return authors.find((a) => a.name === args.name)
