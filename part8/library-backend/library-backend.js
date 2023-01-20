@@ -18,6 +18,7 @@ const typeDefs = gql`
     name: String!
     id: ID!
     born: Int
+    bookCount: Int
   }
 
   type Book {
@@ -67,21 +68,30 @@ const resolvers = {
     },
     allAuthors: async () => {
       const authors = await Author.find({})
-      let authorsWithBookCount = []
-      authors.forEach(async ({ _id, name, born }) => {
-        const bookCount = await Book.countDocuments({ author: _id })
-        // console.log('bc', bookCount)
-        authorsWithBookCount.push({
-          _id,
-          name,
-          born,
-          bookCount
-        })
-        // console.log('a', authorsWithBookCount)
-      })
+      // let authorsWithBookCount = []
+      // authors.forEach(async ({ _id, name, born }) => {
+      //   const bookCount = await Book.countDocuments({ author: _id })
+      //   // console.log('bc', bookCount)
+      //   authorsWithBookCount.push({
+      //     id: _id,
+      //     name,
+      //     born,
+      //     bookCount
+      //   })
+      //   // console.log('a', authorsWithBookCount)
+      // })
       // console.log(authorsWithBookCount)
-      return authorsWithBookCount
+      return authors
     },
+  },
+  // Work on this
+  Author: {
+    bookCount: async (root) => {
+      root.forEach(async () => {
+      const bookCount = await Book.countDocuments({ author: root._id })
+      console.log('bc', bookCount)
+      })
+    }
   },
   Mutation: {
     addBook: (root, args) => {
