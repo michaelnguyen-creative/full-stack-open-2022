@@ -1,8 +1,8 @@
 import { ApolloServer, gql } from 'apollo-server'
+import { GraphQLError } from 'graphql'
 import mongoose from 'mongoose'
 import Book from './models/book.js'
 import Author from './models/author.js'
-import { v1 as uuidv1 } from 'uuid'
 
 const MONGODB_URI = `mongodb+srv://michaelnguyen-creative:lM6g7yltO01zaeqR@cluster0.9tpxnaf.mongodb.net/libraryApp?retryWrites=true&w=majority`
 
@@ -74,16 +74,27 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args) => {
       const authorInfo = await Author.findOne({ name: args.author })
-      console.log('ai', authorInfo)
+      // console.log('ai', authorInfo)
       const createBook = async (authorId) => {
-        console.log('aid', authorId)
+        // console.log('aid', authorId)
         const bookToAdd = new Book({
           ...args,
           author: authorId,
         })
-        console.log('bta', bookToAdd)
-        const addedBook = await (await bookToAdd.save()).populate('author')
-        console.log('ab', addedBook)
+        // console.log('bta', bookToAdd)
+        let addedBook
+        try {
+          addedBook = await (await bookToAdd.save()).populate('author')
+        // await bookToAdd.save()
+        } catch(err) {
+          throw new GraphQLError(err.message, {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args,
+            }
+          })
+        }
+        // console.log('ab', addedBook)
         return addedBook
       }
       if (authorInfo.length === 0) {
@@ -92,17 +103,27 @@ const resolvers = {
           born: null,
         })
         const createdAuthor = await authorToCreate.save()
-        console.log('ca', createdAuthor)
+        // console.log('ca', createdAuthor)
         return createBook(createdAuthor._id)
       }
       return createBook(authorInfo._id)
     },
     editAuthor: async (root, args) => {
-      const author = await Author.findOne({ name: args.name })
-      author.born = args.born
-      const editedAuthor = await author.save()
-      console.log('ea', editedAuthor)
-      return editedAuthor
+      let author
+      try {
+        await Author.findOne({ name: args.name })
+        author.born = args.born
+        await author.save()
+      } catch(err) {
+          throw new GraphQLError(err.message, {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args,
+            }
+          })
+      }
+
+      return author
     },
   },
 }
