@@ -3,6 +3,8 @@ import { GraphQLError } from 'graphql'
 import mongoose from 'mongoose'
 import Book from './models/book.js'
 import Author from './models/author.js'
+import User from './models/author.js'
+import jwt from 'jsonwebtoken'
 
 const MONGODB_URI = `mongodb+srv://michaelnguyen-creative:lM6g7yltO01zaeqR@cluster0.9tpxnaf.mongodb.net/libraryApp?retryWrites=true&w=majority`
 
@@ -29,11 +31,22 @@ const typeDefs = gql`
     genres: [String!]!
   }
 
+  type User {
+    username: String!
+    favGenre: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Query {
     authorCount: Int!
     bookCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    me: User
   }
 
   type Mutation {
@@ -44,6 +57,14 @@ const typeDefs = gql`
       genres: [String!]!
     ): Book!
     editAuthor(name: String!, born: Int!): Author
+    createUser(
+      username: String!
+      favGenre: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `
 
