@@ -15,7 +15,7 @@ mongoose
   .then(() => console.log('connected to MongoDB'))
   .catch((error) => console.log('error', error.message))
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Author {
     name: String!
     id: ID!
@@ -68,7 +68,7 @@ const typeDefs = gql`
   }
 `
 
-const resolvers = {
+export const resolvers = {
   Query: {
     authorCount: async () => Author.estimatedDocumentCount(),
     bookCount: async () => Book.estimatedDocumentCount(),
@@ -143,9 +143,13 @@ const resolvers = {
             }
           })
       }
-
       return author
     },
+    createUser: async (root, args) => {
+      const user = new User({ ...args })
+      await user.save()
+      return user
+    }
   },
 }
 
