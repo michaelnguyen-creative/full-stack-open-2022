@@ -2,11 +2,11 @@
   "name": "library-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "library-backend.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node library-backend.js"
+    "test": "NODE_ENV='test' mocha",
+    "server": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +18,9 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "mocha": "^10.2.0"
+    "chai": "^4.3.7",
+    "dotenv": "^16.0.3",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
