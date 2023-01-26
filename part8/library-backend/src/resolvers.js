@@ -1,8 +1,9 @@
 import { GraphQLError } from 'graphql'
 import Book from '../models/book.js'
 import Author from '../models/author.js'
-import User from '../models/author.js'
+import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
+import { JWT_SECRET } from '../utils/config.js'
 
 export const resolvers = {
   Query: {
@@ -20,7 +21,10 @@ export const resolvers = {
         }).populate('author')
       }
       return Book.find({
-        $or: [{ author: !foundAuthor ? null : foundAuthor._id }, { genres: { $in: [args.genre] } }],
+        $or: [
+          { author: !foundAuthor ? null : foundAuthor._id },
+          { genres: { $in: [args.genre] } },
+        ],
       }).populate('author')
     },
     allAuthors: async () => await Author.find({}),
@@ -39,12 +43,12 @@ export const resolvers = {
         let addedBook
         try {
           addedBook = await (await bookToAdd.save()).populate('author')
-        } catch(err) {
+        } catch (err) {
           throw new GraphQLError(err.message, {
             extensions: {
               code: 'BAD_USER_INPUT',
               invalidArgs: args,
-            }
+            },
           })
         }
         return addedBook
@@ -65,23 +69,36 @@ export const resolvers = {
         await Author.findOne({ name: args.name })
         author.born = args.born
         await author.save()
-      } catch(err) {
-          throw new GraphQLError(err.message, {
-            extensions: {
-              code: 'BAD_USER_INPUT',
-              invalidArgs: args,
-            }
-          })
+      } catch (err) {
+        throw new GraphQLError(err.message, {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args,
+          },
+        })
       }
       return author
     },
     createUser: async (root, args) => {
       const user = new User({
         username: args.username,
-        favGenre: args.favGenre
+        favGenre: args.favGenre,
       })
-      await user.save()
-      return user
+      return user.save().catch((error) => {
+        throw new GraphQLError(error.message, {
+          invalidArgs: args,
+        })
+      })
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+      if (!user || args.password !== 'password') {
+        throw new GraphQLError('invalid credentials', {
+          invalidArgs: args
+        })
+      }
+      const token = jwt.sign({ username: user.username, id: user._id }, process.env.JWT_SECRET)
+      return { value: token }
     }
   },
 }

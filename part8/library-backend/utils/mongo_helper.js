@@ -1,5 +1,6 @@
 import Book from '../models/book.js'
 import Author from '../models/author.js'
+import User from '../models/user.js'
 
 export let authors = [
   {
@@ -183,4 +184,8 @@ export const bookSetup = async () => {
   await Book.deleteMany({})
   const result = await Book.insertMany(newBooks)
   return result
+}
+
+export const userSetup = async () => {
+  await User.deleteMany({})
 }
