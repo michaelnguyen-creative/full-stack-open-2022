@@ -28,12 +28,23 @@ export const resolvers = {
       }).populate('author')
     },
     allAuthors: async () => await Author.find({}),
+    me: (root, args, context) => {
+      return context.currentUser
+    },
   },
   Author: {
     bookCount: async (root) => await Book.countDocuments({ author: root._id }),
   },
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
+      if (!context.currentUser) {
+        return new GraphQLError('you need to log in first', {
+          extensions: {
+            code: 'UNAUTHENTICATED',
+          },
+        })
+      }
+
       const authorInfo = await Author.findOne({ name: args.author })
       const createBook = async (authorId) => {
         const bookToAdd = new Book({
@@ -53,7 +64,7 @@ export const resolvers = {
         }
         return addedBook
       }
-      if (authorInfo.length === 0) {
+      if (!authorInfo) {
         const authorToCreate = new Author({
           name: args.author,
           born: null,
@@ -63,10 +74,18 @@ export const resolvers = {
       }
       return createBook(authorInfo._id)
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
+      if (!context.currentUser) {
+        return new GraphQLError('you need to log in first', {
+          extensions: {
+            code: 'UNAUTHENTICATED',
+          },
+        })
+      }
+
       let author
       try {
-        await Author.findOne({ name: args.name })
+        author = await Author.findOne({ name: args.name })
         author.born = args.born
         await author.save()
       } catch (err) {
@@ -94,11 +113,14 @@ export const resolvers = {
       const user = await User.findOne({ username: args.username })
       if (!user || args.password !== 'password') {
         throw new GraphQLError('invalid credentials', {
-          invalidArgs: args
+          invalidArgs: args,
         })
       }
-      const token = jwt.sign({ username: user.username, id: user._id }, process.env.JWT_SECRET)
+      const token = jwt.sign(
+        { username: user.username, id: user._id },
+        process.env.JWT_SECRET
+      )
       return { value: token }
-    }
+    },
   },
 }
