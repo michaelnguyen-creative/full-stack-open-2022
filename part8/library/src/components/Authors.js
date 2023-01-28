@@ -1,10 +1,10 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { useState } from 'react'
 import Select from 'react-select'
-import { GET_AUTHORS_DETAILS, SET_BIRTHYEAR } from '../queries'
+import { GET_AUTHORS, SET_BIRTHYEAR } from '../queries'
 
 const Authors = (props) => {
-  const { loading, data } = useQuery(GET_AUTHORS_DETAILS, {
+  const { loading, data } = useQuery(GET_AUTHORS, {
     variables: {
       pollInterval: 500,
     },
@@ -13,7 +13,7 @@ const Authors = (props) => {
   const [born, setBorn] = useState('')
 
   const [editAuthor] = useMutation(SET_BIRTHYEAR, {
-    refetchQueries: [{ query: GET_AUTHORS_DETAILS }],
+    refetchQueries: [{ query: GET_AUTHORS }],
   })
 
   if (loading) return 'Loading...'

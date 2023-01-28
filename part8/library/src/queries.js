@@ -26,14 +26,16 @@ mutation createBook(
     published: $published
     genres: $genres) {
     title
-    author
+    author {
+      name
+    }
     published
     genres
   }
 }
 `
 
-export const GET_AUTHORS_DETAILS = gql`
+export const GET_AUTHORS = gql`
   query getAuthors {
     allAuthors {
       name
