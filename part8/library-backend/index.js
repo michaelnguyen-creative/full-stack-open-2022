@@ -14,19 +14,14 @@ mongoose
   .catch((error) => console.log('error', error.message))
 
 const getCurrentUser = async (req) => {
-  if (!req.headers.authorization) return null
-  const auth = req ? req.headers.authorization : null
-  let decodedToken
+  const auth = req.headers.authorization
+
+  let currentUser
   if (auth && auth.toLowerCase().startsWith('bearer')) {
-    decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
+    const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
+    currentUser = await User.findById(decodedToken.id)
   }
-  const currentUser = await User.findById(decodedToken.id)
-  if (!currentUser)
-    throw new GraphQLError('you must be logged in', {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-      },
-    })
+
   return currentUser
 }
 
