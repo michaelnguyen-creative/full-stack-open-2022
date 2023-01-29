@@ -75,3 +75,12 @@ export const GET_BOOKS_BY_GENRE = gql`
     }
   }
 `
+
+export const WHOAMI = gql`
+  query whoAmI {
+    me {
+      username
+      favGenre
+    }
+  }
+`

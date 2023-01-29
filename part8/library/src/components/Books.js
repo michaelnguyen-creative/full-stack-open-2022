@@ -2,6 +2,29 @@ import { useLazyQuery } from '@apollo/client'
 import { useState, useEffect } from 'react'
 import { GET_BOOKS_BY_GENRE } from '../queries'
 
+export const BookList = ({ booksToShow }) => {
+  return (
+    <table>
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>author</th>
+            <th>published</th>
+          </tr>
+        </thead>
+        <tbody>
+          {booksToShow.map((a) => (
+            <tr key={a.title}>
+              <td>{a.title}</td>
+              <td>{a.author.name}</td>
+              <td>{a.published}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+  )
+}
+
 const Books = ({ show, books }) => {
   const [booksToShow, setBooksToShow] = useState(books)
   const [getBooksByGenre, booksByGenre] = useLazyQuery(GET_BOOKS_BY_GENRE)
@@ -29,22 +52,7 @@ const Books = ({ show, books }) => {
   return (
     <div>
       <h2>books</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>title</th>
-            <th>author</th>
-            <th>published</th>
-          </tr>
-          {booksToShow.map((a) => (
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author.name}</td>
-              <td>{a.published}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <BookList booksToShow={booksToShow}/>
       <div>
         {getUniqueGenres().map((g) => (
           <button
@@ -54,9 +62,7 @@ const Books = ({ show, books }) => {
             {g}
           </button>
         ))}
-        <button onClick={() => setBooksToShow(books)}>
-          all genres
-        </button>
+        <button onClick={() => setBooksToShow(books)}>all genres</button>
       </div>
     </div>
   )
