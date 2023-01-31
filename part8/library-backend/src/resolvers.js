@@ -3,7 +3,6 @@ import Book from '../models/book.js'
 import Author from '../models/author.js'
 import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
-import { JWT_SECRET } from '../utils/config.js'
 
 export const resolvers = {
   Query: {
