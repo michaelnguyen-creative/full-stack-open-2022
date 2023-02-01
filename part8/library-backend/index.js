@@ -1,8 +1,10 @@
 import { ApolloServer } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
-
 import { makeExecutableSchema } from '@graphql-tools/schema'
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/lib/use/ws'
+
 import express from 'express'
 import http from 'http'
 import mongoose from 'mongoose'
@@ -14,7 +16,7 @@ import { typeDefs } from './src/schema.js'
 import { resolvers } from './src/resolvers.js'
 
 import User from './models/user.js'
-import { JWT_SECRET, MONGODB_URI } from './utils/config.js'
+import { MONGODB_URI } from './utils/config.js'
 
 const connectToMongoDb = async () => {
   console.log('connecting to MongoDB at', MONGODB_URI)
@@ -30,11 +32,10 @@ connectToMongoDb()
 
 const getCurrentUser = async (req) => {
   const auth = req.headers.authorization
+  let currentUser = null
 
-  let currentUser
   if (auth && auth.toLowerCase().startsWith('bearer')) {
-    const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
-    console.log('d', decodedToken)
+    const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET)
     currentUser = await User.findById(decodedToken.id)
   }
 
@@ -50,9 +51,26 @@ const startApolloServer = async () => {
   const app = express()
   const httpServer = http.createServer(app)
 
+  const wss = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
+  })
+  const serverCleanup = useServer({ schema }, wss)
+
   const apolloServer = new ApolloServer({
     schema,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose()
+            },
+          }
+        },
+      },
+    ],
   })
 
   await apolloServer.start()
@@ -63,13 +81,15 @@ const startApolloServer = async () => {
     bodyParser.json(),
     expressMiddleware(apolloServer, {
       context: async ({ req }) => ({
-        currentUser: await getCurrentUser(req)
-      })
+        currentUser: await getCurrentUser(req),
+      }),
     })
   )
 
-  await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve))
-  console.log(`Server's ready at http://localhost:4000/graphql`)
+  const PORT = 4000
+  httpServer.listen(PORT, () =>
+    console.log(`Server's ready at http://localhost:${PORT}/graphql`)
+  )
 }
 
 startApolloServer()
