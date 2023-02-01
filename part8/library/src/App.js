@@ -1,17 +1,41 @@
 import { useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery, useSubscription, useApolloClient } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import Recommendation from './components/Recommendation'
-import { GET_BOOKS } from './queries'
+import { GET_BOOKS, SUBSCRIBE_BOOK_ADDED } from './queries'
 
+export const updateCache = (cache, query, addedBook) => {
+  const uniqueByTitle = (data) => {
+    let seen = new Set()
+    return data.filter((item) => {
+      let k = item.title
+      return seen.has(k) ? false : seen.add(k)
+    })
+  }
 
+  cache.updateQuery(query, ({ allBooks }) => {
+    return {
+      allBooks: uniqueByTitle(allBooks.concat(addedBook))
+    }
+  })
+}
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
   const books = useQuery(GET_BOOKS)
+  const client = useApolloClient()
+
+  useSubscription(SUBSCRIBE_BOOK_ADDED, {
+    onData: ({ data }) => {
+      console.log('data', data)
+      const addedBook = data.data.bookAdded
+      window.alert(`added ${addedBook.title}`)
+      updateCache(client.cache, { query: GET_BOOKS }, addedBook)
+    }
+  })
 
   if (books.loading) return 'Books are loading...'
 
@@ -52,7 +76,7 @@ const App = () => {
         setPage={setPage}
       />
       <NewBook show={page === 'add'} />
-      <Recommendation show={page === 'recommend'} books={books.data.allBooks} />
+      <Recommendation show={page === 'recommend'} />
     </div>
   )
 }
