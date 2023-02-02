@@ -11,6 +11,9 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [createNewBook] = useMutation(CREATE_NEW_BOOK, {
+    onError: (err) => {
+      console.log('error from NewBook/CREATE_NEW_BOOK', err)
+    },
     update: (cache, res) => {
       const addedBook = res.data.addBook
       updateCache(cache, { query: GET_BOOKS }, addedBook)

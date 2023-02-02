@@ -1,7 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import { useState, useEffect } from 'react'
-import { GET_BOOKS, GET_BOOKS_BY_GENRE } from '../queries'
-import { updateCache } from '../App'
+import { GET_BOOKS_BY_GENRE } from '../queries'
 
 export const BookList = ({ booksToShow }) => {
   return (
@@ -30,7 +29,7 @@ const Books = ({ show, books }) => {
   const [booksToShow, setBooksToShow] = useState(books)
   const [getBooksByGenre, booksByGenre] = useLazyQuery(GET_BOOKS_BY_GENRE, {
     onCompleted: (data) => {
-      console.log('data from GET_BOOKS_BY_GENRE', data)
+      console.log('data from Books/GET_BOOKS_BY_GENRE', data)
     }
   })
 

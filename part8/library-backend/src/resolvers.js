@@ -15,13 +15,16 @@ export const resolvers = {
       if (Object.keys(args).length === 0) {
         return await Book.find({}).populate('author')
       }
+
       const foundAuthor = await Author.findOne({ name: args.author })
+
       if (args.author && args.genre) {
         return Book.find({
           author: foundAuthor._id,
           genres: { $in: [args.genre] },
         }).populate('author')
       }
+
       return Book.find({
         $or: [
           { author: !foundAuthor ? null : foundAuthor._id },
@@ -29,13 +32,28 @@ export const resolvers = {
         ],
       }).populate('author')
     },
-    allAuthors: async () => await Author.find({}),
+    allAuthors: async () => {
+      const allAuthors = await Author.find({})
+      return allAuthors
+    },
     me: (root, args, context) => {
       return context.currentUser
     },
   },
   Author: {
-    bookCount: async (root) => await Book.countDocuments({ author: root._id }),
+    bookCount: async (root) => {
+      if (root.bookCount === 0) {
+        // Check if bookCount is correct
+        const bookCountOnAuthor = await Book.countDocuments({
+          author: root._id,
+        })
+        if (bookCountOnAuthor === root.bookCount) return
+        await Author.findByIdAndUpdate(root._id, {
+          bookCount: bookCountOnAuthor,
+        })
+      }
+      return root.bookCount
+    },
   },
   Mutation: {
     addBook: async (root, args, context) => {
@@ -47,7 +65,7 @@ export const resolvers = {
         })
       }
 
-      const authorInfo = await Author.findOne({ name: args.author })
+      const foundAuthor = await Author.findOne({ name: args.author })
 
       const createBook = async (authorId) => {
         const bookToAdd = new Book({
@@ -56,7 +74,12 @@ export const resolvers = {
         })
         let addedBook
         try {
-          addedBook = await (await bookToAdd.save()).populate('author')
+          addedBook = await bookToAdd.save()
+          // Update bookCount of the author
+          await Author.findByIdAndUpdate(foundAuthor._id, {
+            bookCount: foundAuthor.bookCount + 1,
+          })
+          addedBook = await addedBook.populate('author')
         } catch (err) {
           throw new GraphQLError(err.message, {
             extensions: {
@@ -73,7 +96,7 @@ export const resolvers = {
         return addedBook
       }
 
-      if (!authorInfo) {
+      if (!foundAuthor) {
         const authorToCreate = new Author({
           name: args.author,
           born: null,
@@ -82,7 +105,7 @@ export const resolvers = {
         return createBook(createdAuthor._id)
       }
 
-      return createBook(authorInfo._id)
+      return createBook(foundAuthor._id)
     },
     editAuthor: async (root, args, context) => {
       if (!context.currentUser) {

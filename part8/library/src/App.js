@@ -25,7 +25,9 @@ export const updateCache = (cache, query, addedBook) => {
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
-  const books = useQuery(GET_BOOKS)
+  const books = useQuery(GET_BOOKS, {
+    onError: (err) => console.log('error from App/GET_BOOKS', err)
+  })
   const client = useApolloClient()
 
   useSubscription(SUBSCRIBE_BOOK_ADDED, {
@@ -76,7 +78,7 @@ const App = () => {
         setPage={setPage}
       />
       <NewBook show={page === 'add'} />
-      <Recommendation show={page === 'recommend'} />
+      <Recommendation show={page === 'recommend'} books={books.data.allBooks} />
     </div>
   )
 }

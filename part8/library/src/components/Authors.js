@@ -8,6 +8,8 @@ const Authors = (props) => {
     variables: {
       pollInterval: 500,
     },
+    onCompleted: (data) => console.log('data from Authors/GET_AUTHORS', data),
+    onError: (err) => console.log('error from Authors/GET_AUTHORS', err),
   })
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
@@ -27,7 +29,7 @@ const Authors = (props) => {
     editAuthor({
       variables: {
         name,
-        born: Number(born)
+        born: Number(born),
       },
     })
     setName('')
@@ -63,7 +65,12 @@ const Authors = (props) => {
       </table>
       <h3>Set birthyear</h3>
       <form onSubmit={handleSubmit}>
-        <Select options={generateOptions()} onChange={(e) => {setName(e.value)}} />
+        <Select
+          options={generateOptions()}
+          onChange={(e) => {
+            setName(e.value)
+          }}
+        />
         <div>
           born
           <input value={born} onChange={(e) => setBorn(e.target.value)} />

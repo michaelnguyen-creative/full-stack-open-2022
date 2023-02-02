@@ -26,9 +26,8 @@ const connectToMongoDb = async () => {
   } catch (error) {
     console.log('error', error.message)
   }
+  mongoose.set('debug', true)
 }
-
-connectToMongoDb()
 
 const getCurrentUser = async (req) => {
   const auth = req.headers.authorization
@@ -92,4 +91,5 @@ const startApolloServer = async () => {
   )
 }
 
+connectToMongoDb()
 startApolloServer()
