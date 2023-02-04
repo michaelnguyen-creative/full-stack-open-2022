@@ -38,8 +38,7 @@ const calculateExercises = (
   args: Array<string>
 ): ExerciseStats => {
   const { values } = parseArguments(args)
-  const dailyTarget: number = values[0]
-  const dailyExerciseHours: Array<number> = values.slice(1)  
+  const [dailyTarget, ...dailyExerciseHours] = values
   // Validate data input
   if (!dailyTarget || dailyExerciseHours.length == 0) throw new Error('invalid daily target or daily exercise hours')
 

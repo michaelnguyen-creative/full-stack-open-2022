@@ -1,23 +1,17 @@
 import { parseArguments } from './helper'
 
-const inputIsValid = (height: number, weight: number): boolean => {
-  const heightIsWithinRange = 0 < height && height < 300
-  const weightIsWithinRange = 0 < weight && weight < 500
-  if (heightIsWithinRange && weightIsWithinRange) return true
-  return false
-}
-
 const calculateBmi = (args: string[]): string => {
   // Validate Data
   const { valueOne: heightInCm, valueTwo: weightInKg } = parseArguments(args)
   // Have another function to do just that
   // Now assume that data is valid (cleaned/processed/sanitized)
-  if ((!heightInCm || !weightInKg) && !inputIsValid(heightInCm, weightInKg))
+  if ((!heightInCm || !weightInKg))
     throw new Error('Invalid height or weight')
   // Fit Data > formula > Result
   const bmi = weightInKg / Math.pow(heightInCm / 100, 2)
   // Evalute Result > returns Category (cat, weight)
   // valid bmi score: (~16, ~40)
+  // too much deviation > something's wrong with calculation
   if (bmi < 16.0) return `Underweight (severe thinness)`
   if (16.0 <= bmi && bmi <= 16.9) return `Underweight (moderate thinness)`
   if (17.0 <= bmi && bmi <= 18.4) return `Underweight (mild thinness)`
@@ -28,7 +22,6 @@ const calculateBmi = (args: string[]): string => {
   if (40.0 <= bmi) return `Obese (class III)`
 
   return `Oops, something's wrong. BMI score calculated was: ${bmi}`
-  // too much deviation > something's wrong with calculation
 }
 
 // console.log(calculateBmi(1638, 59))

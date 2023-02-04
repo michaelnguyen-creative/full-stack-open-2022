@@ -1,10 +1,10 @@
 interface ArgValues {
   valueOne?: number
   valueTwo?: number
-  values?: Array<number>
+  values: Array<number>
 }
 
-export const parseArguments = (args: string[]): ArgValues => {
+export const parseArguments = (_args: string[]): ArgValues => {
   const valueOne = Number(process.argv[2])
   const valueTwo = Number(process.argv[3])
 
@@ -14,6 +14,7 @@ export const parseArguments = (args: string[]): ArgValues => {
     return {
       valueOne,
       valueTwo,
+      values: []
     }
   // exercise case
   return { values: process.argv.slice(2).map((arg) => Number(arg)) }
