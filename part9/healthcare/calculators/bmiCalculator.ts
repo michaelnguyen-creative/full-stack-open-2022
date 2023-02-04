@@ -1,8 +1,7 @@
-import { parseArguments } from './helper'
+// import { parseArguments } from './helper'
 
-const calculateBmi = (args: string[]): string => {
+const calculateBmi = (heightInCm: number, weightInKg: number): string => {
   // Validate Data
-  const { valueOne: heightInCm, valueTwo: weightInKg } = parseArguments(args)
   // Have another function to do just that
   // Now assume that data is valid (cleaned/processed/sanitized)
   if ((!heightInCm || !weightInKg))
@@ -26,5 +25,6 @@ const calculateBmi = (args: string[]): string => {
 
 // console.log(calculateBmi(1638, 59))
 // console.log(process.argv);
-
-console.log(calculateBmi(process.argv))
+// const { values } = parseArguments(process.argv)
+// console.log(calculateBmi(values[0], values[1]))
+export default calculateBmi

@@ -63,4 +63,5 @@ const calculateExercises = (
 
 // console.log(process.argv);
 
-console.log(calculateExercises(process.argv))
+// console.log(calculateExercises(process.argv))
+export default calculateExercises

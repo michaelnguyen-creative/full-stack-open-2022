@@ -1,0 +1,5 @@
+GET http://localhost:3001/hello
+
+###
+
+GET http://localhost:3001/bmi?height=168&weight=56
