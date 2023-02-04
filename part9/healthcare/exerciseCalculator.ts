@@ -1,3 +1,5 @@
+import { parseArguments } from "./helper"
+
 interface ExerciseStats {
   periodLength: number
   trainingDays: number
@@ -33,14 +35,17 @@ const ratePerformance = (average: number, target: number): ratings => {
 }
 
 const calculateExercises = (
-  dailyExerciseHours: Array<number>,
-  dailyTarget: number
+  args: Array<string>
 ): ExerciseStats => {
+  const { values } = parseArguments(args)
+  const dailyTarget: number = values[0]
+  const dailyExerciseHours: Array<number> = values.slice(1)  
+  // Validate data input
+  if (!dailyTarget || dailyExerciseHours.length == 0) throw new Error('invalid daily target or daily exercise hours')
+
   const periodLength = dailyExerciseHours.length
   const trainingDays = dailyExerciseHours.filter((h) => h > 0).length
-  const average =
-    dailyExerciseHours.reduce((acc, hour) => acc + hour, 0) /
-    (dailyTarget * periodLength)
+  const average = dailyExerciseHours.reduce((acc, hour) => acc + hour, 0) / periodLength
   const success = average >= dailyTarget
   const { rating, ratingDescription } = ratePerformance(average, dailyTarget)
   // Metrics:
@@ -57,4 +62,6 @@ const calculateExercises = (
   }
 }
 
-console.log(calculateExercises([1, 2, 0, 4, 5, 6, 2, 3], 2))
+// console.log(process.argv);
+
+console.log(calculateExercises(process.argv))

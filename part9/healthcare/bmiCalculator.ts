@@ -1,3 +1,5 @@
+import { parseArguments } from './helper'
+
 const inputIsValid = (height: number, weight: number): boolean => {
   const heightIsWithinRange = 0 < height && height < 300
   const weightIsWithinRange = 0 < weight && weight < 500
@@ -5,11 +7,12 @@ const inputIsValid = (height: number, weight: number): boolean => {
   return false
 }
 
-const calculateBmi = (heightInCm: number, weightInKg: number): string => {
+const calculateBmi = (args: string[]): string => {
   // Validate Data
+  const { valueOne: heightInCm, valueTwo: weightInKg } = parseArguments(args)
   // Have another function to do just that
   // Now assume that data is valid (cleaned/processed/sanitized)
-  if (!inputIsValid(heightInCm, weightInKg))
+  if ((!heightInCm || !weightInKg) && !inputIsValid(heightInCm, weightInKg))
     throw new Error('Invalid height or weight')
   // Fit Data > formula > Result
   const bmi = weightInKg / Math.pow(heightInCm / 100, 2)
@@ -28,4 +31,7 @@ const calculateBmi = (heightInCm: number, weightInKg: number): string => {
   // too much deviation > something's wrong with calculation
 }
 
-console.log(calculateBmi(1638, 59))
+// console.log(calculateBmi(1638, 59))
+// console.log(process.argv);
+
+console.log(calculateBmi(process.argv))
