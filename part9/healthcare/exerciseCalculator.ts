@@ -17,12 +17,12 @@ interface ratings {
 
 const ratePerformance = (average: number, target: number): ratings => {
   const ratio = average / target
-  if (ratio < 0.49)
+  if (ratio < 1)
     return {
       rating: 1,
       ratingDescription: 'You have not reached your goal, try again',
     }
-  if (ratio < 0.79)
+  if (ratio < 1.5)
     return {
       rating: 2,
       ratingDescription: 'Good, keep going!',
@@ -30,7 +30,7 @@ const ratePerformance = (average: number, target: number): ratings => {
 
   return {
     rating: 3,
-    ratingDescription: 'Woohoo. You have made it!',
+    ratingDescription: 'Woohoo. You rock!',
   }
 }
 
