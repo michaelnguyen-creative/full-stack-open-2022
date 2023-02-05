@@ -2,7 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "noImplicitAny": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "alwaysStrict": true,

@@ -2,10 +2,8 @@
 
 const calculateBmi = (heightInCm: number, weightInKg: number): string => {
   // Validate Data
-  // Have another function to do just that
   // Now assume that data is valid (cleaned/processed/sanitized)
-  if ((!heightInCm || !weightInKg))
-    throw new Error('Invalid height or weight');
+  if (!heightInCm || !weightInKg) throw new Error("Invalid height or weight");
   // Fit Data > formula > Result
   const bmi = weightInKg / Math.pow(heightInCm / 100, 2);
   // Evalute Result > returns Category (cat, weight)
@@ -23,8 +21,13 @@ const calculateBmi = (heightInCm: number, weightInKg: number): string => {
   return `Oops, something's wrong. BMI score calculated was: ${bmi}`;
 };
 
-// console.log(calculateBmi(1638, 59))
-// console.log(process.argv);
-// const { values } = parseArguments(process.argv)
-// console.log(calculateBmi(values[0], values[1]))
+// try {
+  // console.log(calculateBmi(1638, 59))
+  // console.log(process.argv);
+  // const { values } = parseArguments(process.argv)
+  // console.log(calculateBmi(values[0], values[1]))
+// } catch (error) {
+//   console.log("error/bmi", error);
+// }
+
 export default calculateBmi;
