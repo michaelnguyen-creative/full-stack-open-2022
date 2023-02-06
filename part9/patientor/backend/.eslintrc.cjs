@@ -22,7 +22,7 @@ module.exports = {
     "no-case-declarations": "off",
   },
   parserOptions: {
-    project: "tsconfig.json",
+    project: "*/tsconfig.json",
     tsconfigRootDir: __dirname,
   },
   root: true,
