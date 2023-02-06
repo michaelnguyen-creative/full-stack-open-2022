@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "build",
     "target": "ES6",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
