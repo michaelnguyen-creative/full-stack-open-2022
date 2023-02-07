@@ -8,7 +8,7 @@ content-type: application/json
 {
   "name": "test",
   "dateOfBirth": "02-07-2023",
-  "gender": "test",
+  "gender": "male",
   "occupation": "test",
   "ssn": "123456"
 }
