@@ -1,0 +1,14 @@
+GET http://localhost:4000/api/diagnoses
+###
+GET http://localhost:4000/api/patients
+###
+POST http://localhost:4000/api/patients
+content-type: application/json
+
+{
+  "name": "test",
+  "dateOfBirth": "02-07-2023",
+  "gender": "test",
+  "occupation": "test",
+  "ssn": "123456"
+}
