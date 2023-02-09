@@ -1,17 +1,15 @@
 import { v1 as uuidv1 } from "uuid";
 
 import patients from "../../data/patients"
-import { Patient, PatientFromRequest } from "../types";
+import { Patient, PatientFromRequest, PublicPatient } from "../types";
 
-const getPatientsWithoutSsn = (): Omit<Patient, "ssn">[] => patients.map(
-  ({ id, name, dateOfBirth, gender, occupation }) => ({
-    id,
-    name,
-    dateOfBirth,
-    gender,
-    occupation,
-  })
-);
+const getPatients = (): Patient[] => {
+  return patients
+}
+
+const getPatientById = (id: string): Patient | undefined => {
+  return patients.find((p) => p.id === id)
+}
 
 const addPatient = (param: PatientFromRequest): Patient => {
   const patientToAdd = {
@@ -22,7 +20,21 @@ const addPatient = (param: PatientFromRequest): Patient => {
   return patientToAdd;
 };
 
+const getPublicPatients = (): Array<PublicPatient> => {
+  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+    id, name, dateOfBirth, gender, occupation
+  }))
+}
+
+const getPublicPatientById = (id: string): PublicPatient | undefined => {
+  const publicPatients = getPublicPatients()
+  return publicPatients.find((p) => p.id === id)
+}
+
 export default {
-  getPatientsWithoutSsn,
+  getPatients,
+  getPatientById,
+  getPublicPatients,
+  getPublicPatientById,
   addPatient,
 }

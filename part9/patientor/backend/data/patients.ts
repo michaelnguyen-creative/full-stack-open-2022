@@ -47,6 +47,7 @@ const patients: Array<Patient> = data.map((item) => {
   return {
     ...item,
     gender: "male" ? Gender.Male : "female" ? Gender.Female : Gender.Other,
+    entries: []
   };
 });
 

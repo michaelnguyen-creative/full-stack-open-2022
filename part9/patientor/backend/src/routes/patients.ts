@@ -1,15 +1,15 @@
 import express from "express";
 import patientService from "../services/patientService";
-import utils from "../utils"
+import utils from "../utils";
 
 const router = express.Router();
 
-router.get("/patients", (_req, res) => {
-  const patients = patientService.getPatientsWithoutSsn()
+router.get("/", (_req, res) => {
+  const patients = patientService.getPublicPatients();
   res.status(200).json(patients);
 });
 
-router.post("/patients", (req, res) => {
+router.post("/", (req, res) => {
   try {
     const patient = utils.getPatientFromRequest(req.body);
     const addedPatient = patientService.addPatient(patient);
@@ -21,6 +21,13 @@ router.post("/patients", (req, res) => {
     }
     res.status(400).send(errorMessage);
   }
+});
+
+router.get("/:id", (req, res) => {
+  const patientId = req.params.id;
+  const patientInfo = patientService.getPatientById(patientId);
+  if (!patientInfo) res.status(400).send({ error: "Malformatted id" });
+  res.status(200).json(patientInfo);
 });
 
 export default router;
