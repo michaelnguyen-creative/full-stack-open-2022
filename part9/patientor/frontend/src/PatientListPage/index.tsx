@@ -13,6 +13,7 @@ import { TableRow } from '@material-ui/core'
 import { TableBody } from '@material-ui/core'
 
 import { Link } from 'react-router-dom'
+import { addPatient } from "../state/reducer"
 
 const PatientListPage = () => {
   const [{ patients }, dispatch] = useStateValue()
@@ -33,7 +34,7 @@ const PatientListPage = () => {
         `${apiBaseUrl}/patients`,
         values
       )
-      dispatch({ type: 'ADD_PATIENT', payload: newPatient })
+      dispatch(addPatient(newPatient))
       closeModal()
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {

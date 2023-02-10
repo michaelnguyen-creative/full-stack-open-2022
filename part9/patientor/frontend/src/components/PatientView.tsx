@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Patient } from '../types'
 import { useStateValue } from '../state'
 import { apiBaseUrl } from '../constants'
+import { updatePatient } from '../state/reducer'
 
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
@@ -24,7 +25,7 @@ const PatientView = () => {
     void axios
       .get(`${apiBaseUrl}/patients/${match?.params.patientId}`)
       .then((res) => {
-        dispatch({ type: 'UPDATE_PATIENT', payload: res.data })
+        dispatch(updatePatient(res.data))
         setPatient(res.data)
       })
   }, [])
