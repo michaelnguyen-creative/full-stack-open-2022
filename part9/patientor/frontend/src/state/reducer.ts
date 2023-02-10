@@ -9,7 +9,11 @@ export type Action =
   | {
       type: "ADD_PATIENT";
       payload: Patient;
-    };
+    }
+  | {
+    type: "UPDATE_PATIENT"
+    payload: Patient
+  }
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -32,6 +36,28 @@ export const reducer = (state: State, action: Action): State => {
           [action.payload.id]: action.payload
         }
       };
+    case "UPDATE_PATIENT":
+      const updatePatient = () => {
+        const newStatePatients = {
+          ...state.patients,
+        }
+        console.log('b:nsp', newStatePatients)
+        newStatePatients[action.payload.id] = action.payload
+        console.log('a:nsp', newStatePatients)
+        return newStatePatients
+      }
+      console.log('s', state)
+      return {
+        ...state,
+        patients: updatePatient()
+      }
+      // return {
+      //   ...state,
+      //   patients: {
+      //     ...state.patients,
+      //     state.patients[action.payload.id] = action.payload
+      //   }
+      // }
     default:
       return state;
   }
