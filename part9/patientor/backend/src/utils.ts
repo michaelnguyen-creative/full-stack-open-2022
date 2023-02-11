@@ -1,4 +1,4 @@
-import { PatientFromRequest, Gender } from "./types";
+import { PatientFromRequest, Gender, Entry } from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
@@ -9,8 +9,15 @@ const isDate = (date: string): boolean => {
 };
 
 const isGender = (param: any): param is Gender => {
-  return Object.values(Gender).includes(param)
-}
+  return Object.values(Gender).includes(param);
+};
+
+const hasCorrectTypeValue = (entries: any): entries is Entry[] => {
+  if (!Array.isArray(entries)) throw new Error("not an array");
+  return entries.every(({ type }: Entry) =>
+    ["HealthCheck", "OccupationalHealthcare", "Hospital"].includes(type)
+  );
+};
 
 const parseName = (name: unknown): string => {
   if (!name || !isString(name))
@@ -27,7 +34,11 @@ const parseDate = (date: unknown): string => {
 const parseGender = (gender: unknown): Gender => {
   if (!gender || !isString(gender) || !isGender(gender))
     throw new Error(`Missing or incorrect gender: ${gender}`);
-  return gender === "male" ? Gender.Male : gender === "female" ? Gender.Female : Gender.Other;
+  return gender === "male"
+    ? Gender.Male
+    : gender === "female"
+    ? Gender.Female
+    : Gender.Other;
 };
 
 const parseOccupation = (occupation: unknown): string => {
@@ -41,24 +52,40 @@ const parseSsn = (ssn: unknown): string => {
   return ssn;
 };
 
+const parseEntries = (entries: unknown): Array<Entry> => {
+  if (!entries || !hasCorrectTypeValue(entries))
+    throw new Error(`Missing or incorrect entries: ${JSON.stringify(entries)}`);
+  return entries;
+};
+
 type Fields = {
-  name: unknown,
-  dateOfBirth: unknown,
-  gender: unknown,
-  occupation: unknown,
-  ssn: unknown
-}
-const getPatientFromRequest = ({ name, dateOfBirth, gender, occupation, ssn}: Fields): PatientFromRequest => {
+  name: unknown;
+  dateOfBirth: unknown;
+  gender: unknown;
+  occupation: unknown;
+  ssn: unknown;
+  entries: Entry[];
+};
+
+const getPatientFromRequest = ({
+  name,
+  dateOfBirth,
+  gender,
+  occupation,
+  ssn,
+  entries,
+}: Fields): PatientFromRequest => {
   const patient: PatientFromRequest = {
     name: parseName(name),
     dateOfBirth: parseDate(dateOfBirth),
     gender: parseGender(gender),
     occupation: parseOccupation(occupation),
     ssn: parseSsn(ssn),
+    entries: parseEntries(entries),
   };
   return patient;
 };
 
 export default {
-  getPatientFromRequest
-}
+  getPatientFromRequest,
+};
