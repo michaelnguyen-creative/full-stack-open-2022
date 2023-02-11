@@ -12,9 +12,9 @@ import FemaleIcon from '@mui/icons-material/Female'
 import TransgenderIcon from '@mui/icons-material/Transgender'
 
 const PatientView = () => {
-  const match = useMatch('/patient/:patientId')
   const [patient, setPatient] = useState<Patient | null>(null)
-  const [{ patients }, dispatch] = useStateValue()
+  const match = useMatch('/patient/:patientId')
+  const [{ patients, diagnoses }, dispatch] = useStateValue()
 
   useEffect(() => {
     if (Object.keys(patients).includes(match?.params.patientId as string)) {
@@ -31,6 +31,12 @@ const PatientView = () => {
   }, [])
 
   if (!patient) return <div>Loading patient info</div>
+
+  const findDiagnosis = (code: string): string => {
+    const diagnosis = diagnoses.find((d) => d.code === code)
+    if (!diagnosis) return "No diagnosis info found"
+    return diagnosis.name
+  }
 
   return (
     <div>
@@ -56,7 +62,7 @@ const PatientView = () => {
               </div>
               <ul>
                 {e.diagnosisCodes?.map((c) => (
-                  <li key={c}>{c}</li>
+                  <li key={c}>{c}{" "}{findDiagnosis(c)}</li>
                 ))}
               </ul>
             </div>

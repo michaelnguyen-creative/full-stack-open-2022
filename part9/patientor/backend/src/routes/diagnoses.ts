@@ -3,7 +3,7 @@ import diagnoses from "../../data/diagnoses";
 
 const router = express.Router();
 
-router.get("/diagnoses", (_req, res) => {
+router.get("/", (_req, res) => {
   res.status(200).json(diagnoses);
 });
 

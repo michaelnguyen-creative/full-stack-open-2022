@@ -5,7 +5,7 @@ import { Button, Divider, Container } from '@material-ui/core'
 
 import { apiBaseUrl } from './constants'
 import { useStateValue } from './state'
-import { Patient } from './types'
+import { Diagnosis, Patient } from './types'
 
 import PatientListPage from './PatientListPage'
 import { Typography } from '@material-ui/core'
@@ -18,6 +18,10 @@ const App = () => {
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`)
 
+    axios.get<Diagnosis[]>(`${apiBaseUrl}/diagnoses`)
+      .then(({ data }) => dispatch({ type: "SET_DIAGNOSES", payload: data }))
+      .catch((e) => console.error(e))
+    
     const fetchPatientList = async () => {
       try {
         const { data: patientListFromApi } = await axios.get<Patient[]>(
