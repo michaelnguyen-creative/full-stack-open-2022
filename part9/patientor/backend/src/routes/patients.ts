@@ -5,7 +5,7 @@ import utils from "../utils";
 const router = express.Router();
 
 router.get("/", (_req, res) => {
-  const patients = patientService.getPublicPatients();
+  const patients = patientService.getPatients();
   res.status(200).json(patients);
 });
 

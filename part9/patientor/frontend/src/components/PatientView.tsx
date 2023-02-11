@@ -34,7 +34,7 @@ const PatientView = () => {
 
   return (
     <div>
-      <h3>
+      <h2>
         {patient.name}{' '}
         {patient.gender === 'male' ? (
           <MaleIcon />
@@ -43,10 +43,26 @@ const PatientView = () => {
         ) : (
           <TransgenderIcon />
         )}
-      </h3>
-      <i>{patient.gender}</i>
+      </h2>
       <div>ssn: {patient.ssn}</div>
       <div>occupation: {patient.occupation}</div>
+      <h3>entries</h3>
+      <div>
+        {patient.entries.map((e) => {
+          return (
+            <div key={e.id}>
+              <div>
+                {e.date} {e.description}
+              </div>
+              <ul>
+                {e.diagnosisCodes?.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
