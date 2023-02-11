@@ -10,7 +10,7 @@ import { Diagnosis, Patient } from './types'
 import PatientListPage from './PatientListPage'
 import { Typography } from '@material-ui/core'
 
-import PatientView from './components/PatientView'
+import PatientView from './PatientView'
 import { initializePatients } from './state/reducer'
 
 const App = () => {
