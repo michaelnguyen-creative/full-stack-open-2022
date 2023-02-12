@@ -121,7 +121,7 @@ const PatientView = () => {
       {patient.entries.map((e) => (
         <div key={e.id}>{renderEntryDetails(e)}</div>
       ))}
-      <div>
+      {/* <div>
         {patient.entries.map((e) => {
           return (
             <div key={e.id}>
@@ -138,7 +138,7 @@ const PatientView = () => {
             </div>
           )
         })}
-      </div>
+      </div> */}
     </div>
   )
 }

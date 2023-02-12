@@ -1,10 +1,10 @@
-import { PatientFromRequest, Gender, Entry } from "./types";
+import { PatientFromRequest, Gender, Entry } from "../types";
 
-const isString = (text: unknown): text is string => {
+export const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
 };
 
-const isDate = (date: string): boolean => {
+export const isDate = (date: string): boolean => {
   return Boolean(Date.parse(date));
 };
 
