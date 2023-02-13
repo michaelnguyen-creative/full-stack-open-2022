@@ -38,16 +38,14 @@ const parseName = (name: unknown): string => {
 }
 
 const isHealthCheckRating = (param: any): param is HealthCheckRating => {
-  return Object.keys(HealthCheckRating).includes(param);
+  return Object.values(HealthCheckRating).includes(param);
 };
 
 const parseHealthCheckRating = (rating: any): HealthCheckRating => {
-  if (!rating || isHealthCheckRating(rating))
+  if (!isHealthCheckRating(rating)) {
     throw new Error(`Unhandled or incorrect HealthCheckRating: ${rating}`);
-  return rating === "healthy" ? HealthCheckRating["Healthy"]
-    : rating === "LowRisk" ? HealthCheckRating["LowRisk"]
-    : rating === "HighRisk" ? HealthCheckRating["HighRisk"]
-    : HealthCheckRating["CriticalRisk"]
+  }
+  return rating
 };
 
 const getEntryFromRequest = (requestBody: any): EntryWithoutId => {
