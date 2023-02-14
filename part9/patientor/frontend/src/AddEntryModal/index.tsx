@@ -19,7 +19,7 @@ const AddEntryModal = ({
     <Dialog open={dialogIsOpen}>
       <DialogTitle>Add Entry</DialogTitle>
       <DialogContent>
-        {error && <Alert severity="error" />}
+        {error && <Alert severity="error">{error}</Alert>}
         <AddEntryForm
           addNewEntry={addNewEntry}
           closeDialog={closeDialog}

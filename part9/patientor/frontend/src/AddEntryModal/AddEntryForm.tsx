@@ -54,6 +54,20 @@ const AddEntryForm = ({ addNewEntry, closeDialog }: AddEntryFormProps) => {
         addNewEntry(values)
         actions.resetForm()
       }}
+      validate={(values) => {
+        const FIELD_REQUIRED = 'Field is required'
+        const errors: { [field: string]: string } = {}
+
+        if (!values.description) errors.description = FIELD_REQUIRED
+        if (!values.specialist) errors.specialist = FIELD_REQUIRED
+        if (!values.date) {
+          errors.date = FIELD_REQUIRED
+        } else if (!Date.parse(values.date) || !/^\d{2}-\d{2}-\d{4}/g.test(values.date)) {
+          errors.date = "Invalid date format (Correct: MM-DD-YYYY)"
+        }
+
+        return errors
+      }}
     >
       {(formik) => (
         <Form>
@@ -78,7 +92,6 @@ const AddEntryForm = ({ addNewEntry, closeDialog }: AddEntryFormProps) => {
           <Field
             label="Type"
             name="type"
-            placeholder="MM-DD-YYY"
             component={TextField}
           />
 
@@ -94,12 +107,16 @@ const AddEntryForm = ({ addNewEntry, closeDialog }: AddEntryFormProps) => {
           />
           <Grid container alignItems="center">
             <Grid item xs={6}>
-              <Button variant="contained" sx={{ float: "left" }} onClick={closeDialog}>
+              <Button
+                variant="contained"
+                sx={{ float: 'left' }}
+                onClick={closeDialog}
+              >
                 Cancel
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button variant="contained" sx={{ float: "right" }} type="submit">
+              <Button disabled={!formik.dirty || !formik.isValid} variant="contained" sx={{ float: 'right' }} type="submit">
                 Submit
               </Button>
             </Grid>

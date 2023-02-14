@@ -15,12 +15,12 @@ import { Card, CardContent, Typography, Button } from '@mui/material'
 import AddEntryModal from '../AddEntryModal/index'
 import { HealthCheckEntryFormValues } from '../AddEntryModal/AddEntryForm'
 
-import entryDetails from "./EntryDetails"
+import entryDetails from './EntryDetails'
 
 const PatientView = () => {
   const [patient, setPatient] = useState<Patient | null>(null)
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false)
-  const [error, setError] = useState<string>("")
+  const [error, setError] = useState<string>('')
 
   const patientId = useMatch('/patient/:patientId')?.params.patientId
   const [{ patients }, dispatch] = useStateValue()
@@ -43,16 +43,24 @@ const PatientView = () => {
   if (!patientId) throw new Error("Oops, something's wrong with patientId")
 
   const addNewEntry = async (entryValues: HealthCheckEntryFormValues) => {
-    const { data: addedEntry } = await axios.post<HealthCheckEntry>(
-      `${apiBaseUrl}/patients/${patientId}/entries`,
-      entryValues
-    )
-    console.log('added entry', addedEntry)
-    dispatch({
-      type: 'ADD_HEALTHCHECK_ENTRY',
-      payload: { patientId, entryValues: addedEntry },
-    })
-    return addedEntry
+    try {
+      const { data: addedEntry } = await axios.post<HealthCheckEntry>(
+        `${apiBaseUrl}/patients/${patientId}/entries`,
+        entryValues
+      )
+      dispatch({
+        type: 'ADD_HEALTHCHECK_ENTRY',
+        payload: { patientId, entryValues: addedEntry },
+      })
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        console.log('err', err?.response?.data.error)
+        setError(err?.response?.data.error || 'Unrecognized axios error')
+      } else {
+        console.log('Unknown error', err)
+        setError('Unknown error')
+      }
+    }
   }
 
   const handleOpenDialog = (): void => {

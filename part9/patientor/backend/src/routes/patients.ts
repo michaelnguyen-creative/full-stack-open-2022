@@ -32,10 +32,18 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/:id/entries", (req, res) => {
-  const patientId = req.params.id
-  const entry = entryParser.getEntryFromRequest(req.body)
-  const createdEntry = patientService.addPatientEntry(patientId, entry)
-  res.status(201).json(createdEntry)
-})
+  try {
+    const patientId = req.params.id;
+    const entry = entryParser.getEntryFromRequest(req.body);
+    const createdEntry = patientService.addPatientEntry(patientId, entry);
+    res.status(201).json(createdEntry);
+  } catch (error: unknown) {
+    let errorMessage = "Oops! Something went wrong. ";
+    if (error instanceof Error) {
+      errorMessage += `Error: ${error.message}`
+    };
+    res.status(400).send({ error: errorMessage });
+  }
+});
 
 export default router;
