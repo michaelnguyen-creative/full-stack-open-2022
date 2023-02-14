@@ -9,9 +9,9 @@ import {
 } from '../AddPatientModal/FormField'
 
 import { useStateValue } from '../state'
-import { EntryModalProps } from "./index"
+import { AddEntryModalProps } from './index'
 
-
+import { Button, Grid } from '@mui/material'
 
 const HealthCheckRatingOptions: HealthCheckRatingOption[] = [
   {
@@ -40,13 +40,21 @@ const initialValues: HealthCheckEntryFormValues = {
   date: '',
   diagnosisCodes: [''],
   type: 'HealthCheck',
-  healthCheckRating: HealthCheckRating["Healthy"],
+  healthCheckRating: HealthCheckRating['Healthy'],
 }
 
-const AddEntryForm = ({ addNewEntry }: EntryModalProps) => {
+type AddEntryFormProps = Omit<AddEntryModalProps, 'dialogIsOpen'>
+
+const AddEntryForm = ({ addNewEntry, closeDialog }: AddEntryFormProps) => {
   const [{ diagnoses }] = useStateValue()
   return (
-    <Formik initialValues={initialValues} onSubmit={addNewEntry}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values, actions) => {
+        addNewEntry(values)
+        actions.resetForm()
+      }}
+    >
       {(formik) => (
         <Form>
           <Field
@@ -84,7 +92,18 @@ const AddEntryForm = ({ addNewEntry }: EntryModalProps) => {
             label="Health Check Rating"
             options={HealthCheckRatingOptions}
           />
-          <button type="submit">Submit</button>
+          <Grid container alignItems="center">
+            <Grid item xs={6}>
+              <Button variant="contained" sx={{ float: "left" }} onClick={closeDialog}>
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button variant="contained" sx={{ float: "right" }} type="submit">
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
         </Form>
       )}
     </Formik>
@@ -92,4 +111,3 @@ const AddEntryForm = ({ addNewEntry }: EntryModalProps) => {
 }
 
 export default AddEntryForm
-
