@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useMatch } from 'react-router-dom'
 import axios from 'axios'
 
-import { Entry, HealthCheckEntry, Patient } from '../types'
+import { Patient, Entry, EntryWithoutId } from '../types'
 import { useStateValue } from '../state'
 import { apiBaseUrl } from '../constants'
 import { updatePatient } from '../state/reducer'
@@ -10,10 +10,10 @@ import { updatePatient } from '../state/reducer'
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import TransgenderIcon from '@mui/icons-material/Transgender'
-import { Card, CardContent, Typography, Button } from '@mui/material'
+import { Button } from '@mui/material'
 
 import AddEntryModal from '../AddEntryModal/index'
-import { HealthCheckEntryFormValues } from '../AddEntryModal/AddEntryForm'
+import { EntryFormValues } from '../AddEntryModal/BaseEntryForm'
 
 import entryDetails from './EntryDetails'
 
@@ -42,15 +42,15 @@ const PatientView = () => {
   if (!patient) return <div>Loading patient info</div>
   if (!patientId) throw new Error("Oops, something's wrong with patientId")
 
-  const addNewEntry = async (entryValues: HealthCheckEntryFormValues) => {
+  const addNewEntry = async (entryValues: EntryWithoutId) => {
     try {
-      const { data: addedEntry } = await axios.post<HealthCheckEntry>(
+      const { data: addedEntry } = await axios.post<Entry>(
         `${apiBaseUrl}/patients/${patientId}/entries`,
         entryValues
       )
       dispatch({
-        type: 'ADD_HEALTHCHECK_ENTRY',
-        payload: { patientId, entryValues: addedEntry },
+        type: 'ADD_ENTRY',
+        payload: { patientId, entry: addedEntry },
       })
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

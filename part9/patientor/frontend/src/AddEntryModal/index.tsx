@@ -1,9 +1,10 @@
-import AddEntryForm, { HealthCheckEntryFormValues } from './AddEntryForm'
+import EntryFormControl, { EntryFormValues } from './BaseEntryForm'
 
 import { Dialog, DialogTitle, DialogContent, Alert } from '@mui/material'
+import { EntryWithoutId } from '../types'
 
 export type AddEntryModalProps = {
-  addNewEntry: (entryValues: HealthCheckEntryFormValues) => void
+  addNewEntry: (entryValues: EntryWithoutId) => void
   dialogIsOpen: boolean
   closeDialog: () => void
   error?: string
@@ -20,7 +21,7 @@ const AddEntryModal = ({
       <DialogTitle>Add Entry</DialogTitle>
       <DialogContent>
         {error && <Alert severity="error">{error}</Alert>}
-        <AddEntryForm
+        <EntryFormControl
           addNewEntry={addNewEntry}
           closeDialog={closeDialog}
         />

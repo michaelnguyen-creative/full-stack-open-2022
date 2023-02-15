@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ErrorMessage, Field, FieldProps, FormikProps } from 'formik'
 import {
   Select,
@@ -18,7 +18,7 @@ export type GenderOption = {
 }
 
 export type HealthCheckRatingOption = {
-  value: HealthCheckRating,
+  value: HealthCheckRating
   label: string
 }
 
@@ -34,10 +34,9 @@ const FormikSelect = ({ field, ...props }: FieldProps) => (
 )
 
 export const SelectField = ({ name, label, options }: SelectFieldProps) => (
-  <>
+  <FormControl fullWidth>
     <InputLabel>{label}</InputLabel>
     <Field
-      fullWidth
       style={{ marginBottom: '0.5em' }}
       label={label}
       component={FormikSelect}
@@ -49,7 +48,7 @@ export const SelectField = ({ name, label, options }: SelectFieldProps) => (
         </MenuItem>
       ))}
     </Field>
-  </>
+  </FormControl>
 )
 
 interface TextProps extends FieldProps {
