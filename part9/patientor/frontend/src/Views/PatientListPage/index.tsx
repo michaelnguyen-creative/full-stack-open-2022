@@ -2,18 +2,18 @@ import React from 'react'
 import axios from 'axios'
 import { Box, Table, Button, TableHead, Typography } from '@material-ui/core'
 
-import { PatientFormValues } from '../AddPatientModal/AddPatientForm'
-import AddPatientModal from '../AddPatientModal'
-import { Patient } from '../types'
-import { apiBaseUrl } from '../constants'
-import HealthRatingBar from '../components/HealthRatingBar'
-import { useStateValue } from '../state'
+import { PatientFormValues } from '../../Modals/AddPatient/PatientForm'
+import AddPatientModal from '../../Modals/AddPatient/index'
+import { Patient } from '../../types'
+import { apiBaseUrl } from '../../constants'
+import HealthRatingBar from '../../components/HealthRatingBar'
+import { useStateValue } from '../../state'
 import { TableCell } from '@material-ui/core'
 import { TableRow } from '@material-ui/core'
 import { TableBody } from '@material-ui/core'
 
 import { Link } from 'react-router-dom'
-import { addPatient } from "../state/reducer"
+import { addPatient } from "../../state/reducer"
 
 const PatientListPage = () => {
   const [{ patients }, dispatch] = useStateValue()

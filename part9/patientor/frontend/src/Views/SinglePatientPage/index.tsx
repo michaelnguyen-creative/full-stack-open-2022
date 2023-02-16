@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react'
 import { useMatch } from 'react-router-dom'
 import axios from 'axios'
 
-import { Patient, Entry, EntryWithoutId } from '../types'
-import { useStateValue } from '../state'
-import { apiBaseUrl } from '../constants'
-import { updatePatient } from '../state/reducer'
+import { Patient, Entry, EntryWithoutId } from '../../types'
+import { useStateValue } from '../../state'
+import { apiBaseUrl } from '../../constants'
+import { updatePatient } from '../../state/reducer'
 
 import MaleIcon from '@mui/icons-material/Male'
 import FemaleIcon from '@mui/icons-material/Female'
 import TransgenderIcon from '@mui/icons-material/Transgender'
 import { Button } from '@mui/material'
 
-import AddEntryModal from '../AddEntryModal/index'
-import { EntryFormValues } from '../AddEntryModal/BaseEntryForm'
+import AddEntryModal from '../../Modals/AddEntry/index'
+import { EntryFormValues } from '../../Modals/AddEntry/EntryForm'
 
 import entryDetails from './EntryDetails'
 

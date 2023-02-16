@@ -6,12 +6,20 @@ import {
   MenuItem,
   TextField as TextFieldMUI,
   Typography,
+  InputLabel,
+  Input,
 } from '@material-ui/core'
-import { Diagnosis, Gender, HealthCheckRating } from '../types'
-import { InputLabel } from '@material-ui/core'
-import Input from '@material-ui/core/Input'
 
-// structure of a single option
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Grid,
+  FormLabel,
+} from '@mui/material'
+
+import { Diagnosis, Gender, HealthCheckRating } from '../types'
+
 export type GenderOption = {
   value: Gender
   label: string
@@ -22,8 +30,7 @@ export type HealthCheckRatingOption = {
   label: string
 }
 
-// props for select field component
-type SelectFieldProps = {
+type FieldOptionsProps = {
   name: string
   label: string
   options: GenderOption[] | HealthCheckRatingOption[]
@@ -33,7 +40,7 @@ const FormikSelect = ({ field, ...props }: FieldProps) => (
   <Select {...field} {...props} />
 )
 
-export const SelectField = ({ name, label, options }: SelectFieldProps) => (
+export const SelectField = ({ name, label, options }: FieldOptionsProps) => (
   <FormControl fullWidth>
     <InputLabel>{label}</InputLabel>
     <Field
@@ -146,5 +153,43 @@ export const DiagnosisSelection = ({
       </Select>
       <ErrorMessage name={field} />
     </FormControl>
+  )
+}
+
+const FormikRadios = ({ field, ...props }: FieldProps) => (
+  <RadioGroup {...field} {...props} />
+)
+
+export const HealthcareTypeRadios = () => {
+  return (
+    <>
+      <FormLabel>Healthcare Categories</FormLabel>
+      <Grid
+        container
+        direction="column"
+        justifyContent="space-evenly"
+        alignItems="center"
+      >
+        <Grid item xs={12}>
+          <Field name="type" row component={FormikRadios}>
+            <FormControlLabel
+              value="HealthCheck"
+              control={<Radio />}
+              label="Check"
+            />
+            <FormControlLabel
+              value="OccupationalHealthcare"
+              control={<Radio />}
+              label="Occupational"
+            />
+            <FormControlLabel
+              value="Hospital"
+              control={<Radio />}
+              label="Hospital"
+            />
+          </Field>
+        </Grid>
+      </Grid>
+    </>
   )
 }

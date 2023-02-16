@@ -1,7 +1,7 @@
-import EntryFormControl, { EntryFormValues } from './BaseEntryForm'
+import EntryFormControl from './EntryForm'
 
 import { Dialog, DialogTitle, DialogContent, Alert } from '@mui/material'
-import { EntryWithoutId } from '../types'
+import { EntryWithoutId } from '../../types'
 
 export type AddEntryModalProps = {
   addNewEntry: (entryValues: EntryWithoutId) => void

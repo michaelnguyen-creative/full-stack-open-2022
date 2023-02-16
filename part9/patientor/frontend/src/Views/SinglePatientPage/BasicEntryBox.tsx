@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography} from '@mui/material'
-import { Entry } from '../types'
+import { Entry } from '../../types'
 
 type EntryProps = {
   entry: Entry

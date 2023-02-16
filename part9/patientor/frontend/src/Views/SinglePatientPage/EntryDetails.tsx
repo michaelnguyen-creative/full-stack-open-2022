@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 
-import { Entry } from "../types"
+import { Entry } from "../../types"
 
 import BasicEntryBox from "./BasicEntryBox"
 

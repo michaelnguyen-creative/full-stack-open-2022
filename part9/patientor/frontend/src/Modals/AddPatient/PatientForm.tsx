@@ -2,8 +2,8 @@ import React from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { Field, Formik, Form } from 'formik'
 
-import { TextField, SelectField, GenderOption } from './FormField'
-import { Gender, Patient } from '../types'
+import { TextField, SelectField, GenderOption } from '../FormField'
+import { Gender, Patient } from '../../types'
 
 export type PatientFormValues = Omit<Patient, 'id' | 'entries'>
 
