@@ -1,12 +1,18 @@
 import { View } from 'react-native'
+import { NativeRouter } from 'react-router-native'
+import { StatusBar } from 'expo-status-bar'
+
 import Main from './src/components/Main'
 // import CustomText, { FlexBox } from './playground'
 // import Text from './src/components/Text'
 
 const App = () => {
   return (
-    <View>
-      <Main />
+    <>
+      <NativeRouter>
+        <Main />
+      </NativeRouter>
+      <StatusBar style="auto" />
       {/* <View>
         <CustomText />
         <View>
@@ -19,7 +25,7 @@ const App = () => {
         </View>
         <FlexBox />
       </View> */}
-    </View>
+    </>
   )
 }
 
