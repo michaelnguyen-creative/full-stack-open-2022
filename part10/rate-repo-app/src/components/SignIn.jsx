@@ -15,7 +15,8 @@ const FormikTextInput = ({ name, ...props }) => {
           padding: '2%',
           marginBottom: '3%',
           borderRadius: 5,
-          flex: 1
+          flex: 1,
+          fontFamily: 'System'
         }}
         name={field.name}
         onChangeText={(text) => helpers.setValue(text)}

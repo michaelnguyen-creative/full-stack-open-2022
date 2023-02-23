@@ -14,3 +14,6 @@ export const Typography = styled.Text`
       : ''}
   ${({ sx }) => sx}
 `
+
+export const TextField = styled.TextInput`
+`
