@@ -1,6 +1,7 @@
-import { Button, Text, TextInput, View } from 'react-native'
+import { Button, TextInput, View } from 'react-native'
 import { Formik, ErrorMessage, useField } from 'formik'
 import * as yup from 'yup'
+import { Typography } from './styledComponents'
 
 const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name)
@@ -22,7 +23,7 @@ const FormikTextInput = ({ name, ...props }) => {
         {...props}
       />
       <ErrorMessage name={field.name}>
-        {(error) => <Text style={{ flex: 0, marginBottom: '3%', marginLeft: '3%', color: '#d73a4a' }}>{error}</Text>}
+        {(error) => <Typography variant='caption' sx={{ flex: 0, marginBottom: '3%', marginLeft: '3%', color: '#d73a4a' }}>{error}</Typography>}
       </ErrorMessage>
     </View>
   )
@@ -65,7 +66,7 @@ const SignIn = () => {
       onSubmit={signin}
       validationSchema={validationSchema}
     >
-      {({ handleSubmit, setFieldValue }) => (
+      {({ handleSubmit }) => (
         <SignInForm handleSubmit={handleSubmit} />
       )}
     </Formik>
