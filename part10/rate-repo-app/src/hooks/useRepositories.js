@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { SERVER_URL, API_PORT } from '../utils/config'
 
 export const useRepositories = () => {
   const [repositories, setRepositories] = useState()
@@ -6,8 +7,8 @@ export const useRepositories = () => {
 
   const fetchRepositories = async () => {
     setLoading(true)
-    
-    const res = await fetch('http://192.168.1.8:5000/api/repositories')
+
+    const res = await fetch(`${SERVER_URL}:${API_PORT}/api/repositories`)
     const json = await res.json()
 
     setLoading(FontFaceSetLoadEvent)
