@@ -1,32 +1,56 @@
 import { FlatList, View, StyleSheet } from 'react-native'
 import RepositoryItem from './RepositoryItem'
-import { useRepositories } from '../hooks/useRepositories'
+
+import { gql, useQuery } from '@apollo/client'
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
-    backgroundColor: 'whitesmoke'
+    backgroundColor: 'whitesmoke',
   },
-  
 })
 
 const ItemSeparator = () => <View style={styles.separator} />
 
+const GET_REPOSITORIES = gql`
+  query getRepositories {
+    repositories {
+      edges {
+        node {
+          fullName
+          description
+          language
+          ownerAvatarUrl
+          stargazersCount
+          reviewCount
+          forksCount
+          ratingAverage
+        }
+      }
+    }
+  }
+`
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories()
+  const { loading, data: repositories } = useQuery(GET_REPOSITORIES, {
+    fetchPolicy: 'cache-and-network'
+  })
 
-  const repositoryNodes = repositories
-    ? repositories.edges.map(({ node }) => node)
+  if (loading) return "Loading repositories..."
+
+  const { repositories: { edges }} = repositories
+
+  const repositoryNodes = edges
+    ? edges.map(({ node }) => node)
     : []
 
   return (
-    <View >
+    <View>
       <FlatList
-      data={repositoryNodes}
-      renderItem={({ item }) => <RepositoryItem key={item.id} item={item} />}
-      ItemSeparatorComponent={ItemSeparator}
-    />
+        data={repositoryNodes}
+        renderItem={({ item }) => <RepositoryItem key={item.id} item={item} />}
+        ItemSeparatorComponent={ItemSeparator}
+      />
     </View>
   )
 }
