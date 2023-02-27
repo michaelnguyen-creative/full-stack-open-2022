@@ -2,6 +2,7 @@ import { Button, TextInput, View } from 'react-native'
 import { Formik, ErrorMessage, useField } from 'formik'
 import * as yup from 'yup'
 import { Typography } from './styledComponents'
+import { useSignIn } from '../hooks/useSignin'
 
 const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name)
@@ -16,7 +17,7 @@ const FormikTextInput = ({ name, ...props }) => {
           marginBottom: '3%',
           borderRadius: 5,
           flex: 1,
-          fontFamily: 'System'
+          fontFamily: 'System',
         }}
         name={field.name}
         onChangeText={(text) => helpers.setValue(text)}
@@ -24,13 +25,25 @@ const FormikTextInput = ({ name, ...props }) => {
         {...props}
       />
       <ErrorMessage name={field.name}>
-        {(error) => <Typography variant='caption' sx={{ flex: 0, marginBottom: '3%', marginLeft: '3%', color: '#d73a4a' }}>{error}</Typography>}
+        {(error) => (
+          <Typography
+            variant="caption"
+            sx={{
+              flex: 0,
+              marginBottom: '3%',
+              marginLeft: '3%',
+              color: '#d73a4a',
+            }}
+          >
+            {error}
+          </Typography>
+        )}
       </ErrorMessage>
     </View>
   )
 }
 
-const SignInForm = ({ handleSubmit, }) => {
+const SignInForm = ({ handleSubmit }) => {
   return (
     <View style={{ padding: '5%' }}>
       <FormikTextInput name="username" placeholder="Username" />
@@ -58,18 +71,30 @@ const validationSchema = yup.object().shape({
 })
 
 const SignIn = () => {
-  const signin = (values) => {
-    console.log('signin/values', values)
+  const [signIn] = useSignIn()
+
+  const onSubmit = async (values) => {
+    const { username, password } = values
+
+    try {
+      const {
+        data: {
+          authenticate: { accessToken },
+        },
+      } = await signIn({ username, password })
+      console.log('token', accessToken)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
+
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={signin}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {({ handleSubmit }) => (
-        <SignInForm handleSubmit={handleSubmit} />
-      )}
+      {({ handleSubmit }) => <SignInForm handleSubmit={handleSubmit} />}
     </Formik>
   )
 }
