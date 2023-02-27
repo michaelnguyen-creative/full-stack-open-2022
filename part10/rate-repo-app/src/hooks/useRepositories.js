@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SERVER_ADDRESS, API_PORT } from '../utils/config'
+import Constants from 'expo-constants'
 
 export const useRepositories = () => {
   const [repositories, setRepositories] = useState()
@@ -8,7 +8,7 @@ export const useRepositories = () => {
   const fetchRepositories = async () => {
     setLoading(true)
 
-    const res = await fetch(`${SERVER_ADDRESS}:${API_PORT}/api/repositories`)
+    const res = await fetch(`${Constants.manifest.API_URI}/repositories`)
     const json = await res.json()
 
     setLoading(false)
