@@ -1,13 +1,6 @@
-import { gql, useMutation, useApolloClient } from '@apollo/client'
+import { useMutation, useApolloClient } from '@apollo/client'
 import { useAuthStorage } from './useAuthStorage'
-
-const AUTH = gql`
-  mutation auth($credentials: AuthenticateInput) {
-    authenticate(credentials: $credentials) {
-      accessToken
-    }
-  }
-`
+import { AUTH } from '../graphql/mutations'
 
 export const useSignIn = () => {
   const authStorage = useAuthStorage()
