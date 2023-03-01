@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 
 import RepositoryItem from './RepositoryItem'
 import { GET_REPOSITORIES } from '../../graphql/queries'
+import { useRepositories } from '../../hooks/useRepositories'
 
 const styles = StyleSheet.create({
   separator: {
@@ -13,18 +14,15 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
+// export const RepositoryListContainer = ({ repositories }) => {
+//   const repositoryNodes = edges ? edges.map(({ node }) => node) : []
+  
+// }
+
 const RepositoryList = () => {
-  const { loading, data: repositories } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: 'cache-and-network',
-  })
-
-  if (loading) return 'Loading repositories...'
-
-  const {
-    repositories: { edges },
-  } = repositories
-
-  const repositoryNodes = edges ? edges.map(({ node }) => node) : []
+  const { repositories } = useRepositories()
+  
+  const repositoryNodes = repositories ? repositories.map(({ node }) => node) : []
 
   return (
     <View>

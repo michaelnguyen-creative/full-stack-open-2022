@@ -1,23 +1,35 @@
-import { useState, useEffect } from 'react'
-import Constants from 'expo-constants'
+// import { useState, useEffect } from 'react'
+// import Constants from 'expo-constants'
+import { useQuery } from '@apollo/client'
+import { GET_REPOSITORIES } from '../graphql/queries'
+
 
 export const useRepositories = () => {
-  const [repositories, setRepositories] = useState()
-  const [loading, setLoading] = useState(false)
+  // const [repositories, setRepositories] = useState()
+  // const [loading, setLoading] = useState(false)
+  const { loading, data, refetch } = useQuery(GET_REPOSITORIES, {
+    fetchPolicy: 'cache-and-network',
+  })
 
-  const fetchRepositories = async () => {
-    setLoading(true)
+  if (loading) return 'Loading repositories'
 
-    const res = await fetch(`${Constants.manifest.API_URI}/repositories`)
-    const json = await res.json()
+  const {
+    repositories: { edges },
+  } = data
 
-    setLoading(false)
-    setRepositories(json)
-  }
+  // const fetchRepositories = async () => {
+  //   setLoading(true)
 
-  useEffect(() => {
-    fetchRepositories()
-  }, [])
+  //   const res = await fetch(`${Constants.manifest.API_URI}/repositories`)
+  //   const json = await res.json()
 
-  return { repositories, loading, refetch: fetchRepositories }
+  //   setLoading(false)
+  //   setRepositories(json)
+  // }
+
+  // useEffect(() => {
+  //   fetchRepositories()
+  // }, [])
+
+  return { repositories: edges, refetch }
 }
