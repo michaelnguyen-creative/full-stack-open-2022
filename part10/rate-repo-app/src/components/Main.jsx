@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import { Route, Routes, Navigate } from 'react-router-native'
 import { StatusBar } from 'expo-status-bar'
 
-import RepositoryList from './RepositoryList'
+import RepositoryList from './RepositoryList/index'
 import AppBar from './AppBar/index'
 import SignIn from './SignIn/index'
 

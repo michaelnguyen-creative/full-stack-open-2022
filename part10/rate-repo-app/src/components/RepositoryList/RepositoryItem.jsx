@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import { Typography } from './styledComponents'
-import theme from '../theme'
+import { Typography } from '../styledComponents'
+import theme from '../../theme'
 
 const styles = StyleSheet.create({
   itemViewContainer: { padding: '5%', width: 375, gap: 15 },
