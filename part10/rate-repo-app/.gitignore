@@ -13,3 +13,5 @@ playground/
 
 # macOS
 .DS_Store
+
+.env

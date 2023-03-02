@@ -1,6 +1,8 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Pressable, Image, StyleSheet } from 'react-native'
 import { Typography } from '../styledComponents'
 import theme from '../../theme'
+
+import { useNavigate } from 'react-router-native'
 
 const styles = StyleSheet.create({
   itemViewContainer: { padding: '5%', width: 375, gap: 15 },
@@ -52,8 +54,8 @@ export const formatCount = (number) => {
   return JSON.stringify(number)
 }
 
-const RepositoryItem = ({ item }) => {
-  const {
+const RepositoryItem = ({
+  item: {
     fullName,
     description,
     language,
@@ -62,42 +64,51 @@ const RepositoryItem = ({ item }) => {
     reviewCount,
     ratingAverage,
     ownerAvatarUrl,
-  } = item
+    ...props
+  },
+  children
+}) => {
+  const navigate = useNavigate()
 
   return (
     <View style={styles.itemViewContainer} testID="repositoryItem">
-      <View style={styles.viewRowIntro}>
-        <Image source={ownerAvatarUrl} style={styles.imageAvatar} />
-        <View style={styles.viewInfo}>
-          <Typography variant="subtitle2">{fullName}</Typography>
-          <Typography variant="caption" sx={styles.description}>
-            {description}
-          </Typography>
-          <Typography variant="body2" sx={styles.language}>
-            {language}
-          </Typography>
+      <Pressable onPress={() => navigate(`/${props.id}`)}>
+        <View style={styles.viewRowIntro}>
+          <Image source={ownerAvatarUrl} style={styles.imageAvatar} />
+          <View style={styles.viewInfo}>
+            <Typography variant="subtitle2">{fullName}</Typography>
+            <Typography variant="caption" sx={styles.description}>
+              {description}
+            </Typography>
+            <Typography variant="body2" sx={styles.language}>
+              {language}
+            </Typography>
+          </View>
         </View>
-      </View>
-      <View style={styles.viewRowCounts}>
-        <View style={styles.viewCount}>
-          <Typography variant="body2">
-            {formatCount(stargazersCount)}
-          </Typography>
-          <Typography variant="body2">Stars</Typography>
+        <View style={styles.viewRowCounts}>
+          <View style={styles.viewCount}>
+            <Typography variant="body2">
+              {formatCount(stargazersCount)}
+            </Typography>
+            <Typography variant="body2">Stars</Typography>
+          </View>
+          <View style={styles.viewCount}>
+            <Typography variant="body2">{formatCount(forksCount)}</Typography>
+            <Typography variant="body2">Forks</Typography>
+          </View>
+          <View style={styles.viewCount}>
+            <Typography variant="body2">{formatCount(reviewCount)}</Typography>
+            <Typography variant="body2">Reviews</Typography>
+          </View>
+          <View style={styles.viewCount}>
+            <Typography variant="body2">
+              {formatCount(ratingAverage)}
+            </Typography>
+            <Typography variant="body2">Rating</Typography>
+          </View>
         </View>
-        <View style={styles.viewCount}>
-          <Typography variant="body2">{formatCount(forksCount)}</Typography>
-          <Typography variant="body2">Forks</Typography>
-        </View>
-        <View style={styles.viewCount}>
-          <Typography variant="body2">{formatCount(reviewCount)}</Typography>
-          <Typography variant="body2">Reviews</Typography>
-        </View>
-        <View style={styles.viewCount}>
-          <Typography variant="body2">{formatCount(ratingAverage)}</Typography>
-          <Typography variant="body2">Rating</Typography>
-        </View>
-      </View>
+        {children}
+      </Pressable>
     </View>
   )
 }
