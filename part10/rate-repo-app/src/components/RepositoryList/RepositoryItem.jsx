@@ -43,6 +43,15 @@ const styles = StyleSheet.create({
   },
 })
 
+// Good enough, edge case:
+// console.log(displayItemInfo(21015))
+export const formatCount = (number) => {
+  if (number >= 1000) {
+    return `${(number / 1000).toFixed(1)}K`
+  }
+  return JSON.stringify(number)
+}
+
 const RepositoryItem = ({ item }) => {
   const {
     fullName,
@@ -55,17 +64,8 @@ const RepositoryItem = ({ item }) => {
     ownerAvatarUrl,
   } = item
 
-  // Good enough, edge case:
-  // console.log(displayItemInfo(21015))
-  const formatCount = (number) => {
-    if (number >= 1000) {
-      return `${(number / 1000).toFixed(1)}K`
-    }
-    return JSON.stringify(number)
-  }
-
   return (
-    <View style={styles.itemViewContainer}>
+    <View style={styles.itemViewContainer} testID="repositoryItem">
       <View style={styles.viewRowIntro}>
         <Image source={ownerAvatarUrl} style={styles.imageAvatar} />
         <View style={styles.viewInfo}>
