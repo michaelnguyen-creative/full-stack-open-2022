@@ -1,6 +1,6 @@
-import { Button, TextInput, View } from 'react-native'
+import { TextInput, View } from 'react-native'
 import { ErrorMessage, useField } from 'formik'
-import { Typography } from '../styledComponents'
+import { Typography } from '../../Typography'
 
 const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name)
@@ -41,18 +41,4 @@ const FormikTextInput = ({ name, ...props }) => {
   )
 }
 
-const SignInForm = ({ handleSubmit }) => {
-  return (
-    <View style={{ padding: '5%' }}>
-      <FormikTextInput name="username" placeholder="Username" />
-      <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-      <Button
-        style={{ borderRadius: 5 }}
-        title="Sign in"
-        onPress={handleSubmit}
-      />
-    </View>
-  )
-}
-
-export default SignInForm
+export default FormikTextInput

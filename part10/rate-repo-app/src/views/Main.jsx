@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar'
 import RepositoryList from './RepositoryList/index'
 import AppBar from './AppBar/index'
 import SignIn from './SignIn/index'
-import SingleRepoView from './RepositoryList/SingleRepoView'
+import SingleRepoView from './SingleRepository/SingleRepoView'
 
 const styles = StyleSheet.create({
   container: {

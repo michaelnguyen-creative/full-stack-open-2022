@@ -1,12 +1,12 @@
 import { Button, FlatList, Text, View } from 'react-native'
-import RepositoryItem from './RepositoryItem'
+import RepositoryItem from '../RepositoryList/RepositoryItem'
 import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-native'
 import * as Linking from 'expo-linking'
 
 import { GET_REPO } from '../../graphql/queries'
-import { Typography } from '../styledComponents'
-import { ItemSeparator } from './index'
+import { Typography } from '../../components/Typography'
+import { ItemSeparator } from '../RepositoryList/index'
 
 const RepoInfo = ({ repository }) => {
   const openLink = async () => {

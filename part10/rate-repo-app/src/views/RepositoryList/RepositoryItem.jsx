@@ -1,5 +1,5 @@
 import { View, Pressable, Image, StyleSheet } from 'react-native'
-import { Typography } from '../styledComponents'
+import { Typography } from '../../components/Typography'
 import theme from '../../theme'
 
 import { useNavigate } from 'react-router-native'
