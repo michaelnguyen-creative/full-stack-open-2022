@@ -13,3 +13,15 @@ export const BASE_REPO_DETAILS = gql`
     ratingAverage
   }
 `
+
+export const BASE_REVIEW_DETAILS = gql`
+  fragment BaseReviewDetails on Review {
+    id
+    createdAt
+    rating
+    text
+    user {
+      username
+    }
+  }
+`

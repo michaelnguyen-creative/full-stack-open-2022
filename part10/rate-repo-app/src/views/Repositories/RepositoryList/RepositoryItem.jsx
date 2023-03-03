@@ -1,6 +1,6 @@
 import { View, Pressable, Image, StyleSheet } from 'react-native'
-import { Typography } from '../../components/Typography'
-import theme from '../../theme'
+import { Typography } from '../../../components/Typography'
+import theme from '../../../theme'
 
 import { useNavigate } from 'react-router-native'
 
@@ -55,7 +55,13 @@ export const formatCount = (number) => {
 }
 
 const RepositoryItem = ({
-  item: {
+  item,
+  children
+}) => {
+  const navigate = useNavigate()
+
+  if (!item) return ''
+  const {
     fullName,
     description,
     language,
@@ -65,10 +71,7 @@ const RepositoryItem = ({
     ratingAverage,
     ownerAvatarUrl,
     ...props
-  },
-  children
-}) => {
-  const navigate = useNavigate()
+  } = item
 
   return (
     <View style={styles.itemViewContainer} testID="repositoryItem">

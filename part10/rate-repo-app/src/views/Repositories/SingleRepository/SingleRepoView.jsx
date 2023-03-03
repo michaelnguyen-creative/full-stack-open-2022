@@ -4,8 +4,8 @@ import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-native'
 import * as Linking from 'expo-linking'
 
-import { GET_REPO } from '../../graphql/queries'
-import { Typography } from '../../components/Typography'
+import { GET_REPO } from '../../../graphql/queries'
+import { Typography } from '../../../components/Typography'
 import { ItemSeparator } from '../RepositoryList/index'
 
 const RepoInfo = ({ repository }) => {
@@ -67,15 +67,18 @@ const Review = ({
 const SingleRepoView = () => {
   const repoId = useParams().repoId
   const { data, loading } = useQuery(GET_REPO, {
+    fetchPolicy: 'cache-and-network',
     variables: {
       repoId,
     },
+    onError: (e) => console.log(e),
   })
 
+  console.log(repoId)
   if (loading) return ''
   const { repository } = data
-  const reviews = repository.reviews.edges.map(({ node }) => node)
-  console.log(reviews)
+  const reviews = repository ? repository.reviews.edges.map(({ node }) => node) : []
+
   return (
     <FlatList
       data={reviews}

@@ -22,6 +22,8 @@ const AppBarTab = ({ tabName, onPress }) => {
             ? '/'
             : tabName === 'Sign in'
             ? '/signin'
+            : tabName === 'Create a review'
+            ? '/review'
             : '/'
         }
       >
