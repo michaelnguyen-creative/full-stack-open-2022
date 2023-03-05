@@ -19,7 +19,6 @@ const AppBar = () => {
   const authStorage = useAuthStorage()
   const navigate = useNavigate()
 
-
   if (loading) return
   console.log('me', data.me)
 
@@ -40,7 +39,10 @@ const AppBar = () => {
             <AppBarTab tabName="Sign out" onPress={logout} />
           </>
         ) : (
-          <AppBarTab tabName="Sign in" />
+          <>
+            <AppBarTab tabName="Sign in" />
+            <AppBarTab tabName="Sign up" />
+          </>
         )}
       </ScrollView>
     </View>

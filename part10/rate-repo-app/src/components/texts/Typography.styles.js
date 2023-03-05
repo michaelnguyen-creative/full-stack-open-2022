@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import theme from '../theme'
+import theme from '../../theme'
 
 // Re-implement: Material UI components
 // <Typography variant="subtitle1" sx={} />
