@@ -3,8 +3,11 @@ import { BASE_REPO_DETAILS } from './fragments'
 
 export const GET_REPOSITORIES = gql`
   ${BASE_REPO_DETAILS}
-  query getRepositories {
-    repositories {
+  query getRepositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+  ) {
+    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
       edges {
         node {
           ...BaseRepoDetails
@@ -15,15 +18,15 @@ export const GET_REPOSITORIES = gql`
 `
 
 export const WHOAMI = gql`
-query me {
-  me {
-    username
+  query me {
+    me {
+      username
+    }
   }
-}
 `
 
 export const GET_REPO = gql`
-${BASE_REPO_DETAILS}
+  ${BASE_REPO_DETAILS}
   query getRepo($repoId: ID!) {
     repository(id: $repoId) {
       ...BaseRepoDetails

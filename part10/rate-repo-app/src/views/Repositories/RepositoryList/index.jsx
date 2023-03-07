@@ -1,14 +1,35 @@
-import { FlatList, View, StyleSheet } from 'react-native'
+import { FlatList, View, /* Modal, */ StyleSheet } from 'react-native'
+import { useState } from 'react'
 
 import RepositoryItem from './RepositoryItem'
 import { useRepositories } from '../../../hooks/useRepositories'
 
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-    backgroundColor: 'whitesmoke',
+import SelectModal from '../../../components/forms/elements/SelectModal'
+
+const selectItems = [
+  {
+    label: 'Latest',
+    value: {
+      orderBy: 'CREATED_AT',
+      // test DESC vs. ASCE
+      orderDirection: 'DESC',
+    },
   },
-})
+  {
+    label: 'Highest rated',
+    value: {
+      orderBy: 'RATING_AVERAGE',
+      orderDirection: 'DESC',
+    },
+  },
+  {
+    label: 'Lowest rated',
+    value: {
+      orderBy: 'RATING_AVERAGE',
+      orderDirection: 'ASC',
+    },
+  },
+]
 
 export const ItemSeparator = () => <View style={styles.separator} />
 
@@ -27,9 +48,39 @@ export const RepositoryListContainer = ({ repositories }) => {
 }
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories()
+  const [currentLabel, setCurrentLabel] = useState(selectItems[0].label)
+  const [selectedValue, setSelectedValue] = useState(selectItems[0].value)
+  const { repositories, refetchRepositories } = useRepositories(selectedValue)
 
-  return <RepositoryListContainer repositories={repositories} />
+  const returnValue = async ({ label, value }) => {
+    setCurrentLabel(label)
+    setSelectedValue(value)
+    await refetchRepositories(selectedValue)
+    console.log('SelectModal/returnValue', selectedValue)
+  }
+
+  return (
+    <View>
+      <View style={{ zIndex: 5 }}>
+        <SelectModal
+          returnValue={returnValue}
+          currentLabel={currentLabel}
+          data={selectItems}
+          selectLabel="Select an item..."
+        />
+      </View>
+      <View style={{ zIndex: 0 }}>
+        <RepositoryListContainer repositories={repositories} />
+      </View>
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  separator: {
+    height: 30,
+    backgroundColor: 'whitesmoke',
+  },
+})
 
 export default RepositoryList

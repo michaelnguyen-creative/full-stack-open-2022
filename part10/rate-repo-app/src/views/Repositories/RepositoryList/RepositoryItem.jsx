@@ -4,47 +4,6 @@ import theme from '../../../theme'
 
 import { useNavigate } from 'react-router-native'
 
-const styles = StyleSheet.create({
-  itemViewContainer: { padding: '5%', width: 375, gap: 15 },
-  viewRowIntro: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    gap: 15,
-  },
-  viewRowCounts: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-end',
-  },
-  imageAvatar: {
-    height: 50,
-    width: 50,
-    borderRadius: 5,
-  },
-  viewInfo: {
-    flexDirection: 'column',
-    gap: 5,
-    width: '80%',
-    alignItems: 'flex-start',
-  },
-  description: {
-    flexWrap: 'wrap',
-  },
-  language: {
-    color: theme.colors.on.onPrimary.onDark,
-    backgroundColor: theme.colors.primary.ui.background,
-    borderRadius: 5,
-    padding: 3,
-    textAlign: 'center',
-  },
-  viewCount: {
-    alignItems: 'center',
-  },
-})
-
 // Good enough, edge case:
 // console.log(displayItemInfo(21015))
 export const formatCount = (number) => {
@@ -115,5 +74,46 @@ const RepositoryItem = ({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  itemViewContainer: { padding: '5%', width: 375, gap: 15 },
+  viewRowIntro: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    gap: 15,
+  },
+  viewRowCounts: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-end',
+  },
+  imageAvatar: {
+    height: 50,
+    width: 50,
+    borderRadius: 5,
+  },
+  viewInfo: {
+    flexDirection: 'column',
+    gap: 5,
+    width: '80%',
+    alignItems: 'flex-start',
+  },
+  description: {
+    flexWrap: 'wrap',
+  },
+  language: {
+    color: theme.colors.on.onPrimary.onDark,
+    backgroundColor: theme.colors.primary.ui.background,
+    borderRadius: 5,
+    padding: 3,
+    textAlign: 'center',
+  },
+  viewCount: {
+    alignItems: 'center',
+  },
+})
 
 export default RepositoryItem
