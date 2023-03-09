@@ -68,12 +68,12 @@ const SelectModal = ({ data, returnValue, currentLabel, selectLabel }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: 375,
-            padding: '10%',
+            padding: '5%',
             backgroundColor: 'whitesmoke',
           }}
         >
           <Typography
-            variant="subtitle2"
+            variant="body2"
             style={{
               textAlign: 'center',
               color: 'black',

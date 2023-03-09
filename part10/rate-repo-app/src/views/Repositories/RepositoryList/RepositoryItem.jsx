@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   language: {
     color: theme.colors.on.onPrimary.onDark,
-    backgroundColor: theme.colors.primary.ui.background,
+    backgroundColor: theme.colors.ui.surface,
     borderRadius: 5,
     padding: 3,
     textAlign: 'center',

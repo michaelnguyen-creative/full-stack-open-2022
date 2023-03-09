@@ -8,7 +8,7 @@ import SelectModal from '../../../components/forms/elements/SelectModal'
 
 const selectItems = [
   {
-    label: 'Latest',
+    label: 'Latest repositories',
     value: {
       orderBy: 'CREATED_AT',
       // test DESC vs. ASCE
@@ -16,14 +16,14 @@ const selectItems = [
     },
   },
   {
-    label: 'Highest rated',
+    label: 'Highest rated repositories',
     value: {
       orderBy: 'RATING_AVERAGE',
       orderDirection: 'DESC',
     },
   },
   {
-    label: 'Lowest rated',
+    label: 'Lowest rated repositories',
     value: {
       orderBy: 'RATING_AVERAGE',
       orderDirection: 'ASC',

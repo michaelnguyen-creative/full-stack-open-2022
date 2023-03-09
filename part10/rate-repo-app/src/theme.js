@@ -23,6 +23,42 @@ const theme = {
   // Re-implement: Material Design / Typography / Type System
   typography: {
     /// Variants: h1, h2, h3...subtitle1...body1
+    h1: {
+      fontFamily,
+      fontSize: 96,
+      fontWeight: fontWeights.light,
+      letterSpacing: -1.5
+    },
+    h2: {
+      fontFamily,
+      fontSize: 60,
+      fontWeight: fontWeights.light,
+      letterSpacing: -0.5
+    },
+    h3: {
+      fontFamily,
+      fontSize: 48,
+      fontWeight: fontWeights.regular,
+      letterSpacing: 0
+    },
+    h4: {
+      fontFamily,
+      fontSize: 34,
+      fontWeight: fontWeights.regular,
+      letterSpacing: 0.25
+    },
+    h5: {
+      fontFamily,
+      fontSize: 24,
+      fontWeight: fontWeights.regular,
+      letterSpacing: 0
+    },
+    h6: {
+      fontFamily,
+      fontSize: 20,
+      fontWeight: fontWeights.medium,
+      letterSpacing: 0.15
+    },
     subtitle1: {
       fontFamily,
       fontSize: 16,
@@ -47,11 +83,23 @@ const theme = {
       fontWeight: fontWeights.regular,
       letterSpacing: 0.25
     },
+    button: {
+      fontFamily,
+      fontSize: 14,
+      fontWeight: fontWeights.medium,
+      letterSpacing: 1.25
+    },
     caption: {
       fontFamily,
       fontSize: 12,
       fontWeight: fontWeights.regular,
       letterSpacing: 0.4
+    },
+    overline: {
+      fontFamily,
+      fontSize: 10,
+      fontWeight: fontWeights.regular,
+      letterSpacing: 1.5
     }
   },
   // Re-implement: Material Design / Color System
@@ -59,21 +107,16 @@ const theme = {
     primary: {
       // Variants = dark + light
       dark: '#24292e',
-      light: {},
-      ui: {
-        background: '#0366d6',
-        surface: '',
-        error: ''
-      }
+      light: '',
     },
     secondary: {
       dark: '#586069',
-      light: {},
-      ui: {
-        background: '',
-        surface: '',
-        error: ''
-      }
+      light: '',
+    },
+    ui: {
+      background: 'whitesmoke',
+      surface: '#0366d6',
+      error: ''
     },
     on: {
       onPrimary: {

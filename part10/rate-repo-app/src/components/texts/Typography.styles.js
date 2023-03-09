@@ -1,19 +1,15 @@
 import styled from 'styled-components/native'
 import theme from '../../theme'
 
+const typographyVariants = Object.keys(theme.typography)
 // Re-implement: Material UI components
 // <Typography variant="subtitle1" sx={} />
 export const Typography = styled.Text`
-  ${({ variant }) =>
-    variant === 'subtitle2'
-      ? theme.typography.subtitle2
-      : variant === 'body2'
-      ? theme.typography.body2
-      : variant === 'caption'
-      ? theme.typography.caption
-      : ''}
+  ${({ variant }) => {
+    if (!typographyVariants.includes(variant)) return
+    return theme.typography[variant]
+  }}
   ${({ sx }) => sx}
 `
 
-export const TextField = styled.TextInput`
-`
+export const TextField = styled.TextInput``
