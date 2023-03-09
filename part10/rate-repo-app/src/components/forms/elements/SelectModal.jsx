@@ -44,17 +44,15 @@ const SelectModal = ({ data, returnValue, currentLabel, selectLabel }) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: '5%',
-                    width: 200,
-                    height: 300,
-                    shadowColor: 'gray',
-                    shadowOpacity: 0.5,
-                    zIndex: 5,
+                    width: 275,
+                    borderRadius: '2%',
                   }}
                 >
                   <SelectList
                     data={data}
                     returnValue={returnValue}
                     selectLabel={selectLabel}
+                    closeModal={closeModal}
                   />
                 </View>
               </Pressable>
@@ -68,7 +66,7 @@ const SelectModal = ({ data, returnValue, currentLabel, selectLabel }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             width: 375,
-            padding: '5%',
+            padding: 20,
             backgroundColor: 'whitesmoke',
           }}
         >

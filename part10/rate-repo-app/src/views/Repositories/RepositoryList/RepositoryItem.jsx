@@ -36,37 +36,39 @@ const RepositoryItem = ({
     <View style={styles.itemViewContainer} testID="repositoryItem">
       <Pressable onPress={() => navigate(`/${props.id}`)}>
         <View style={styles.viewRowIntro}>
+          <View style={styles.imageView}>
           <Image source={ownerAvatarUrl} style={styles.imageAvatar} />
+          </View>
           <View style={styles.viewInfo}>
             <Typography variant="subtitle2">{fullName}</Typography>
             <Typography variant="caption" sx={styles.description}>
               {description}
             </Typography>
-            <Typography variant="body2" sx={styles.language}>
+            <Typography variant="subtitle2" sx={styles.language}>
               {language}
             </Typography>
           </View>
         </View>
         <View style={styles.viewRowCounts}>
           <View style={styles.viewCount}>
-            <Typography variant="body2">
+            <Typography variant="subtitle2">
               {formatCount(stargazersCount)}
             </Typography>
-            <Typography variant="body2">Stars</Typography>
+            <Typography variant="caption">Stars</Typography>
           </View>
           <View style={styles.viewCount}>
-            <Typography variant="body2">{formatCount(forksCount)}</Typography>
-            <Typography variant="body2">Forks</Typography>
+            <Typography variant="subtitle2">{formatCount(forksCount)}</Typography>
+            <Typography variant="caption">Forks</Typography>
           </View>
           <View style={styles.viewCount}>
-            <Typography variant="body2">{formatCount(reviewCount)}</Typography>
-            <Typography variant="body2">Reviews</Typography>
+            <Typography variant="subtitle2">{formatCount(reviewCount)}</Typography>
+            <Typography variant="caption">Reviews</Typography>
           </View>
           <View style={styles.viewCount}>
-            <Typography variant="body2">
+            <Typography variant="subtitle2">
               {formatCount(ratingAverage)}
             </Typography>
-            <Typography variant="body2">Rating</Typography>
+            <Typography variant="caption">Rating</Typography>
           </View>
         </View>
         {children}
@@ -80,8 +82,8 @@ const styles = StyleSheet.create({
   viewRowIntro: {
     flex: 2,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    // alignItems: 'flex-start',
     gap: 15,
   },
   viewRowCounts: {
@@ -91,14 +93,19 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   imageAvatar: {
-    height: 50,
-    width: 50,
+    height: 60,
+    width: 60,
     borderRadius: 5,
+  },
+  imageView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '20%'
   },
   viewInfo: {
     flexDirection: 'column',
     gap: 5,
-    width: '80%',
+    width: '75%',
     alignItems: 'flex-start',
   },
   description: {
@@ -113,6 +120,7 @@ const styles = StyleSheet.create({
   },
   viewCount: {
     alignItems: 'center',
+    marginTop: '5%'
   },
 })
 
