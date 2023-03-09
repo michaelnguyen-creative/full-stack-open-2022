@@ -9,11 +9,13 @@ const SelectHeader = ({ selectLabel }) => {
   )
 }
 
-const SelectList = ({ data, returnValue, selectLabel, closeModal }) => {
-  const handleItemSelection = (item) => {
-    returnValue(item)
-    closeModal()
+const SelectOptions = ({ data, setSelectedItem, selectLabel, closeDialog }) => {
+
+  const handleItemSelection = async (item) => {
+    setSelectedItem(item)
+    closeDialog()
   }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -49,4 +51,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default SelectList
+export default SelectOptions

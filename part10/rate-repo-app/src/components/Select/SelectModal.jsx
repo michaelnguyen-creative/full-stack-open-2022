@@ -1,14 +1,23 @@
 import { useState } from 'react'
 import { Pressable, View, Modal } from 'react-native'
-import { Typography } from '../../texts/Typography.styles'
+import { Typography } from '../texts/Typography.styles'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-import SelectList from '../../inputs/SelectList'
+import SelectOptions from './SelectOptions'
 
-const SelectModal = ({ data, returnValue, currentLabel, selectLabel }) => {
+import { useEffect } from 'react'
+import { useRepositories } from '../../hooks/useRepositories'
+
+const SelectModal = ({ data, onSelect, selectLabel }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(data[0])
+  const [getRepositories] = useRepositories(selectedItem.value)
+
+  useEffect(() => {
+    onSelect(getRepositories)
+  }, [selectedItem])
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
@@ -48,9 +57,9 @@ const SelectModal = ({ data, returnValue, currentLabel, selectLabel }) => {
                     borderRadius: '2%',
                   }}
                 >
-                  <SelectList
+                  <SelectOptions
                     data={data}
-                    returnValue={returnValue}
+                    setSelectedItem={setSelectedItem}
                     selectLabel={selectLabel}
                     closeModal={closeModal}
                   />
@@ -77,7 +86,7 @@ const SelectModal = ({ data, returnValue, currentLabel, selectLabel }) => {
               color: 'black',
             }}
           >
-            {currentLabel}
+            {selectedItem.label}
           </Typography>
           <FontAwesomeIcon icon={faCaretDown} />
         </View>

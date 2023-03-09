@@ -1,20 +1,36 @@
-// import { useState, useEffect } from 'react'
-// import Constants from 'expo-constants'
-import { useQuery } from '@apollo/client'
-import { GET_REPOSITORIES } from '../graphql/queries'
+import { useLazyQuery } from '@apollo/client'
+import { useState } from 'react'
+import {
+  GET_REPOSITORIES,
+  GET_REPOSITORIES_KEYWORD,
+  GET_REPOSITORIES_ORDER,
+} from '../graphql/queries'
 
-export const useRepositories = (argsObj) => {
-  const { loading, data, refetch } = useQuery(GET_REPOSITORIES, {
+const parseQueryArguments = (argsObj) => {
+  if (JSON.stringify(argsObj).includes('order')) {
+    return { variables: argsObj, query: GET_REPOSITORIES_ORDER }
+  }
+
+  if (JSON.stringify(argsObj).includes('search')) {
+    return { variables: argsObj, query: GET_REPOSITORIES_KEYWORD }
+  }
+
+  return { variables: {}, query: GET_REPOSITORIES }
+}
+
+const executeQuery = (query, variables) => {
+  const [getRepositories, result] = useLazyQuery(query, {
     fetchPolicy: 'cache-and-network',
-    variables: argsObj,
-    onCompleted: (data) => console.log('GET_REPOSITORIES/data', data)
+    variables,
+    onError: (e) => console.log(e),
+    onCompleted: (data) => console.log(query.definitions[1].name.value, variables, data)
   })
 
-  if (loading) return []
+  return [getRepositories, result]
+}
 
-  const {
-    repositories: { edges },
-  } = data
-
-  return { repositories: edges, refetchRepositories: refetch }
+export const useRepositories = (argsObj) => {
+  const { query, variables } = parseQueryArguments(argsObj)
+  const [getRepositories, result] = executeQuery(query, variables)
+  return [getRepositories, result]
 }

@@ -3,11 +3,37 @@ import { BASE_REPO_DETAILS } from './fragments'
 
 export const GET_REPOSITORIES = gql`
   ${BASE_REPO_DETAILS}
-  query getRepositories(
+  query getRepositories {
+    repositories {
+      edges {
+        node {
+          ...BaseRepoDetails
+        }
+      }
+    }
+  }
+`
+
+export const GET_REPOSITORIES_ORDER = gql`
+  ${BASE_REPO_DETAILS}
+  query getRepositoriesOrder(
     $orderBy: AllRepositoriesOrderBy
     $orderDirection: OrderDirection
   ) {
     repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
+      edges {
+        node {
+          ...BaseRepoDetails
+        }
+      }
+    }
+  }
+`
+
+export const GET_REPOSITORIES_KEYWORD = gql`
+  ${BASE_REPO_DETAILS}
+  query getRepositoriesKeyword($searchKeyword: String) {
+    repositories(searchKeyword: $searchKeyword) {
       edges {
         node {
           ...BaseRepoDetails

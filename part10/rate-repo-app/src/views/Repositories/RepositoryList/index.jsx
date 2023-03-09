@@ -1,17 +1,16 @@
-import { FlatList, View, /* Modal, */ StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { useState } from 'react'
 
-import RepositoryItem from './RepositoryItem'
-import { useRepositories } from '../../../hooks/useRepositories'
-
-import SelectModal from '../../../components/forms/elements/SelectModal'
+import SelectModal from '../../../components/Select/SelectModal'
+import SearchBar from '../../../components/SearchBar'
+import RepositoryListContainer from './RepositoryListContainer'
+import SortingSelection from './SortingSelection'
 
 const selectItems = [
   {
     label: 'Latest repositories',
     value: {
       orderBy: 'CREATED_AT',
-      // test DESC vs. ASCE
       orderDirection: 'DESC',
     },
   },
@@ -31,57 +30,36 @@ const selectItems = [
   },
 ]
 
-export const ItemSeparator = () => <View style={styles.separator} />
+const RepositoryListPage = () => {
+  const [currentRepositories, setCurrentRepositories] = useState(null)
 
-export const RepositoryListContainer = ({ repositories }) => {
-  const repositoryNodes = repositories
-    ? repositories.map(({ node }) => node)
-    : []
-
-  return (
-    <FlatList
-      data={repositoryNodes}
-      renderItem={({ item }) => <RepositoryItem key={item.id} item={item} />}
-      ItemSeparatorComponent={ItemSeparator}
-    />
-  )
-}
-
-const RepositoryList = () => {
-  const [currentLabel, setCurrentLabel] = useState(selectItems[0].label)
-  const [selectedValue, setSelectedValue] = useState(selectItems[0].value)
-  const { repositories, refetchRepositories } = useRepositories(selectedValue)
-
-  const returnValue = async ({ label, value }) => {
-    setCurrentLabel(label)
-    setSelectedValue(value)
-    await refetchRepositories(selectedValue)
-    console.log('SelectModal/returnValue', selectedValue)
+  const updateRepositories = async (fetchData) => {
+    const {
+      data: { repositories },
+    } = await fetchData()
+    setCurrentRepositories(repositories)
   }
 
   return (
     <View>
       <View style={{ zIndex: 5 }}>
-        <SelectModal
-          returnValue={returnValue}
-          currentLabel={currentLabel}
+        <SearchBar onSearch={updateRepositories} />
+        {/* <SelectModal
           data={selectItems}
           selectLabel="Select an item..."
+          onSelect={updateRepositories}
+        /> */}
+        <SortingSelection
+          data={selectItems}
+          selectLabel="Select an item..."
+          onSelect={updateRepositories}
         />
       </View>
       <View style={{ zIndex: 0 }}>
-        <RepositoryListContainer repositories={repositories} />
+        <RepositoryListContainer repositories={currentRepositories} />
       </View>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  separator: {
-    height: 30,
-    width: 375,
-    backgroundColor: 'whitesmoke',
-  },
-})
-
-export default RepositoryList
+export default RepositoryListPage

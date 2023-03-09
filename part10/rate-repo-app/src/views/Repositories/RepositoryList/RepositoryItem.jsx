@@ -14,13 +14,7 @@ export const formatCount = (number) => {
 }
 
 const RepositoryItem = ({
-  item,
-  children
-}) => {
-  const navigate = useNavigate()
-
-  if (!item) return ''
-  const {
+  item: {
     fullName,
     description,
     language,
@@ -30,7 +24,10 @@ const RepositoryItem = ({
     ratingAverage,
     ownerAvatarUrl,
     ...props
-  } = item
+  },
+  children
+}) => {
+  const navigate = useNavigate()
 
   return (
     <View style={styles.itemViewContainer} testID="repositoryItem">
@@ -83,7 +80,6 @@ const styles = StyleSheet.create({
     flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'flex-start',
     gap: 15,
   },
   viewRowCounts: {

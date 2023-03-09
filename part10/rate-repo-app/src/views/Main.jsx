@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import { Route, Routes, Navigate } from 'react-router-native'
 import { StatusBar } from 'expo-status-bar'
 
-import RepositoryList from './Repositories/RepositoryList/index'
+import RepositoryListPage from './Repositories/RepositoryList/index'
 import AppBar from '../components/layout/navigation/AppBar/index'
 import SignIn from './SignIn/SignInPage'
 import SingleRepoView from './Repositories/SingleRepository/SingleRepoView'
@@ -22,7 +22,7 @@ const Main = () => {
       <StatusBar style="auto" />
       <AppBar />
       <Routes>
-        <Route path="/" element={<RepositoryList />} />
+        <Route path="/" element={<RepositoryListPage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/:repoId" element={<SingleRepoView />} />
         <Route path="/review" element={<ReviewPage />} />

@@ -6,7 +6,7 @@ import * as Linking from 'expo-linking'
 
 import { GET_REPO } from '../../../graphql/queries'
 import { Typography } from '../../../components/texts/Typography.styles'
-import { ItemSeparator } from '../RepositoryList/index'
+import ItemSeparator from '../../../components/ItemSeparator'
 
 const RepoInfo = ({ repository }) => {
   const openLink = async () => {
