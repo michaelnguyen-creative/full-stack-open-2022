@@ -23,7 +23,7 @@ const executeQuery = (query, variables) => {
     fetchPolicy: 'cache-and-network',
     variables,
     onError: (e) => console.log(e),
-    onCompleted: (data) => console.log(query.definitions[1].name.value, variables, data)
+    // onCompleted: (data) => console.log(query.definitions[1].name.value, variables, data)
   })
 
   return [getRepositories, result]

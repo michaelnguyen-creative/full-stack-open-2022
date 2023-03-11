@@ -1,17 +1,16 @@
-import { useState } from 'react'
-import { Pressable, View, Modal } from 'react-native'
-import { Typography } from '../texts/Typography.styles'
+import { useState, useEffect } from 'react'
+import { Pressable, View, StyleSheet } from 'react-native'
+
+import { useRepositories } from '../../../hooks/useRepositories'
+
+import Dialog from '../../../components/Dialog'
+import { Typography } from '../../../components/texts/Typography.styles'
+import SelectOptions from '../../../components/Select/SelectOptions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-import SelectOptions from './SelectOptions'
-import Dialog from '../Dialog'
-
-import { useEffect } from 'react'
-import { useRepositories } from '../../hooks/useRepositories'
-
-const SelectMenu = ({ data, onSelect, selectLabel }) => {
+const SortingSelection = ({ data, onSelect, selectLabel }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState(data[0])
   const [getRepositories] = useRepositories(selectedItem.value)
@@ -23,17 +22,21 @@ const SelectMenu = ({ data, onSelect, selectLabel }) => {
   const openDialog = () => setIsOpen(true)
   const closeDialog = () => setIsOpen(false)
 
+  const selectItem = (item) => {
+    setSelectedItem(item)
+    closeDialog()
+  }
+
   return (
     <>
-      <Dialog isOpen={isOpen} onClose={closeDialog}>
+      <Dialog isOpen={isOpen} onClose={closeDialog} animationType="fade">
         <SelectOptions
           data={data}
-          setSelectedItem={setSelectedItem}
+          onSelect={selectItem}
           selectLabel={selectLabel}
-          closeModal={closeModal}
         />
       </Dialog>
-      <Pressable onPress={openModal}>
+      <Pressable onPress={openDialog}>
         <View
           style={{
             flexDirection: 'row',
@@ -59,4 +62,8 @@ const SelectMenu = ({ data, onSelect, selectLabel }) => {
   )
 }
 
-export default SelectMenu
+const styles = StyleSheet.create({
+
+})
+
+export default SortingSelection

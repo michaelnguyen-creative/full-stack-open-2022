@@ -64,7 +64,7 @@ const Review = ({
   )
 }
 
-const SingleRepoView = () => {
+const SingleRepositoryPage = () => {
   const repoId = useParams().repoId
   const { data, loading } = useQuery(GET_REPO, {
     fetchPolicy: 'cache-and-network',
@@ -74,7 +74,6 @@ const SingleRepoView = () => {
     onError: (e) => console.log(e),
   })
 
-  console.log(repoId)
   if (loading) return ''
   const { repository } = data
   const reviews = repository ? repository.reviews.edges.map(({ node }) => node) : []
@@ -89,4 +88,4 @@ const SingleRepoView = () => {
   )
 }
 
-export default SingleRepoView
+export default SingleRepositoryPage

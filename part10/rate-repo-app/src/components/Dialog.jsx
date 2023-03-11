@@ -1,11 +1,11 @@
 import { Pressable, View, Modal, StyleSheet } from 'react-native'
 
-const Dialog = ({ isOpen, onClose, children }) => {
+const Dialog = ({ isOpen, onClose, animationType, children }) => {
   return (
     <View style={styles.dialogContainer}>
       <Modal
         visible={isOpen}
-        animationType="fade"
+        animationType={animationType}
         transparent
         onRequestClose={onClose}
       >
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   dialogModalView: {
     width: 375,
     height: 667,
-    background: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     alignItems: 'center',
     justifyContent: 'center',
   },

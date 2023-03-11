@@ -2,10 +2,10 @@ import { StyleSheet, View } from 'react-native'
 import { Route, Routes, Navigate } from 'react-router-native'
 import { StatusBar } from 'expo-status-bar'
 
-import RepositoryListPage from './Repositories/RepositoryList/index'
+import RepositoryListPage from './Repositories/RepositoryList/RepositoryListPage'
 import AppBar from '../components/layout/navigation/AppBar/index'
 import SignIn from './SignIn/SignInPage'
-import SingleRepoView from './Repositories/SingleRepository/SingleRepoView'
+import SingleRepositoryPage from './Repositories/SingleRepository/SingleRepositoryPage'
 import ReviewPage from './Reviews/ReviewPage'
 import SignUpPage from './SignUp/SignUpPage'
 
@@ -24,7 +24,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryListPage />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/:repoId" element={<SingleRepoView />} />
+        <Route path="/:repoId" element={<SingleRepositoryPage />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUpPage />}/>

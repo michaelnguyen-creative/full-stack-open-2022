@@ -1,31 +1,13 @@
 import { TextInput, View, StyleSheet } from 'react-native'
-import { useState, useEffect } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 
-import { useDebouncedCallback } from 'use-debounce'
-import { useRepositories } from '../hooks/useRepositories'
-
-const SearchBar = ({ onSearch }) => {
-  const [value, setValue] = useState({ searchKeyword: '' })
-  const debounced = useDebouncedCallback((value) => {
-    setValue({ searchKeyword: value })
-  }, 1000)
-  const [getRepositories] = useRepositories(value)
-
-  useEffect(() => {
-    onSearch(getRepositories)
-  }, [value])
-
-  const updateText = async (text) => {
-    debounced(text)
-  }
-
+const SearchBar = ({ handleTextChange }) => {
   return (
     <View style={styles.container}>
       <FontAwesomeIcon icon={faMagnifyingGlass} />
-      <TextInput placeholder="Type to search" onChangeText={updateText} />
+      <TextInput placeholder="Type to search" onChangeText={handleTextChange} />
       <FontAwesomeIcon icon={faXmark} />
     </View>
   )

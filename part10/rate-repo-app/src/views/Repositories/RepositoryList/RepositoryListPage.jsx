@@ -1,10 +1,9 @@
 import { View } from 'react-native'
 import { useState } from 'react'
 
-import SelectModal from '../../../components/Select/SelectModal'
-import SearchBar from '../../../components/SearchBar'
 import RepositoryListContainer from './RepositoryListContainer'
-import SortingSelection from './SortingSelection'
+import RepositoriesSort from './RepositoriesSort'
+import RepositoriesFilter from './RepositoriesFilter'
 
 const selectItems = [
   {
@@ -43,13 +42,8 @@ const RepositoryListPage = () => {
   return (
     <View>
       <View style={{ zIndex: 5 }}>
-        <SearchBar onSearch={updateRepositories} />
-        {/* <SelectModal
-          data={selectItems}
-          selectLabel="Select an item..."
-          onSelect={updateRepositories}
-        /> */}
-        <SortingSelection
+        <RepositoriesFilter onFilter={updateRepositories} />
+        <RepositoriesSort
           data={selectItems}
           selectLabel="Select an item..."
           onSelect={updateRepositories}

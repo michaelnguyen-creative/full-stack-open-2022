@@ -9,11 +9,10 @@ const SelectHeader = ({ selectLabel }) => {
   )
 }
 
-const SelectOptions = ({ data, setSelectedItem, selectLabel, closeDialog }) => {
+const SelectOptions = ({ data, onSelect, selectLabel }) => {
 
-  const handleItemSelection = async (item) => {
-    setSelectedItem(item)
-    closeDialog()
+  const handleItemSelection = (item) => {
+    onSelect(item)
   }
 
   return (
