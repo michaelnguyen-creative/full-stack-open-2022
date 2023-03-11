@@ -1,12 +1,12 @@
-import { Button, FlatList, Text, View } from 'react-native'
+import { Button, FlatList } from 'react-native'
 import RepositoryItem from '../RepositoryList/RepositoryItem'
 import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-native'
 import * as Linking from 'expo-linking'
 
 import { GET_REPO } from '../../../graphql/queries'
-import { Typography } from '../../../components/Typography.styles'
 import ItemSeparator from '../../../components/ItemSeparator'
+import Review from '../../Reviews/Review'
 
 const RepoInfo = ({ repository }) => {
   const openLink = async () => {
@@ -17,50 +17,6 @@ const RepoInfo = ({ repository }) => {
     <RepositoryItem item={repository}>
       <Button title="Open in GitHub" onPress={openLink} />
     </RepositoryItem>
-  )
-}
-
-const Review = ({
-  review: {
-    createdAt,
-    rating,
-    text,
-    user: { username },
-  },
-}) => {
-
-  const time = new Date(createdAt)
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        gap: 10,
-        padding: '5%',
-        width: 375,
-        justifyContent: 'space-evenly',
-      }}
-    >
-      <View
-        style={{
-          borderColor: 'blue',
-          width: 40,
-          height: 40,
-          borderWidth: 2,
-          borderRadius: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Typography variant="subtitle2">{rating}</Typography>
-      </View>
-      <View style={{ flexDirection: 'column', width: 275 }}>
-        <Typography variant="subtitle2">{username}</Typography>
-        <Typography variant="caption">{time.toLocaleDateString()}</Typography>
-        <View style={{ flexWrap: 'wrap' }}>
-          <Typography style={{ textAlign: 'left' }}>{text}</Typography>
-        </View>
-      </View>
-    </View>
   )
 }
 
