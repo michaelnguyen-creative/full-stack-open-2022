@@ -14,13 +14,16 @@ const styles = StyleSheet.create({
 })
 
 const AppBar = () => {
-  const { data, loading } = useQuery(WHOAMI)
+  const { data, loading } = useQuery(WHOAMI, {
+    variables: {
+      includeReview: false
+    }
+  })
   const apolloClient = useApolloClient()
   const authStorage = useAuthStorage()
   const navigate = useNavigate()
 
   if (loading) return
-  console.log('me', data.me)
 
   const logout = async () => {
     await authStorage.removeAccessToken()
@@ -33,7 +36,7 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal style={{}}>
         <AppBarTab tabName="Repositories" />
-        {data.me ? (
+        {data.whoAmI ? (
           <>
             <AppBarTab tabName="Create a review" />
             <AppBarTab tabName="Sign out" onPress={logout} />

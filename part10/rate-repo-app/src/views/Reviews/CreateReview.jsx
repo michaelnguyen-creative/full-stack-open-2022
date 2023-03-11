@@ -4,7 +4,7 @@ import { CREATE_REVIEW } from '../../graphql/mutations'
 
 import { useNavigate } from 'react-router-native'
 
-const ReviewPage = () => {
+const CreateReview = () => {
   const navigate = useNavigate()
   const [mutate] = useMutation(CREATE_REVIEW, {
     onError: (e) => console.log(e),
@@ -14,8 +14,6 @@ const ReviewPage = () => {
   })
 
   const createReview = async ({ rating, ...values }) => {
-    console.log('review', values)
-
     await mutate({
       variables: { review: { rating: parseInt(rating), ...values } },
     })
@@ -23,4 +21,4 @@ const ReviewPage = () => {
   return <ReviewForm createReview={createReview} />
 }
 
-export default ReviewPage
+export default CreateReview

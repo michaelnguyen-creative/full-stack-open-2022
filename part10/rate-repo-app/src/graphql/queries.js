@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { BASE_REPO_DETAILS } from './fragments'
+import { BASE_REPO_DETAILS, BASE_REVIEW_DETAILS } from './fragments'
 
 export const GET_REPOSITORIES = gql`
   ${BASE_REPO_DETAILS}
@@ -44,15 +44,24 @@ export const GET_REPOSITORIES_KEYWORD = gql`
 `
 
 export const WHOAMI = gql`
-  query me {
+  ${BASE_REVIEW_DETAILS}
+  query whoAmI($includeReview: Boolean! = false) {
     me {
       username
+      reviews @include(if: $includeReview) {
+        edges {
+          node {
+            ...BaseReviewDetails
+          }
+        }
+      }
     }
   }
 `
 
 export const GET_REPO = gql`
   ${BASE_REPO_DETAILS}
+  ${BASE_REVIEW_DETAILS}
   query getRepo($repoId: ID!) {
     repository(id: $repoId) {
       ...BaseRepoDetails
@@ -60,10 +69,7 @@ export const GET_REPO = gql`
       reviews {
         edges {
           node {
-            id
-            text
-            rating
-            createdAt
+            ...BaseReviewDetails
             user {
               id
               username

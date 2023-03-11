@@ -20,8 +20,5 @@ export const BASE_REVIEW_DETAILS = gql`
     createdAt
     rating
     text
-    user {
-      username
-    }
   }
 `
