@@ -3,53 +3,55 @@ import Constants from 'expo-constants'
 import { useQuery, useApolloClient } from '@apollo/client'
 import { useNavigate } from 'react-router-native'
 
-import AppBarTab from './AppBarTab'
-import { useAuthStorage } from '../../hooks/useAuthStorage'
-import { WHOAMI } from '../../graphql/queries'
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: Constants.statusBarHeight,
-  },
-})
+import AppBarTab from '../components/AppBar/AppBarTab'
+import { useAuthStorage } from '../hooks/useAuthStorage'
+import { WHOAMI } from '../graphql/queries'
 
 const AppBar = () => {
   const { data, loading } = useQuery(WHOAMI, {
     variables: {
       includeReview: false
-    }
+    },
+    onCompleted: (data) => console.log('appbar/whoami', data)
   })
   const apolloClient = useApolloClient()
   const authStorage = useAuthStorage()
   const navigate = useNavigate()
 
   if (loading) return
+  const { me } = data
 
   const logout = async () => {
     await authStorage.removeAccessToken()
-    console.log('access token removed')
     apolloClient.resetStore()
     navigate('/')
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal style={{}}>
-        <AppBarTab tabName="Repositories" />
-        {data.whoAmI ? (
+      <ScrollView horizontal>
+        <AppBarTab tabName="Repositories" linkTo="/" />
+        {me ? (
           <>
-            <AppBarTab tabName="Create a review" />
+            <AppBarTab tabName="Create a review" linkTo="create-review" />
             <AppBarTab tabName="Sign out" onPress={logout} />
+            <AppBarTab tabName="My reviews" linkTo="/:username/my-reviews" />
           </>
         ) : (
           <>
-            <AppBarTab tabName="Sign in" />
-            <AppBarTab tabName="Sign up" />
+            <AppBarTab tabName="Sign in" linkTo="/signin" />
+            <AppBarTab tabName="Sign up" linkTo="/signup" />
           </>
         )}
       </ScrollView>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Constants.statusBarHeight,
+  },
+})
 
 export default AppBar

@@ -20,9 +20,7 @@ export const useSignIn = () => {
         },
       },
     })
-    console.log('token', accessToken)
     await authStorage.setAccessToken(accessToken)
-    console.log('saved token', await authStorage.getAccessToken())
     client.resetStore()
   }
 
