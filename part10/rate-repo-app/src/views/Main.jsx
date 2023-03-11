@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-native'
 import { StatusBar } from 'expo-status-bar'
 
 import RepositoryListPage from './Repositories/RepositoryList/RepositoryListPage'
-import AppBar from '../components/layout/navigation/AppBar/index'
+import AppBar from '../components/AppBar/index'
 import SignIn from './SignIn/SignInPage'
 import SingleRepositoryPage from './Repositories/SingleRepository/SingleRepositoryPage'
 import ReviewPage from './Reviews/ReviewPage'

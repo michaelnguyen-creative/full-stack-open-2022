@@ -1,4 +1,4 @@
-import { FormikUserBaseForm, FormikTextInput } from '../../components/forms'
+import { FormikUserBaseForm, FormikTextInput } from '../../components/index'
 import * as Yup from 'yup'
 
 const SignUpContainer = ({ onSubmit }) => {

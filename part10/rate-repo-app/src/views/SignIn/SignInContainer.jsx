@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-import { FormikUserBaseForm } from '../../components/forms'
+import { FormikUserBaseForm } from '../../components/index'
 
 const SignInContainer = ({ onSubmit }) => {
   const initialValues = {

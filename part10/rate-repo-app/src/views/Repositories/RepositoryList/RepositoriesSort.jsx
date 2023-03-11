@@ -4,8 +4,8 @@ import { Pressable, View, StyleSheet } from 'react-native'
 import { useRepositories } from '../../../hooks/useRepositories'
 
 import Dialog from '../../../components/Dialog'
-import { Typography } from '../../../components/texts/Typography.styles'
-import SelectOptions from '../../../components/Select/SelectOptions'
+import { Typography } from '../../../components/Typography.styles'
+import SelectOptions from '../../../components/SelectOptions'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'

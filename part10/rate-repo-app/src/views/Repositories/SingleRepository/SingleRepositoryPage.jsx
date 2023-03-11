@@ -5,7 +5,7 @@ import { useParams } from 'react-router-native'
 import * as Linking from 'expo-linking'
 
 import { GET_REPO } from '../../../graphql/queries'
-import { Typography } from '../../../components/texts/Typography.styles'
+import { Typography } from '../../../components/Typography.styles'
 import ItemSeparator from '../../../components/ItemSeparator'
 
 const RepoInfo = ({ repository }) => {

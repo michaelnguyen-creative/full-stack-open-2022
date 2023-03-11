@@ -1,6 +1,6 @@
 import { TextInput, View } from 'react-native'
 import { ErrorMessage, useField } from 'formik'
-import { Typography } from '../../texts/Typography.styles'
+import { Typography } from '../Typography.styles'
 
 const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name)

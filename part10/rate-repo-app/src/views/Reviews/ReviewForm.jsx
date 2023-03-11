@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import { Button, View, StyleSheet } from 'react-native'
-import { FormikTextInput } from '../../components/forms'
+import { FormikTextInput } from '../../components'
 import * as yup from 'yup'
 
 const reviewFormInitialValues = {

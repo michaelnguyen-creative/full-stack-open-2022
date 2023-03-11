@@ -4,8 +4,8 @@ import { useQuery, useApolloClient } from '@apollo/client'
 import { useNavigate } from 'react-router-native'
 
 import AppBarTab from './AppBarTab'
-import { useAuthStorage } from '../../../../hooks/useAuthStorage'
-import { WHOAMI } from '../../../../graphql/queries'
+import { useAuthStorage } from '../../hooks/useAuthStorage'
+import { WHOAMI } from '../../graphql/queries'
 
 const styles = StyleSheet.create({
   container: {

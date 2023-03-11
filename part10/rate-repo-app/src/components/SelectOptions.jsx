@@ -1,5 +1,5 @@
 import { FlatList, View, StyleSheet } from 'react-native'
-import { Typography } from '../texts/Typography.styles'
+import { Typography } from './Typography.styles'
 
 const SelectHeader = ({ selectLabel }) => {
   return (

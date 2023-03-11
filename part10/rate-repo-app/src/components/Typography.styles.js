@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import theme from '../../theme'
+import theme from '../theme'
 
 const typographyVariants = Object.keys(theme.typography)
 // Re-implement: Material UI components
@@ -12,4 +12,3 @@ export const Typography = styled.Text`
   ${({ sx }) => sx}
 `
 
-export const TextField = styled.TextInput``
