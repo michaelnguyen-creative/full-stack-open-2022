@@ -22,3 +22,10 @@ export const BASE_REVIEW_DETAILS = gql`
     text
   }
 `
+
+export const BASE_USER_DETAILS = gql`
+  fragment BaseUserDetails on User {
+    id
+    username
+  }
+`

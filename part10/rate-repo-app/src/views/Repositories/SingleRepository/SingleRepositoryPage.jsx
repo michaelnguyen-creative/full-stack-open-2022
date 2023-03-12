@@ -32,7 +32,9 @@ const SingleRepositoryPage = () => {
 
   if (loading) return ''
   const { repository } = data
-  const reviews = repository ? repository.reviews.edges.map(({ node }) => node) : []
+  const reviews = repository
+    ? repository.reviews.edges.map(({ node }) => node)
+    : []
 
   return (
     <FlatList

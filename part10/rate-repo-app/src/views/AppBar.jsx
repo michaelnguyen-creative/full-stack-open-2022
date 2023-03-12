@@ -35,7 +35,7 @@ const AppBar = () => {
           <>
             <AppBarTab tabName="Create a review" linkTo="create-review" />
             <AppBarTab tabName="Sign out" onPress={logout} />
-            <AppBarTab tabName="My reviews" linkTo="/:username/my-reviews" />
+            <AppBarTab tabName="My reviews" linkTo="/user/my-reviews" />
           </>
         ) : (
           <>

@@ -1,14 +1,12 @@
 import { View, StyleSheet } from 'react-native'
 import { Typography } from '../../components/Typography.styles'
 
-const Review = ({
-  user: { username },
-  review: {
-    createdAt,
-    rating,
-    text,
-  }
-}) => {
+const ReviewItem = ({ item: {
+  createdAt,
+  rating,
+  text,
+  repository: { fullName }
+}, username }) => {
 
   const time = new Date(createdAt)
   return (
@@ -35,7 +33,7 @@ const Review = ({
         <Typography variant="subtitle2">{rating}</Typography>
       </View>
       <View style={{ flexDirection: 'column', width: 275 }}>
-        <Typography variant="subtitle2">{username}</Typography>
+        <Typography variant="subtitle2">{fullName}</Typography>
         <Typography variant="caption">{time.toLocaleDateString()}</Typography>
         <View style={{ flexWrap: 'wrap' }}>
           <Typography style={{ textAlign: 'left' }}>{text}</Typography>
@@ -45,4 +43,4 @@ const Review = ({
   )
 }
 
-export default Review
+export default ReviewItem

@@ -22,7 +22,7 @@ const Main = () => {
         <Route path="/create-review" element={<CreateReview />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUpPage />}/>
-        <Route path="/:username/my-reviews" element={<MyReviews />} />
+        <Route path="/user/my-reviews" element={<MyReviews />} />
       </Routes>
     </View>
   )
