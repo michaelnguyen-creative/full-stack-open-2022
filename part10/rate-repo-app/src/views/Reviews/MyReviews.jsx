@@ -24,8 +24,8 @@ const MyReviews = () => {
 
   const reviewNodes =
     reviews.edges.length !== 0 ? reviews.edges.map(({ node }) => node) : []
-  // const a =
-  return (
+
+    return (
     <FlatList
       data={reviewNodes}
       renderItem={({ item }) => (

@@ -5,6 +5,33 @@ import RepositoryListContainer from './RepositoryListContainer'
 import RepositoriesSort from './RepositoriesSort'
 import RepositoriesFilter from './RepositoriesFilter'
 
+const RepositoryListPage = () => {
+  const [currentRepositories, setCurrentRepositories] = useState(null)
+
+  const updateRepositories = async (fetchData) => {
+    const {
+      data: { repositories },
+    } = await fetchData()
+    setCurrentRepositories(repositories)
+  }
+
+  return (
+    <View>
+      <View style={{ zIndex: 5 }}>
+        <RepositoriesFilter onFilter={updateRepositories} />
+        <RepositoriesSort
+          data={selectItems}
+          selectLabel="Select an item..."
+          onSort={updateRepositories}
+        />
+      </View>
+      <View style={{ zIndex: 0 }}>
+        <RepositoryListContainer repositories={currentRepositories} />
+      </View>
+    </View>
+  )
+}
+
 const selectItems = [
   {
     label: 'Latest repositories',
@@ -28,32 +55,5 @@ const selectItems = [
     },
   },
 ]
-
-const RepositoryListPage = () => {
-  const [currentRepositories, setCurrentRepositories] = useState(null)
-
-  const updateRepositories = async (fetchData) => {
-    const {
-      data: { repositories },
-    } = await fetchData()
-    setCurrentRepositories(repositories)
-  }
-
-  return (
-    <View>
-      <View style={{ zIndex: 5 }}>
-        <RepositoriesFilter onFilter={updateRepositories} />
-        <RepositoriesSort
-          data={selectItems}
-          selectLabel="Select an item..."
-          onSelect={updateRepositories}
-        />
-      </View>
-      <View style={{ zIndex: 0 }}>
-        <RepositoryListContainer repositories={currentRepositories} />
-      </View>
-    </View>
-  )
-}
 
 export default RepositoryListPage

@@ -10,13 +10,13 @@ import SelectOptions from '../../../components/SelectOptions'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-const SortingSelection = ({ data, onSelect, selectLabel }) => {
+const RepositoriesSort = ({ data, onSort, selectLabel }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState(data[0])
   const [getRepositories] = useRepositories(selectedItem.value)
 
   useEffect(() => {
-    onSelect(getRepositories)
+    onSort(getRepositories)
   }, [selectedItem])
 
   const openDialog = () => setIsOpen(true)
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default SortingSelection
+export default RepositoriesSort
