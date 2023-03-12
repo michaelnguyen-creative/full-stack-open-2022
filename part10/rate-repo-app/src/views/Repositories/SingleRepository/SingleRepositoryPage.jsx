@@ -6,9 +6,9 @@ import * as Linking from 'expo-linking'
 
 import { GET_REPO } from '../../../graphql/queries'
 import ItemSeparator from '../../../components/ItemSeparator'
-import Review from '../../Reviews/Review'
+import ReviewItem from '../../Reviews/ReviewItem'
 
-const RepoInfo = ({ repository }) => {
+const Repository = ({ repository }) => {
   const openLink = async () => {
     await Linking.openURL(repository.url)
   }
@@ -30,18 +30,19 @@ const SingleRepositoryPage = () => {
     onError: (e) => console.log(e),
   })
 
-  if (loading) return ''
+  if (loading) return
   const { repository } = data
-  const reviews = repository
+
+  const reviewNodes = repository
     ? repository.reviews.edges.map(({ node }) => node)
     : []
 
   return (
     <FlatList
-      data={reviews}
-      renderItem={({ item }) => <Review key={item.id} review={item} />}
+      data={reviewNodes}
+      renderItem={({ item }) => <ReviewItem key={item.id} item={item} />}
       ItemSeparatorComponent={ItemSeparator}
-      ListHeaderComponent={<RepoInfo repository={repository} />}
+      ListHeaderComponent={<Repository repository={repository} />}
     />
   )
 }

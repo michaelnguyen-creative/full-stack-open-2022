@@ -1,12 +1,9 @@
 import { View, StyleSheet } from 'react-native'
 import { Typography } from '../../components/Typography.styles'
 
-const ReviewItem = ({ item: {
-  createdAt,
-  rating,
-  text,
-  repository: { fullName }
-}, username }) => {
+const ReviewItem = ({ item: { createdAt, rating, text, id, ...props } }) => {
+  const { user, repository } = props
+  const title = user ? user.username : repository ? repository.fullName : ''
 
   const time = new Date(createdAt)
   return (
@@ -18,6 +15,7 @@ const ReviewItem = ({ item: {
         width: 375,
         justifyContent: 'space-evenly',
       }}
+      id={id}
     >
       <View
         style={{
@@ -33,7 +31,7 @@ const ReviewItem = ({ item: {
         <Typography variant="subtitle2">{rating}</Typography>
       </View>
       <View style={{ flexDirection: 'column', width: 275 }}>
-        <Typography variant="subtitle2">{fullName}</Typography>
+        <Typography variant="subtitle2">{title}</Typography>
         <Typography variant="caption">{time.toLocaleDateString()}</Typography>
         <View style={{ flexWrap: 'wrap' }}>
           <Typography style={{ textAlign: 'left' }}>{text}</Typography>

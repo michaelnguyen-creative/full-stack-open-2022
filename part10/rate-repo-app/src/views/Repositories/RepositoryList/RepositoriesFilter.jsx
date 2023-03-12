@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
+import { View } from 'react-native';
 
 import SearchBar from "../../../components/SearchBar";
 import { useRepositories } from "../../../hooks/useRepositories";
@@ -20,7 +21,9 @@ const RepositoriesFilter = ({ onFilter }) => {
   }
 
   return (
-    <SearchBar handleTextChange={updateText} />
+    <View style={{ width: 375, padding: '2%' }}>
+      <SearchBar handleTextChange={updateText} />
+    </View>
   )
 }
 
