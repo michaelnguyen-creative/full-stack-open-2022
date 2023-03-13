@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import { CREATE_USER } from '../../graphql/mutations'
-import { useSignIn } from '../../hooks/useSignin'
+import { useSignIn } from '../../hooks/useSignIn'
 import { useNavigate } from 'react-router-native'
 
 import SignUpContainer from "./SignUpContainer";

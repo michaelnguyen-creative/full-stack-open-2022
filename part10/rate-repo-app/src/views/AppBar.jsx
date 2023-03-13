@@ -19,7 +19,8 @@ const AppBar = () => {
   const navigate = useNavigate()
 
   if (loading) return
-  const { me } = data
+  // console.log('data', data)
+  // const { me } = data
 
   const logout = async () => {
     await authStorage.removeAccessToken()
@@ -31,7 +32,7 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName="Repositories" linkTo="/" />
-        {me ? (
+        {data ? (
           <>
             <AppBarTab tabName="Create a review" linkTo="create-review" />
             <AppBarTab tabName="Sign out" onPress={logout} />

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-native'
 
 import SignInContainer from './SignInContainer'
-import { useSignIn } from '../../hooks/useSignin'
+import { useSignIn } from '../../hooks/useSignIn'
 
 const SignIn = () => {
   const [signIn] = useSignIn()

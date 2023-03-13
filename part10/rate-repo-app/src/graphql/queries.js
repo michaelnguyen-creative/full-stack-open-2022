@@ -59,6 +59,7 @@ export const WHOAMI = gql`
             ...BaseReviewDetails
             repository {
               fullName
+              url
             }
           }
         }

@@ -20,7 +20,6 @@ const MyReviews = () => {
   const {
     me: { reviews },
   } = data
-  const { username } = data
 
   const reviewNodes =
     reviews.edges.length !== 0 ? reviews.edges.map(({ node }) => node) : []
@@ -29,7 +28,7 @@ const MyReviews = () => {
     <FlatList
       data={reviewNodes}
       renderItem={({ item }) => (
-        <ReviewItem key={item.id} item={item} username={username} />
+        <ReviewItem key={item.id} item={item} />
       )}
       ListEmptyComponent={<NoReview />}
     />
