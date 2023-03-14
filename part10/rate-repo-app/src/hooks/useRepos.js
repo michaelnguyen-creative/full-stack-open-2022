@@ -9,20 +9,20 @@ export const useRepos = (optionVariables) => {
   })
 
   const handleFetchMore = () => {
-    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage
+    const canFetchMore = !loading && result.data?.repositories.pageInfo.hasNextPage
 
     if (!canFetchMore) return
 
+    console.log('ec', result.data.repositories.pageInfo.endCursor)
     fetchMore({
       variables: {
-        after: data.repositories.pageInfo.endCursor,
+        after: result.data.repositories.pageInfo.endCursor,
         ...optionVariables
       }
     })
   }
 
   return {
-    // respositories: data?.repositories,
     loading,
     fetchMore: handleFetchMore,
     ...result

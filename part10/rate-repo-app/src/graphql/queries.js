@@ -54,17 +54,24 @@ export const GET_REPOS = gql`
     $orderDirection: OrderDirection
     $searchKeyword: String
     $first: Int
+    $after: String
   ) {
     repositories(
       orderBy: $orderBy
       orderDirection: $orderDirection
       searchKeyword: $searchKeyword
       first: $first
+      after: $after
     ) {
       edges {
         node {
           ...BaseRepoDetails
         }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
       }
     }
   }

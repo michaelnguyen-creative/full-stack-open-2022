@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Pressable, View, StyleSheet } from 'react-native'
-
-import { useRepositories } from '../../../hooks/useRepositories'
 
 import Dialog from '../../../components/Dialog'
 import { Typography } from '../../../components/Typography.styles'

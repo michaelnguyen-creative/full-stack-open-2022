@@ -8,26 +8,16 @@ import RepositoriesFilter from './RepositoriesFilter'
 import { useRepos } from '../../../hooks/useRepos'
 
 const RepositoryListPage = () => {
-  // const [currentRepositories, setCurrentRepositories] = useState(null)
   const [queryVariables, setQueryVariables] = useState({
     searchKeyword: '',
     orderBy: 'CREATED_AT',
     orderDirection: 'DESC',
-    first: 30,
+    first: 5,
   })
-  // const [isEndReached, setIsEndReached] = useState(false)
   const { loading, ...result } = useRepos(queryVariables)
 
   if (loading) return
-  // console.log('repos', result)
   const { data: { repositories }, fetchMore, refetch } = result
-
-  // const updateRepositories = async (fetchData) => {
-  //   const {
-  //     data: { repositories },
-  //   } = await fetchData()
-  //   setCurrentRepositories(repositories)
-  // }
 
   const updateRepositories = (variables) => {
     setQueryVariables(variables) 
@@ -37,7 +27,7 @@ const RepositoryListPage = () => {
 
   const fetchMoreRepositories = () => {
     console.log('fetching more repositories')
-    // fetchMore()
+    fetchMore()
   }
 
   return (
@@ -50,10 +40,6 @@ const RepositoryListPage = () => {
         />
       </View>
       <View style={{ zIndex: 0 }}>
-        {/* <RepositoryListContainer
-          repositories={currentRepositories}
-          onEndReached={fetchMoreRepositories}
-        /> */}
         <RepositoryListContainer
           repositories={repositories}
           onEndReached={fetchMoreRepositories}

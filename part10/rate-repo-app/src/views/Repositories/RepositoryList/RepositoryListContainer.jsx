@@ -17,7 +17,7 @@ export const RepositoryListContainer = ({
       renderItem={({ item }) => <RepositoryItem key={item.id} item={item} />}
       ItemSeparatorComponent={ItemSeparator}
       onEndReached={onEndReached}
-      onEndReachedThreshold={0.9}
+      onEndReachedThreshold={0.5}
     />
   )
 }
