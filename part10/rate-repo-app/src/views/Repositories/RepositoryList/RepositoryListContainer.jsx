@@ -3,7 +3,10 @@ import { FlatList } from 'react-native'
 import RepositoryItem from './RepositoryItem'
 import ItemSeparator from '../../../components/ItemSeparator'
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({
+  repositories,
+  onEndReached,
+}) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(({ node }) => node)
     : []
@@ -13,6 +16,8 @@ export const RepositoryListContainer = ({ repositories }) => {
       data={repositoryNodes}
       renderItem={({ item }) => <RepositoryItem key={item.id} item={item} />}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.9}
     />
   )
 }

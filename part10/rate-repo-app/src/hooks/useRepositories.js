@@ -1,5 +1,4 @@
 import { useLazyQuery } from '@apollo/client'
-import { useState } from 'react'
 import {
   GET_REPOSITORIES,
   GET_REPOSITORIES_KEYWORD,
@@ -19,14 +18,35 @@ const parseQueryArguments = (argsObj) => {
 }
 
 const executeQuery = (query, variables) => {
-  const [getRepositories, result] = useLazyQuery(query, {
-    fetchPolicy: 'cache-and-network',
-    variables,
-    onError: (e) => console.log(e),
-    // onCompleted: (data) => console.log(query.definitions[1].name.value, variables, data)
-  })
+  const [getRepositories, { data, loading, fetchMore, ...result }] =
+    useLazyQuery(query, {
+      fetchPolicy: 'cache-and-network',
+      variables,
+      onError: (e) => console.log(e),
+      // onCompleted: (data) => console.log(query.definitions[1].name.value, variables, data)
+    })
 
-  return [getRepositories, result]
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextpage
+
+    if (!canFetchMore) return
+
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+    })
+  }
+
+  return [
+    getRepositories,
+    {
+      fetchMore: handleFetchMore,
+      loading,
+      ...result,
+    },
+  ]
 }
 
 export const useRepositories = (argsObj) => {

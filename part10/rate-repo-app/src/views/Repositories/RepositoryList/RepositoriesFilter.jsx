@@ -6,7 +6,7 @@ import SearchBar from "../../../components/SearchBar";
 import { useRepositories } from "../../../hooks/useRepositories";
 
 const RepositoriesFilter = ({ onFilter }) => {
-  const [value, setValue] = useState({ searchKeyword: '' })
+  const [value, setValue] = useState(null)
   const debounced = useDebouncedCallback((value) => {
     setValue({ searchKeyword: value })
   }, 1000)

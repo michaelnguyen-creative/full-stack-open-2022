@@ -47,6 +47,29 @@ export const GET_REPOSITORIES_KEYWORD = gql`
   }
 `
 
+export const GET_REPOS = gql`
+  ${BASE_REPO_DETAILS}
+  query getRepositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+    $searchKeyword: String
+    $first: Int
+  ) {
+    repositories(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+      first: $first
+    ) {
+      edges {
+        node {
+          ...BaseRepoDetails
+        }
+      }
+    }
+  }
+`
+
 export const WHOAMI = gql`
   ${BASE_USER_DETAILS}
   ${BASE_REVIEW_DETAILS}

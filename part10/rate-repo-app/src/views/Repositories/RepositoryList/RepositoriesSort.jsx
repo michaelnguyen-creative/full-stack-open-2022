@@ -10,10 +10,10 @@ import SelectOptions from '../../../components/SelectOptions'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-const RepositoriesSort = ({ data, onSort, selectLabel }) => {
+const RepositoriesSort = ({ data, onSort, setQueryVariables, currentSortingPrinciple }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState(data[0])
-  const [getRepositories] = useRepositories(selectedItem.value)
+  const [getRepositories, { fetchMore }] = useRepositories(selectedItem.value)
 
   useEffect(() => {
     onSort(getRepositories)
@@ -27,13 +27,17 @@ const RepositoriesSort = ({ data, onSort, selectLabel }) => {
     closeDialog()
   }
 
+  const updateSortingPrinciple = () => {
+    setQueryVariables
+  }
+
   return (
     <>
       <Dialog isOpen={isOpen} onClose={closeDialog} animationType="fade">
         <SelectOptions
-          data={data}
+          data={selectItems}
           onSelect={selectItem}
-          selectLabel={selectLabel}
+          selectLabel="Select an item..."
         />
       </Dialog>
       <Pressable onPress={openDialog}>
@@ -61,6 +65,30 @@ const RepositoriesSort = ({ data, onSort, selectLabel }) => {
     </>
   )
 }
+
+const selectItems = [
+  {
+    label: 'Latest repositories',
+    value: {
+      orderBy: 'CREATED_AT',
+      orderDirection: 'DESC',
+    },
+  },
+  {
+    label: 'Highest rated repositories',
+    value: {
+      orderBy: 'RATING_AVERAGE',
+      orderDirection: 'DESC',
+    },
+  },
+  {
+    label: 'Lowest rated repositories',
+    value: {
+      orderBy: 'RATING_AVERAGE',
+      orderDirection: 'ASC',
+    },
+  },
+]
 
 const styles = StyleSheet.create({
 

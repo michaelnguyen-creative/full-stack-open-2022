@@ -5,55 +5,60 @@ import RepositoryListContainer from './RepositoryListContainer'
 import RepositoriesSort from './RepositoriesSort'
 import RepositoriesFilter from './RepositoriesFilter'
 
-const RepositoryListPage = () => {
-  const [currentRepositories, setCurrentRepositories] = useState(null)
+import { useRepos } from '../../../hooks/useRepos'
 
-  const updateRepositories = async (fetchData) => {
-    const {
-      data: { repositories },
-    } = await fetchData()
-    setCurrentRepositories(repositories)
+const RepositoryListPage = () => {
+  // const [currentRepositories, setCurrentRepositories] = useState(null)
+  const [queryVariables, setQueryVariables] = useState({
+    searchKeyword: '',
+    orderBy: 'CREATED_AT',
+    orderDirection: 'DESC',
+    first: 30,
+  })
+  // const [isEndReached, setIsEndReached] = useState(false)
+  const { loading, ...result } = useRepos(queryVariables)
+
+  if (loading) return
+  // console.log('repos', result)
+  const { data: { repositories }, fetchMore } = result
+
+  // const updateRepositories = async (fetchData) => {
+  //   const {
+  //     data: { repositories },
+  //   } = await fetchData()
+  //   setCurrentRepositories(repositories)
+  // }
+
+  const fetchMoreRepositories = () => {
+    console.log('fetching more repositories')
+    // fetchMore()
   }
 
   return (
     <View>
       <View style={{ zIndex: 5 }}>
-        <RepositoriesFilter onFilter={updateRepositories} />
-        <RepositoriesSort
+        {/* <RepositoriesFilter onFilter={updateRepositories} /> */}
+        {/* <RepositoriesSort
           data={selectItems}
-          selectLabel="Select an item..."
-          onSort={updateRepositories}
-        />
+          currentSortingPrinciple={queryVariables}
+          setQueryVariables={setQueryVariables}
+          // onSort={updateRepositories}
+        /> */}
       </View>
       <View style={{ zIndex: 0 }}>
-        <RepositoryListContainer repositories={currentRepositories} />
+        {/* <RepositoryListContainer
+          repositories={currentRepositories}
+          onEndReached={fetchMoreRepositories}
+        /> */}
+        <RepositoryListContainer
+          repositories={repositories}
+          onEndReached={fetchMoreRepositories}
+        />
       </View>
     </View>
   )
 }
 
-const selectItems = [
-  {
-    label: 'Latest repositories',
-    value: {
-      orderBy: 'CREATED_AT',
-      orderDirection: 'DESC',
-    },
-  },
-  {
-    label: 'Highest rated repositories',
-    value: {
-      orderBy: 'RATING_AVERAGE',
-      orderDirection: 'DESC',
-    },
-  },
-  {
-    label: 'Lowest rated repositories',
-    value: {
-      orderBy: 'RATING_AVERAGE',
-      orderDirection: 'ASC',
-    },
-  },
-]
+
 
 export default RepositoryListPage
