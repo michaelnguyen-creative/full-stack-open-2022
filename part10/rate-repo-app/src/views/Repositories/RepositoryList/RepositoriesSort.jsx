@@ -10,25 +10,17 @@ import SelectOptions from '../../../components/SelectOptions'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-const RepositoriesSort = ({ data, onSort, setQueryVariables, currentSortingPrinciple }) => {
+const RepositoriesSort = ({ onPrincipleChange }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(data[0])
-  const [getRepositories, { fetchMore }] = useRepositories(selectedItem.value)
-
-  useEffect(() => {
-    onSort(getRepositories)
-  }, [selectedItem])
+  const [selectedItem, setSelectedItem] = useState(selectItems[0])
+  // const [currentPrinciple, setCurrentRepositories] = useState()
 
   const openDialog = () => setIsOpen(true)
   const closeDialog = () => setIsOpen(false)
 
-  const selectItem = (item) => {
-    setSelectedItem(item)
+  const handleSelection = (sortingPrincipleObj) => {
+    onPrincipleChange({ searchKeyword: '', ...sortingPrincipleObj })
     closeDialog()
-  }
-
-  const updateSortingPrinciple = () => {
-    setQueryVariables
   }
 
   return (
@@ -36,7 +28,7 @@ const RepositoriesSort = ({ data, onSort, setQueryVariables, currentSortingPrinc
       <Dialog isOpen={isOpen} onClose={closeDialog} animationType="fade">
         <SelectOptions
           data={selectItems}
-          onSelect={selectItem}
+          onSelect={handleSelection}
           selectLabel="Select an item..."
         />
       </Dialog>
@@ -90,8 +82,6 @@ const selectItems = [
   },
 ]
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create({})
 
 export default RepositoriesSort

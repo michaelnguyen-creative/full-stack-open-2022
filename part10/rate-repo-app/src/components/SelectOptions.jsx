@@ -24,7 +24,7 @@ const SelectOptions = ({ data, onSelect, selectLabel }) => {
             key={item.label}
             variant="body2"
             sx={styles.listItemText}
-            onPress={() => handleItemSelection(item)}
+            onPress={() => handleItemSelection(item.value)}
           >
             {item.label}
           </Typography>
