@@ -10,18 +10,26 @@ import SelectOptions from '../../../components/SelectOptions'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-const RepositoriesSort = ({ onPrincipleChange }) => {
+const RepositoriesSort = ({ onPrincipleChange, queryVariables }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedItem, setSelectedItem] = useState(selectItems[0])
-  // const [currentPrinciple, setCurrentRepositories] = useState()
 
   const openDialog = () => setIsOpen(true)
   const closeDialog = () => setIsOpen(false)
 
-  const handleSelection = (sortingPrincipleObj) => {
-    onPrincipleChange({ searchKeyword: '', ...sortingPrincipleObj })
+  const handleSelection = (itemObj) => {
+    onPrincipleChange({ ...queryVariables, ...itemObj.value })
     closeDialog()
   }
+
+  // Note: Quick fix, more robust implementation needed
+  const currentLabel = selectItems.find(
+    (item) =>
+      JSON.stringify(item.value) ===
+      JSON.stringify({
+        orderBy: queryVariables.orderBy,
+        orderDirection: queryVariables.orderDirection,
+      })
+  )?.label
 
   return (
     <>
@@ -49,7 +57,7 @@ const RepositoriesSort = ({ onPrincipleChange }) => {
               color: 'black',
             }}
           >
-            {selectedItem.label}
+            {currentLabel}
           </Typography>
           <FontAwesomeIcon icon={faCaretDown} />
         </View>

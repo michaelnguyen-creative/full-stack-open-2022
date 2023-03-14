@@ -12,6 +12,7 @@ const SelectHeader = ({ selectLabel }) => {
 const SelectOptions = ({ data, onSelect, selectLabel }) => {
 
   const handleItemSelection = (item) => {
+    console.log(item)
     onSelect(item)
   }
 
@@ -24,7 +25,7 @@ const SelectOptions = ({ data, onSelect, selectLabel }) => {
             key={item.label}
             variant="body2"
             sx={styles.listItemText}
-            onPress={() => handleItemSelection(item.value)}
+            onPress={() => handleItemSelection(item)}
           >
             {item.label}
           </Typography>

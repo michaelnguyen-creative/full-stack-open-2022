@@ -9,19 +9,14 @@ import { useRepos } from '../../../hooks/useRepos'
 
 const RepositoryListPage = () => {
   // const [currentRepositories, setCurrentRepositories] = useState(null)
-  // const [queryVariables, setQueryVariables] = useState({
-  //   searchKeyword: '',
-  //   orderBy: 'CREATED_AT',
-  //   orderDirection: 'DESC',
-  //   first: 30,
-  // })
-  // const [isEndReached, setIsEndReached] = useState(false)
-  const { loading, ...result } = useRepos({
+  const [queryVariables, setQueryVariables] = useState({
     searchKeyword: '',
     orderBy: 'CREATED_AT',
     orderDirection: 'DESC',
     first: 30,
   })
+  // const [isEndReached, setIsEndReached] = useState(false)
+  const { loading, ...result } = useRepos(queryVariables)
 
   if (loading) return
   // console.log('repos', result)
@@ -34,9 +29,10 @@ const RepositoryListPage = () => {
   //   setCurrentRepositories(repositories)
   // }
 
-  const refetchRepositories = (queryVariables) => {
-    console.log('refetching repositories', queryVariables)    
-    refetch(queryVariables)
+  const updateRepositories = (variables) => {
+    setQueryVariables(variables) 
+    console.log('refetching repositories', variables)   
+    refetch(variables)
   }
 
   const fetchMoreRepositories = () => {
@@ -47,9 +43,10 @@ const RepositoryListPage = () => {
   return (
     <View>
       <View style={{ zIndex: 5 }}>
-        {/* <RepositoriesFilter onFilter={updateRepositories} /> */}
+        <RepositoriesFilter onUserInput={updateRepositories} queryVariables={queryVariables}/>
         <RepositoriesSort
-          onPrincipleChange={refetchRepositories}
+          onPrincipleChange={updateRepositories}
+          queryVariables={queryVariables}
         />
       </View>
       <View style={{ zIndex: 0 }}>

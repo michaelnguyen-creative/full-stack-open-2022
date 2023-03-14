@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { View } from 'react-native';
+import { View } from 'react-native'
 
-import SearchBar from "../../../components/SearchBar";
-import { useRepositories } from "../../../hooks/useRepositories";
+import SearchBar from '../../../components/SearchBar'
 
-const RepositoriesFilter = ({ onFilter }) => {
-  const [value, setValue] = useState(null)
+const RepositoriesFilter = ({ onUserInput, queryVariables }) => {
+  const [value, setValue] = useState('')
   const debounced = useDebouncedCallback((value) => {
-    setValue({ searchKeyword: value })
+    setValue(value)
   }, 1000)
-  const [getRepositories] = useRepositories(value)
 
   useEffect(() => {
-    onFilter(getRepositories)
+    if (value) {
+      onUserInput({ ...queryVariables, searchKeyword: value })
+    }
   }, [value])
 
   const updateText = (text) => {
