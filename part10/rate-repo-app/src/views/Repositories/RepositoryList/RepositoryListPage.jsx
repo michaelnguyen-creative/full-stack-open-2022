@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { useState } from 'react'
 
 import RepositoryListContainer from './RepositoryListContainer'
@@ -12,43 +12,62 @@ const RepositoryListPage = () => {
     searchKeyword: '',
     orderBy: 'CREATED_AT',
     orderDirection: 'DESC',
-    first: 5,
+    first: 3,
   })
   const { loading, ...result } = useRepos(queryVariables)
 
   if (loading) return
-  const { data: { repositories }, fetchMore, refetch } = result
+  const {
+    data: { repositories },
+    fetchMore,
+    refetch,
+  } = result
 
   const updateRepositories = (variables) => {
-    setQueryVariables(variables) 
-    console.log('refetching repositories', variables)   
+    setQueryVariables(variables)
+    // console.log('refetching repositories', variables)
     refetch(variables)
   }
 
   const fetchMoreRepositories = () => {
-    console.log('fetching more repositories')
+    // console.log('fetching more repositories')
     fetchMore()
   }
 
   return (
-    <View>
-      <View style={{ zIndex: 5 }}>
-        <RepositoriesFilter onUserInput={updateRepositories} queryVariables={queryVariables}/>
+    <>
+      <View style={styles.repositoriesFilterContainer}>
+        <RepositoriesFilter
+          onUserInput={updateRepositories}
+          queryVariables={queryVariables}
+        />
+      </View>
+      <View style={styles.repositoriesSortContainer}>
         <RepositoriesSort
           onPrincipleChange={updateRepositories}
           queryVariables={queryVariables}
         />
       </View>
-      <View style={{ zIndex: 0 }}>
+      <View style={styles.repositoryListContainer}>
         <RepositoryListContainer
           repositories={repositories}
           onEndReached={fetchMoreRepositories}
         />
       </View>
-    </View>
+    </>
   )
 }
 
-
+const styles = StyleSheet.create({
+  repositoriesFilterContainer: {
+    flex: 1,
+  },
+  repositoriesSortContainer: {
+    flex: 1,
+  },
+  repositoryListContainer: {
+    flex: 8,
+  },
+})
 
 export default RepositoryListPage

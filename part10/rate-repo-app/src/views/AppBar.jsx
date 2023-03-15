@@ -29,10 +29,10 @@ const AppBar = () => {
   }
 
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName="Repositories" linkTo="/" />
-        {data ? (
+        {data?.me ? (
           <>
             <AppBarTab tabName="Create a review" linkTo="create-review" />
             <AppBarTab tabName="Sign out" onPress={logout} />
@@ -45,13 +45,15 @@ const AppBar = () => {
           </>
         )}
       </ScrollView>
-    </View>
+    // </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
+    flex: 1
+    // height: '20%'
   },
 })
 

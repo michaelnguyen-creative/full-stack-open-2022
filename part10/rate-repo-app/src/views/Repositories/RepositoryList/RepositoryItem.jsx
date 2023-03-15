@@ -30,7 +30,7 @@ const RepositoryItem = ({
   const navigate = useNavigate()
 
   return (
-    <View style={styles.itemViewContainer} testID="repositoryItem">
+    <View style={styles.container} testID="repositoryItem">
       <Pressable onPress={() => navigate(`/${props.id}`)}>
         <View style={styles.viewRowIntro}>
           <View style={styles.imageView}>
@@ -75,7 +75,11 @@ const RepositoryItem = ({
 }
 
 const styles = StyleSheet.create({
-  itemViewContainer: { padding: '5%', width: 375, gap: 15 },
+  container: {
+     padding: '5%', 
+    //  width: 375, 
+    //  gap: 15 
+    },
   viewRowIntro: {
     flex: 2,
     flexDirection: 'row',

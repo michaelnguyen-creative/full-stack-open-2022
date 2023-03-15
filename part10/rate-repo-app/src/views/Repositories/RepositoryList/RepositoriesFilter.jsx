@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { View } from 'react-native'
 
 import SearchBar from '../../../components/SearchBar'
 
@@ -20,11 +19,7 @@ const RepositoriesFilter = ({ onUserInput, queryVariables }) => {
     debounced(text)
   }
 
-  return (
-    <View style={{ width: 375, padding: '2%' }}>
-      <SearchBar handleTextChange={updateText} />
-    </View>
-  )
+  return <SearchBar handleTextChange={updateText} />
 }
 
 export default RepositoriesFilter

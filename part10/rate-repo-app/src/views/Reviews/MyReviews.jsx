@@ -2,6 +2,7 @@ import { FlatList, View, Text } from 'react-native'
 import ReviewItem from './ReviewItem'
 import { WHOAMI } from '../../graphql/queries'
 import { useQuery } from '@apollo/client'
+import ItemSeparator from '../../components/ItemSeparator'
 
 const NoReview = () => {
   return (
@@ -30,7 +31,10 @@ const MyReviews = () => {
       renderItem={({ item }) => (
         <ReviewItem key={item.id} item={item} />
       )}
+      ItemSeparatorComponent={ItemSeparator}
       ListEmptyComponent={<NoReview />}
+      // onEndReached={(info) => console.log(info)}
+      // onEndReachedThreshold={0.1}
     />
   )
 }
