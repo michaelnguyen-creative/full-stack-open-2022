@@ -1,7 +1,7 @@
 import { FlatList } from 'react-native'
 
 import RepositoryItem from './RepositoryItem'
-import ItemSeparator from '../../../components/ItemSeparator'
+import ItemSeparator from '../../components/ItemSeparator'
 
 export const RepositoryListContainer = ({
   repositories,

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-native'
 import * as Linking from 'expo-linking'
 
 import ReviewItem from '../../Reviews/ReviewItem'
-import RepositoryItem from '../RepositoryList/RepositoryItem'
+import RepositoryItem from '../RepositoryItem'
 import ItemSeparator from '../../../components/ItemSeparator'
 
 import { useRepository } from '../../../hooks/useRepository'

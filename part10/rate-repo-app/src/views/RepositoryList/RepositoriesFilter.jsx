@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
-import SearchBar from '../../../components/SearchBar'
+import SearchBar from '../../components/SearchBar'
 
 const RepositoriesFilter = ({ onUserInput, queryVariables }) => {
   const [value, setValue] = useState('')

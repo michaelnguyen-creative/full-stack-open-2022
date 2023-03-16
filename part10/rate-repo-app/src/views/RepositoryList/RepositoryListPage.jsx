@@ -5,7 +5,7 @@ import RepositoryListContainer from './RepositoryListContainer'
 import RepositoriesSort from './RepositoriesSort'
 import RepositoriesFilter from './RepositoriesFilter'
 
-import { useRepositories } from '../../../hooks/useRepositories'
+import { useRepositories } from '../../hooks/useRepositories'
 
 const RepositoryListPage = () => {
   const [queryVariables, setQueryVariables] = useState({
