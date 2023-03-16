@@ -1,13 +1,12 @@
 import { Formik } from 'formik'
 import { View, Button } from 'react-native'
-import { FormikTextInput } from '../index'
 
-const FormikUserBaseForm = ({
+export const FormikBaseForm = ({
   initialValues,
   onSubmit,
   validationSchema,
   children,
-  formTitle,
+  submitButtonLabel,
 }) => {
   return (
     <Formik
@@ -17,21 +16,10 @@ const FormikUserBaseForm = ({
     >
       {({ handleSubmit }) => (
         <View style={{ padding: '5%' }}>
-          <FormikTextInput
-            name="username"
-            placeholder="Username"
-            onPressEnter={handleSubmit}
-          />
-          <FormikTextInput
-            name="password"
-            placeholder="Password"
-            secureTextEntry
-            onPressEnter={handleSubmit}
-          />
           {children}
           <Button
             style={{ borderRadius: 5 }}
-            title={formTitle}
+            title={submitButtonLabel}
             onPress={handleSubmit}
           />
         </View>
@@ -40,4 +28,3 @@ const FormikUserBaseForm = ({
   )
 }
 
-export default FormikUserBaseForm

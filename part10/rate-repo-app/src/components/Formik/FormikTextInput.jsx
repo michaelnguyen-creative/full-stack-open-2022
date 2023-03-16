@@ -2,7 +2,7 @@ import { TextInput, View } from 'react-native'
 import { ErrorMessage, useField } from 'formik'
 import { Typography } from '../Typography.styles'
 
-const FormikTextInput = ({ name, onPressEnter, ...props }) => {
+export const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name)
   return (
     <View>
@@ -21,10 +21,6 @@ const FormikTextInput = ({ name, onPressEnter, ...props }) => {
         onChangeText={(text) => helpers.setValue(text)}
         onBlur={() => helpers.setTouched(true)}
         {...props}
-        onKeyPress={(e) => {
-          // Press enter on TextInput will trigger form submission
-          if (e.keyCode === 13) onPressEnter()
-        }}
       />
       <ErrorMessage name={field.name}>
         {(error) => (
@@ -44,5 +40,3 @@ const FormikTextInput = ({ name, onPressEnter, ...props }) => {
     </View>
   )
 }
-
-export default FormikTextInput

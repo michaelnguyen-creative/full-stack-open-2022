@@ -77,8 +77,6 @@ const RepositoryItem = ({
 const styles = StyleSheet.create({
   container: {
      padding: '5%', 
-    //  width: 375, 
-    //  gap: 15 
     },
   viewRowIntro: {
     flex: 2,
@@ -110,12 +108,14 @@ const styles = StyleSheet.create({
   },
   description: {
     flexWrap: 'wrap',
+    paddingTop: '2%',
+    paddingBottom: '2%'
   },
   language: {
-    color: theme.colors.on.onPrimary.onDark,
-    backgroundColor: theme.colors.ui.surface,
+    color: theme.colors.on.onSecondary.onDark,
+    backgroundColor: theme.colors.secondary.dark,
     borderRadius: 5,
-    padding: 3,
+    padding: '2%',
     textAlign: 'center',
   },
   viewCount: {

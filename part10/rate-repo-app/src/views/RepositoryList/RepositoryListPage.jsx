@@ -14,14 +14,11 @@ const RepositoryListPage = () => {
     orderDirection: 'DESC',
     first: 3,
   })
-  const { loading, ...result } = useRepositories(queryVariables)
+  const { loading, fetchMore, refetch, ...result } =
+    useRepositories(queryVariables)
 
   if (loading) return
-  const {
-    data: { repositories },
-    fetchMore,
-    refetch,
-  } = result
+  const repositories = result.data?.repositories
 
   const updateRepositories = (variables) => {
     setQueryVariables(variables)
@@ -59,12 +56,17 @@ const RepositoryListPage = () => {
 const styles = StyleSheet.create({
   repositoriesFilterContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'whitesmoke',
   },
   repositoriesSortContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   repositoryListContainer: {
-    flex: 8,
+    flex: 8.5,
   },
 })
 

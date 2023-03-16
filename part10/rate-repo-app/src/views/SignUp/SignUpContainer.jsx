@@ -1,4 +1,5 @@
-import { FormikUserBaseForm, FormikTextInput } from '../../components/index'
+import { FormikTextInput } from '../../components/Formik/FormikTextInput'
+import { FormikBaseForm } from '../../components/Formik/FormikBaseForm'
 import * as Yup from 'yup'
 
 const SignUpContainer = ({ onSubmit }) => {
@@ -12,23 +13,32 @@ const SignUpContainer = ({ onSubmit }) => {
     username: Yup.string().required('Username is required').min(1).max(30),
     password: Yup.string().required('Password is required').min(5).max(50),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password')], "Confirm has to match password")
+      .oneOf([Yup.ref('password')], 'Confirm has to match password')
       .required('Password confirm is required'),
   })
 
   return (
-    <FormikUserBaseForm
+    <FormikBaseForm
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
-      formTitle="Sign up"
+      submitButtonLabel="Sign up"
     >
+      <FormikTextInput
+        name="username"
+        placeholder="Username"
+      />
+      <FormikTextInput
+        name="password"
+        placeholder="Password"
+        secureTextEntry
+      />
       <FormikTextInput
         name="passwordConfirm"
         placeholder="Confirm"
         secureTextEntry
       />
-    </FormikUserBaseForm>
+    </FormikBaseForm>
   )
 }
 

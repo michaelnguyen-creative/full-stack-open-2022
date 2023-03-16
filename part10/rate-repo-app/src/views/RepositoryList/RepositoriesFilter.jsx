@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { View, StyleSheet } from 'react-native'
 import { useDebouncedCallback } from 'use-debounce'
 
 import SearchBar from '../../components/SearchBar'
@@ -19,7 +20,20 @@ const RepositoriesFilter = ({ onUserInput, queryVariables }) => {
     debounced(text)
   }
 
-  return <SearchBar handleTextChange={updateText} />
+  return (
+    <View style={styles.container}>
+      <SearchBar
+        handleTextChange={updateText}
+      />
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: '90%',
+    height: '80%',
+  },
+})
 
 export default RepositoriesFilter

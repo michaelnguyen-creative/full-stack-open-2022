@@ -3,6 +3,8 @@ import Constants from 'expo-constants'
 import { useQuery, useApolloClient } from '@apollo/client'
 import { useNavigate } from 'react-router-native'
 
+import theme from '../theme'
+
 import AppBarTab from '../components/AppBar/AppBarTab'
 import { useAuthStorage } from '../hooks/useAuthStorage'
 import { WHOAMI } from '../graphql/queries'
@@ -29,7 +31,7 @@ const AppBar = () => {
   }
 
   return (
-    // <View style={styles.container}>
+    <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName="Repositories" linkTo="/" />
         {data?.me ? (
@@ -45,14 +47,23 @@ const AppBar = () => {
           </>
         )}
       </ScrollView>
-    // </View>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
-    flex: 1
+    // flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary.dark
+    // shadowColor: 'gray',
+    // shadowOffset: {
+    //   width: 10,
+    //   height: 10
+    // }
     // height: '20%'
   },
 })

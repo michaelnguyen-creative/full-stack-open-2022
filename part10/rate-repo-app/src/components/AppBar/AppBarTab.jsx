@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet } from 'react-native'
 import { Link } from 'react-router-native'
 import { Typography } from '../Typography.styles'
+import theme from '../../theme'
 
 const AppBarTab = ({ tabName, linkTo, onPress }) => {
   return (
@@ -14,12 +15,11 @@ const AppBarTab = ({ tabName, linkTo, onPress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#6D4AD9',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
     padding: '5%',
   },
   text: {
-    color: 'white'
+    color: theme.colors.on.onPrimary.onDark
   }
 })
 

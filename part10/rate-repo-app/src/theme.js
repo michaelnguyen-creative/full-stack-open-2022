@@ -104,28 +104,27 @@ const theme = {
   },
   // Re-implement: Material Design / Color System
   colors: {
+    // Primary color: Purple 
     primary: {
-      // Variants = dark + light
-      dark: '#24292e',
-      light: '',
+      // Primary variants: Dark & Light
+      dark: '#6200EE',
+      variant1: '#3700B3'
     },
     secondary: {
-      dark: '#586069',
-      light: '',
+      // Primary variants: Dark & Light
+      dark: '#03DAC5',
     },
     ui: {
-      background: 'whitesmoke',
-      surface: '#0366d6',
+      background: '#FFFFFF',
+      surface: 'whitesmoke',
       error: ''
     },
     on: {
       onPrimary: {
         onDark: '#FFFFFF',
-        onLight: '#24292e'
       },
       onSecondary: {
-        onDark: '#586069',
-        onLight: '#000000'
+        onDark: '#000000',
       },
       onBackground: '#000000',
       onSurface: '#000000',
