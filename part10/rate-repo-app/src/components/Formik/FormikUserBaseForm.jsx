@@ -7,7 +7,7 @@ const FormikUserBaseForm = ({
   onSubmit,
   validationSchema,
   children,
-  formTitle
+  formTitle,
 }) => {
   return (
     <Formik
@@ -16,12 +16,17 @@ const FormikUserBaseForm = ({
       {...(validationSchema ? (validationSchema = { validationSchema }) : '')}
     >
       {({ handleSubmit }) => (
-        <View style={{ padding: '5%'}}>
-          <FormikTextInput name="username" placeholder="Username" />
+        <View style={{ padding: '5%' }}>
+          <FormikTextInput
+            name="username"
+            placeholder="Username"
+            onPressEnter={handleSubmit}
+          />
           <FormikTextInput
             name="password"
             placeholder="Password"
             secureTextEntry
+            onPressEnter={handleSubmit}
           />
           {children}
           <Button
