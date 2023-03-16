@@ -25,7 +25,7 @@ const RepositoryItem = ({
     ownerAvatarUrl,
     ...props
   },
-  children
+  children,
 }) => {
   const navigate = useNavigate()
 
@@ -34,7 +34,7 @@ const RepositoryItem = ({
       <Pressable onPress={() => navigate(`/${props.id}`)}>
         <View style={styles.viewRowIntro}>
           <View style={styles.imageView}>
-          <Image source={ownerAvatarUrl} style={styles.imageAvatar} />
+            <Image source={ownerAvatarUrl} style={styles.imageAvatar} />
           </View>
           <View style={styles.viewInfo}>
             <Typography variant="subtitle2">{fullName}</Typography>
@@ -54,11 +54,15 @@ const RepositoryItem = ({
             <Typography variant="caption">Stars</Typography>
           </View>
           <View style={styles.viewCount}>
-            <Typography variant="subtitle2">{formatCount(forksCount)}</Typography>
+            <Typography variant="subtitle2">
+              {formatCount(forksCount)}
+            </Typography>
             <Typography variant="caption">Forks</Typography>
           </View>
           <View style={styles.viewCount}>
-            <Typography variant="subtitle2">{formatCount(reviewCount)}</Typography>
+            <Typography variant="subtitle2">
+              {formatCount(reviewCount)}
+            </Typography>
             <Typography variant="caption">Reviews</Typography>
           </View>
           <View style={styles.viewCount}>
@@ -76,8 +80,8 @@ const RepositoryItem = ({
 
 const styles = StyleSheet.create({
   container: {
-     padding: '5%', 
-    },
+    padding: '5%',
+  },
   viewRowIntro: {
     flex: 2,
     flexDirection: 'row',
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
   imageView: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '20%'
+    width: '20%',
   },
   viewInfo: {
     flexDirection: 'column',
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   description: {
     flexWrap: 'wrap',
     paddingTop: '2%',
-    paddingBottom: '2%'
+    paddingBottom: '2%',
   },
   language: {
     color: theme.colors.on.onSecondary.onDark,
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
   },
   viewCount: {
     alignItems: 'center',
-    marginTop: '5%'
+    marginTop: '5%',
   },
 })
 

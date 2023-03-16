@@ -1,14 +1,12 @@
 import { TextInput, View, StyleSheet } from 'react-native'
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { Entypo, Feather } from '@expo/vector-icons'
 
 const SearchBar = ({ handleTextChange, sx }) => {
   return (
     <View style={{...styles.container, ...sx}}>
-      <FontAwesomeIcon icon={faMagnifyingGlass} />
+      <Entypo name="magnifying-glass" size={24} color="black" />
       <TextInput placeholder="Type to search" onChangeText={handleTextChange} />
-      <FontAwesomeIcon icon={faXmark} />
+      <Feather name="x" size={24} color="black" />
     </View>
   )
 }

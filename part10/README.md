@@ -8,6 +8,7 @@
 
 ## Status Update:
 **(03/16/2023)**: The app is currently working on the Web only. There're some unknown UI bugs on the iOS version (and I am working on it...)
+
 **(02/16/2023)**: Project started
 
 ### Notes:

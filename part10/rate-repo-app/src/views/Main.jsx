@@ -17,7 +17,7 @@ const Main = () => {
     <View style={styles.container}>
       <View style={styles.appContainer}>
         <View style={styles.appStatusBarContainer}>
-          <StatusBar style="auto" />
+          <StatusBar style="light" />
         </View>
         <View style={styles.appBarContainer}>
           <AppBar />
@@ -50,10 +50,11 @@ const styles = StyleSheet.create({
     // height: '100%',
     justifyContent: 'space-between',
   },
-  appStatusBarContainer: {
-    flex: 0.5,
-    backgroundColor: theme.colors.primary.variant1,
-  },
+  // appStatusBarContainer: {
+  //   flex: 0,
+  //   justifyContent: 'center',
+  //   backgroundColor: theme.colors.primary.variant1,
+  // },
   appBarContainer: {
     flex: 1,
   },
