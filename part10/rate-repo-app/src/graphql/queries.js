@@ -5,7 +5,7 @@ import {
   BASE_USER_DETAILS,
 } from './fragments'
 
-export const GET_REPOS = gql`
+export const GET_REPOSITORIES = gql`
   ${BASE_REPO_DETAILS}
   query getRepositories(
     $orderBy: AllRepositoriesOrderBy
@@ -56,11 +56,11 @@ export const WHOAMI = gql`
   }
 `
 
-export const GET_REPO = gql`
+export const GET_REPOSITORY = gql`
   ${BASE_REPO_DETAILS}
   ${BASE_REVIEW_DETAILS}
   ${BASE_USER_DETAILS}
-  query getRepo(
+  query getRepository(
     $repositoryId: ID!,
     $first: Int,
     $after: String,

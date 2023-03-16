@@ -5,7 +5,7 @@ import RepositoryListContainer from './RepositoryListContainer'
 import RepositoriesSort from './RepositoriesSort'
 import RepositoriesFilter from './RepositoriesFilter'
 
-import { useRepos } from '../../../hooks/useRepos'
+import { useRepositories } from '../../../hooks/useRepositories'
 
 const RepositoryListPage = () => {
   const [queryVariables, setQueryVariables] = useState({
@@ -14,7 +14,7 @@ const RepositoryListPage = () => {
     orderDirection: 'DESC',
     first: 3,
   })
-  const { loading, ...result } = useRepos(queryVariables)
+  const { loading, ...result } = useRepositories(queryVariables)
 
   if (loading) return
   const {
@@ -25,12 +25,10 @@ const RepositoryListPage = () => {
 
   const updateRepositories = (variables) => {
     setQueryVariables(variables)
-    // console.log('refetching repositories', variables)
     refetch(variables)
   }
 
   const fetchMoreRepositories = () => {
-    // console.log('fetching more repositories')
     fetchMore()
   }
 

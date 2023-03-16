@@ -21,6 +21,7 @@ const FormikTextInput = ({ name, ...props }) => {
         onChangeText={(text) => helpers.setValue(text)}
         onBlur={() => helpers.setTouched(true)}
         {...props}
+        onKeyPress={(e) => console.log('e', e)}
       />
       <ErrorMessage name={field.name}>
         {(error) => (

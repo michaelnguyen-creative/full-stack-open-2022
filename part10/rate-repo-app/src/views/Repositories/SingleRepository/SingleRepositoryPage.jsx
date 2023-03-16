@@ -1,23 +1,34 @@
 import { Button, FlatList } from 'react-native'
-import RepositoryItem from '../RepositoryList/RepositoryItem'
-import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-native'
 import * as Linking from 'expo-linking'
 
-import { GET_REPO } from '../../../graphql/queries'
-import ItemSeparator from '../../../components/ItemSeparator'
 import ReviewItem from '../../Reviews/ReviewItem'
+import RepositoryItem from '../RepositoryList/RepositoryItem'
+import ItemSeparator from '../../../components/ItemSeparator'
+
 import { useRepository } from '../../../hooks/useRepository'
 
-const Repository = ({ repository }) => {
+const RepositoryContainer = ({ data, onEndReached }) => {
   const openLink = async () => {
-    await Linking.openURL(repository.url)
+    await Linking.openURL(data.url)
   }
+  const reviewNodes = data.reviews
+    ? data.reviews.edges.map(({ node }) => node)
+    : []
 
   return (
-    <RepositoryItem item={repository}>
-      <Button title="Open in GitHub" onPress={openLink} />
-    </RepositoryItem>
+    <FlatList
+      data={reviewNodes}
+      renderItem={({ item }) => <ReviewItem key={item.id} item={item} />}
+      ItemSeparatorComponent={ItemSeparator}
+      ListHeaderComponent={
+        <RepositoryItem item={data}>
+          <Button title="Open in GitHub" onPress={openLink} />
+        </RepositoryItem>
+      }
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.1}
+    />
   )
 }
 
@@ -29,21 +40,14 @@ const SingleRepositoryPage = () => {
   })
 
   if (loading) return
-  const { data: { repository } } = result
+  const {
+    data: { repository },
+  } = result
 
-  const reviewNodes = repository
-    ? repository.reviews.edges.map(({ node }) => node)
-    : []
+  const fetchMoreReviews = () => result.fetchMoreReviews()
 
   return (
-    <FlatList
-      data={reviewNodes}
-      renderItem={({ item }) => <ReviewItem key={item.id} item={item} />}
-      ItemSeparatorComponent={ItemSeparator}
-      ListHeaderComponent={<Repository repository={repository} />}
-      onEndReached={() => result.fetchMoreReviews()}
-      onEndReachedThreshold={0.1}
-    />
+    <RepositoryContainer data={repository} onEndReached={fetchMoreReviews} />
   )
 }
 
