@@ -5,7 +5,7 @@ export const useRepositories = (optionVariables) => {
   const { loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
     variables: optionVariables,
-    onCompleted: (data) => console.log(data)
+    // onCompleted: (data) => console.log(data)
   })
 
   const handleFetchMore = () => {

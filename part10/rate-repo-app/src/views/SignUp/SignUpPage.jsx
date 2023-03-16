@@ -12,11 +12,11 @@ const SignUpPage = () => {
 
   const handleSignUp = async ({ username, password }) => {
     try {
-      console.log('signing up with', username, password)
+      // console.log('signing up with', username, password)
       const createdUser = await createUser({
         variables: { user: { username, password } }
       })
-      console.log('created user', createdUser)
+      // console.log('created user', createdUser)
 
       console.log('now signing user in')
       await signIn({ username, password })

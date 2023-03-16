@@ -14,7 +14,7 @@ const AppBar = () => {
     variables: {
       includeReview: false
     },
-    onCompleted: (data) => console.log('appbar/whoami', data)
+    // onCompleted: (data) => console.log('appbar/whoami', data)
   })
   const apolloClient = useApolloClient()
   const authStorage = useAuthStorage()

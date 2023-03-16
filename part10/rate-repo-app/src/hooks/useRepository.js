@@ -6,7 +6,7 @@ export const useRepository = (optionVariables) => {
     fetchPolicy: 'cache-and-network',
     variables: optionVariables,
     onError: (e) => console.log(e),
-    onCompleted: (data) => console.log(data)
+    // onCompleted: (data) => console.log(data)
   })
 
   const handleReviewsFetchMore = () => {
