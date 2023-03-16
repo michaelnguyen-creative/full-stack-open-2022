@@ -5,48 +5,6 @@ import {
   BASE_USER_DETAILS,
 } from './fragments'
 
-export const GET_REPOSITORIES = gql`
-  ${BASE_REPO_DETAILS}
-  query getRepositories {
-    repositories {
-      edges {
-        node {
-          ...BaseRepoDetails
-        }
-      }
-    }
-  }
-`
-
-export const GET_REPOSITORIES_ORDER = gql`
-  ${BASE_REPO_DETAILS}
-  query getRepositoriesOrder(
-    $orderBy: AllRepositoriesOrderBy
-    $orderDirection: OrderDirection
-  ) {
-    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
-      edges {
-        node {
-          ...BaseRepoDetails
-        }
-      }
-    }
-  }
-`
-
-export const GET_REPOSITORIES_KEYWORD = gql`
-  ${BASE_REPO_DETAILS}
-  query getRepositoriesKeyword($searchKeyword: String) {
-    repositories(searchKeyword: $searchKeyword) {
-      edges {
-        node {
-          ...BaseRepoDetails
-        }
-      }
-    }
-  }
-`
-
 export const GET_REPOS = gql`
   ${BASE_REPO_DETAILS}
   query getRepositories(
@@ -102,11 +60,15 @@ export const GET_REPO = gql`
   ${BASE_REPO_DETAILS}
   ${BASE_REVIEW_DETAILS}
   ${BASE_USER_DETAILS}
-  query getRepo($repoId: ID!) {
-    repository(id: $repoId) {
+  query getRepo(
+    $repositoryId: ID!,
+    $first: Int,
+    $after: String,
+    ) {
+    repository(id: $repositoryId) {
       ...BaseRepoDetails
       url
-      reviews {
+      reviews(first: $first, after: $after) {
         edges {
           node {
             ...BaseReviewDetails
@@ -114,6 +76,11 @@ export const GET_REPO = gql`
               ...BaseUserDetails
             }
           }
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }

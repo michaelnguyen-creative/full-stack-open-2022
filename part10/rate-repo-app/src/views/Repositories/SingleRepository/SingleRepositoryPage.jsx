@@ -7,6 +7,7 @@ import * as Linking from 'expo-linking'
 import { GET_REPO } from '../../../graphql/queries'
 import ItemSeparator from '../../../components/ItemSeparator'
 import ReviewItem from '../../Reviews/ReviewItem'
+import { useRepository } from '../../../hooks/useRepository'
 
 const Repository = ({ repository }) => {
   const openLink = async () => {
@@ -21,17 +22,14 @@ const Repository = ({ repository }) => {
 }
 
 const SingleRepositoryPage = () => {
-  const repoId = useParams().repoId
-  const { data, loading } = useQuery(GET_REPO, {
-    fetchPolicy: 'cache-and-network',
-    variables: {
-      repoId,
-    },
-    onError: (e) => console.log(e),
+  const repositoryId = useParams().repoId
+  const { loading, ...result } = useRepository({
+    repositoryId,
+    first: 3,
   })
 
   if (loading) return
-  const { repository } = data
+  const { data: { repository } } = result
 
   const reviewNodes = repository
     ? repository.reviews.edges.map(({ node }) => node)
@@ -43,6 +41,8 @@ const SingleRepositoryPage = () => {
       renderItem={({ item }) => <ReviewItem key={item.id} item={item} />}
       ItemSeparatorComponent={ItemSeparator}
       ListHeaderComponent={<Repository repository={repository} />}
+      onEndReached={() => result.fetchMoreReviews()}
+      onEndReachedThreshold={0.1}
     />
   )
 }

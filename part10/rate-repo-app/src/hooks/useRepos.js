@@ -13,7 +13,7 @@ export const useRepos = (optionVariables) => {
 
     if (!canFetchMore) return
 
-    console.log('ec', result.data.repositories.pageInfo.endCursor)
+    // console.log('ec', result.data.repositories.pageInfo.endCursor)
     fetchMore({
       variables: {
         after: result.data.repositories.pageInfo.endCursor,
