@@ -6,16 +6,13 @@ import {
   within
 } from '@testing-library/react-native'
 
-import { SignInContainer } from '../../../components/SignIn'
+import SignInContainer from './SignInContainer'
 
 describe('SignIn', () => {
   describe('SignInContainer', () => {
     it('calls onSubmit function with correct arguments when a valid form is submitted', async () => {
-      // render the SignInContainer component,
       const onSubmit = jest.fn()
       render(<SignInContainer onSubmit={onSubmit} />)
-      // fill the text inputs and press the submit button
-      // screen.debug()
 
       const usernameInput = screen.getByPlaceholderText('Username')
       const passwordInput = screen.getByPlaceholderText('Password')
@@ -37,8 +34,6 @@ describe('SignIn', () => {
 
       await waitFor(() => {
         expect(onSubmit.mock.calls[0][0]).toEqual(data)
-      // expect the onSubmit function to have been called once 
-      // and with a correct first argument
       })
     })
   })

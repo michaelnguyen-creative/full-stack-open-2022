@@ -48,7 +48,7 @@ const RepositoryListPage = () => {
       </View>
       <View style={styles.repositoryListContainer}>
         <RepositoryListContainer
-          repositories={repositories}
+          data={repositories}
           onEndReached={fetchMoreRepositories}
         />
       </View>

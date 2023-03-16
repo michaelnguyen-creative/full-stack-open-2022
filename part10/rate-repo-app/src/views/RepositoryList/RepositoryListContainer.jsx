@@ -4,11 +4,11 @@ import RepositoryItem from './RepositoryItem'
 import ItemSeparator from '../../components/ItemSeparator'
 
 export const RepositoryListContainer = ({
-  repositories,
+  data,
   onEndReached,
 }) => {
-  const repositoryNodes = repositories
-    ? repositories.edges.map(({ node }) => node)
+  const repositoryNodes = data
+    ? data.edges.map(({ node }) => node)
     : []
 
   return (
