@@ -94,4 +94,10 @@ const ReviewItem = ({ item: { createdAt, rating, text, id, ...props } }) => {
   )
 }
 
+const styles= StyleSheet.create({
+  container: {
+    
+  }
+})
+
 export default ReviewItem
