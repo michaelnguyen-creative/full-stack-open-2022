@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text } from 'react-native'
 import { Route, Routes, Navigate } from 'react-router-native'
 import { StatusBar } from 'expo-status-bar'
+import Constants from 'expo-constants'
 
 import RepositoryListPage from './RepositoryList/RepositoryListPage'
 import AppBar from './AppBar'
@@ -15,10 +16,8 @@ import theme from '../theme'
 const Main = () => {
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.appContainer}>
-        <View style={styles.appStatusBarContainer}>
-          <StatusBar style="light" />
-        </View>
         <View style={styles.appBarContainer}>
           <AppBar />
         </View>
@@ -46,20 +45,16 @@ const styles = StyleSheet.create({
   appContainer: {
     width: 375,
     height: 667,
-    // width: '100%',
-    // height: '100%',
     justifyContent: 'space-between',
   },
-  // appStatusBarContainer: {
-  //   flex: 0,
-  //   justifyContent: 'center',
-  //   backgroundColor: theme.colors.primary.variant1,
-  // },
   appBarContainer: {
     flex: 1,
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary.dark,
+    paddingTop: Constants.statusBarHeight,
   },
   appContentContainer: {
-    flex: 10.5,
+    flex: 10,
   },
 })
 

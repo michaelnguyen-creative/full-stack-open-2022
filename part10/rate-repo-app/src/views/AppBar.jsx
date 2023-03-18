@@ -12,7 +12,7 @@ import { WHOAMI } from '../graphql/queries'
 const AppBar = () => {
   const { data, loading } = useQuery(WHOAMI, {
     variables: {
-      includeReview: false
+      includeReview: false,
     },
     // onCompleted: (data) => console.log('appbar/whoami', data)
   })
@@ -31,7 +31,7 @@ const AppBar = () => {
   }
 
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName="Repositories" linkTo="/" />
         {data?.me ? (
@@ -47,18 +47,18 @@ const AppBar = () => {
           </>
         )}
       </ScrollView>
-    </View>
+    // </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
+    // padding: Constants.statusBarHeight / 6,
     // flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    backgroundColor: theme.colors.primary.dark
+    // width: '100%',
+    // height: '100%',
+    // justifyContent: 'center',
+    // backgroundColor: theme.colors.primary.dark,
     // shadowColor: 'gray',
     // shadowOffset: {
     //   width: 10,

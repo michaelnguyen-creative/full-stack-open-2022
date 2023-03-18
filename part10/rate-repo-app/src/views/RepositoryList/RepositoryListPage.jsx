@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   repositoryListContainer: {
-    flex: 8.5,
+    flex: 8,
   },
 })
 
